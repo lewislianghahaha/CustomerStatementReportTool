@@ -36,7 +36,7 @@
             this.dtStr = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtValue = new System.Windows.Forms.TextBox();
             this.btnsearch = new System.Windows.Forms.Button();
             this.btnclose = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -66,6 +66,7 @@
             this.tmadd = new System.Windows.Forms.ToolStripMenuItem();
             this.DelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tmdel = new System.Windows.Forms.ToolStripMenuItem();
+            this.btngenerate = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -82,9 +83,10 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.Controls.Add(this.btngenerate);
             this.panel1.Controls.Add(this.btnclose);
             this.panel1.Controls.Add(this.btnsearch);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.txtValue);
             this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.dtEnd);
             this.panel1.Controls.Add(this.label2);
@@ -139,12 +141,12 @@
             this.comboBox1.Size = new System.Drawing.Size(121, 20);
             this.comboBox1.TabIndex = 4;
             // 
-            // textBox1
+            // txtValue
             // 
-            this.textBox1.Location = new System.Drawing.Point(406, 7);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(153, 21);
-            this.textBox1.TabIndex = 5;
+            this.txtValue.Location = new System.Drawing.Point(406, 7);
+            this.txtValue.Name = "txtValue";
+            this.txtValue.Size = new System.Drawing.Size(153, 21);
+            this.txtValue.TabIndex = 5;
             // 
             // btnsearch
             // 
@@ -157,7 +159,7 @@
             // 
             // btnclose
             // 
-            this.btnclose.Location = new System.Drawing.Point(406, 35);
+            this.btnclose.Location = new System.Drawing.Point(538, 36);
             this.btnclose.Name = "btnclose";
             this.btnclose.Size = new System.Drawing.Size(75, 23);
             this.btnclose.TabIndex = 7;
@@ -178,6 +180,7 @@
             // 
             this.groupBox1.Controls.Add(this.gvdtl);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox1.ForeColor = System.Drawing.Color.DarkRed;
             this.groupBox1.Location = new System.Drawing.Point(0, 185);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(805, 209);
@@ -411,8 +414,18 @@
             this.tmdel.Size = new System.Drawing.Size(124, 22);
             this.tmdel.Text = "删除记录";
             // 
+            // btngenerate
+            // 
+            this.btngenerate.Location = new System.Drawing.Point(405, 36);
+            this.btngenerate.Name = "btngenerate";
+            this.btngenerate.Size = new System.Drawing.Size(75, 23);
+            this.btngenerate.TabIndex = 8;
+            this.btngenerate.Text = "运算";
+            this.btngenerate.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
+            this.AcceptButton = this.btnsearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(805, 458);
@@ -446,7 +459,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dtStr;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtValue;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button btnsearch;
         private System.Windows.Forms.Button btnclose;
@@ -477,6 +490,7 @@
         private System.Windows.Forms.ToolStripMenuItem tmadd;
         private System.Windows.Forms.ContextMenuStrip DelMenu;
         private System.Windows.Forms.ToolStripMenuItem tmdel;
+        private System.Windows.Forms.Button btngenerate;
     }
 }
 
