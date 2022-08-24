@@ -1,4 +1,4 @@
-﻿namespace BomOfferOrder.UI
+﻿namespace CustomerStatementReportTool
 {
     partial class Load
     {

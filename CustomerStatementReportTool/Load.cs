@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace BomOfferOrder.UI
+namespace CustomerStatementReportTool
 {
     public partial class Load : Form
     {
