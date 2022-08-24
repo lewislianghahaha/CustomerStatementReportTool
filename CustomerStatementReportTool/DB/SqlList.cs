@@ -137,15 +137,27 @@ namespace CustomerStatementReportTool.DB
         }
 
         /// <summary>
-        /// 查询客户列表信息
+        /// 根据不同条件查询客户列表信息
         /// </summary>
-        /// <param name="typeid">0:按‘客户编码’查找 1:按'客户名称'查找</param>
+        /// <param name="typeid">-1:全查找记录 0:按‘客户编码’查找 1:按'客户名称'查找</param>
         /// <param name="value">查询值</param>
         /// <returns></returns>
         public string SearchCustomerList(int typeid,string value)
         {
+            //全查找记录
+            if (typeid == -1)
+            {
+                _result = $@"
+                            SELECT A.FNUMBER 客户编码,B.FNAME 客户名称 
+                            FROM dbo.T_BD_CUSTOMER A
+                            INNER JOIN dbo.T_BD_CUSTOMER_L B ON A.FCUSTID=B.FCUSTID AND B.FLOCALEID=2052
+                            WHERE a.FDOCUMENTSTATUS='C'
+                            AND A.FNUMBER NOT LIKE 'INT%'
+                            ORDER BY a.FCUSTID
+                         ";
+            }
             //按‘客户编码’查找
-            if (typeid == 0)
+            else if (typeid == 0)
             {
                 _result = $@"
                             SELECT A.FNUMBER 客户编码, B.FNAME 客户名称

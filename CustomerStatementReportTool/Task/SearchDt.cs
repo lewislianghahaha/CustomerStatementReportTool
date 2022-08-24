@@ -46,6 +46,18 @@ namespace CustomerStatementReportTool.Task
         }
 
         /// <summary>
+        /// 根据不同条件查询客户列表信息 
+        /// </summary>
+        /// <param name="typeid">-1:全查找记录 0:按‘客户编码’查找 1:按'客户名称'查找</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public DataTable SearchCustomTypeList(int typeid, string value)
+        {
+            var dt = UseSqlSearchIntoDt(sqlList.SearchCustomerList(typeid, value));
+            return dt;
+        }
+
+        /// <summary>
         /// 查询SQL获取财务数据
         /// </summary>
         /// <param name="sdt">开始日期</param>

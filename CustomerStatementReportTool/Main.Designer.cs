@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnclear = new System.Windows.Forms.Button();
             this.btngenerate = new System.Windows.Forms.Button();
             this.btnclose = new System.Windows.Forms.Button();
             this.btnsearch = new System.Windows.Forms.Button();
@@ -67,7 +68,6 @@
             this.gvdtl = new System.Windows.Forms.DataGridView();
             this.DelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tmdel = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnclear = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -97,8 +97,17 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(805, 64);
+            this.panel1.Size = new System.Drawing.Size(889, 64);
             this.panel1.TabIndex = 0;
+            // 
+            // btnclear
+            // 
+            this.btnclear.Location = new System.Drawing.Point(389, 36);
+            this.btnclear.Name = "btnclear";
+            this.btnclear.Size = new System.Drawing.Size(75, 23);
+            this.btnclear.TabIndex = 9;
+            this.btnclear.Text = "重置";
+            this.btnclear.UseVisualStyleBackColor = true;
             // 
             // btngenerate
             // 
@@ -184,7 +193,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 64);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(805, 394);
+            this.panel2.Size = new System.Drawing.Size(889, 546);
             this.panel2.TabIndex = 1;
             // 
             // groupBox2
@@ -194,7 +203,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(805, 185);
+            this.groupBox2.Size = new System.Drawing.Size(889, 268);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "查询客户记录";
@@ -210,7 +219,7 @@
             this.gvsearchdtl.Name = "gvsearchdtl";
             this.gvsearchdtl.ReadOnly = true;
             this.gvsearchdtl.RowTemplate.Height = 23;
-            this.gvsearchdtl.Size = new System.Drawing.Size(799, 139);
+            this.gvsearchdtl.Size = new System.Drawing.Size(883, 222);
             this.gvsearchdtl.TabIndex = 2;
             // 
             // AddMenu
@@ -231,9 +240,9 @@
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.bngat);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(3, 156);
+            this.panel3.Location = new System.Drawing.Point(3, 239);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(799, 26);
+            this.panel3.Size = new System.Drawing.Size(883, 26);
             this.panel3.TabIndex = 1;
             // 
             // bngat
@@ -261,7 +270,7 @@
             this.toolStripLabel5,
             this.tstotalrow});
             this.bngat.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.bngat.Location = new System.Drawing.Point(311, 0);
+            this.bngat.Location = new System.Drawing.Point(395, 0);
             this.bngat.MoveFirstItem = this.bnMoveFirstItem;
             this.bngat.MoveLastItem = this.bnMoveLastItem;
             this.bngat.MoveNextItem = this.bnMoveNextItem;
@@ -391,9 +400,9 @@
             this.groupBox1.Controls.Add(this.gvdtl);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox1.ForeColor = System.Drawing.Color.DarkRed;
-            this.groupBox1.Location = new System.Drawing.Point(0, 185);
+            this.groupBox1.Location = new System.Drawing.Point(0, 268);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(805, 209);
+            this.groupBox1.Size = new System.Drawing.Size(889, 278);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "添加记录 (注意:添加记录不能超过10行)";
@@ -409,7 +418,7 @@
             this.gvdtl.Name = "gvdtl";
             this.gvdtl.ReadOnly = true;
             this.gvdtl.RowTemplate.Height = 23;
-            this.gvdtl.Size = new System.Drawing.Size(799, 189);
+            this.gvdtl.Size = new System.Drawing.Size(883, 258);
             this.gvdtl.TabIndex = 0;
             // 
             // DelMenu
@@ -425,21 +434,12 @@
             this.tmdel.Size = new System.Drawing.Size(124, 22);
             this.tmdel.Text = "删除记录";
             // 
-            // btnclear
-            // 
-            this.btnclear.Location = new System.Drawing.Point(389, 36);
-            this.btnclear.Name = "btnclear";
-            this.btnclear.Size = new System.Drawing.Size(75, 23);
-            this.btnclear.TabIndex = 9;
-            this.btnclear.Text = "重置";
-            this.btnclear.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AcceptButton = this.btnsearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(805, 458);
+            this.ClientSize = new System.Drawing.Size(889, 610);
             this.ControlBox = false;
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
