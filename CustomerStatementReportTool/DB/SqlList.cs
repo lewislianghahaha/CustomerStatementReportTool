@@ -1,7 +1,5 @@
 ﻿//SQL语句集合
 
-using System.Data;
-
 namespace CustomerStatementReportTool.DB
 {
     public class SqlList
@@ -75,7 +73,7 @@ namespace CustomerStatementReportTool.DB
 	                            CREATE INDEX IDX_FCONTACTUNITNUMBER ON #temp_0(FCONTACTUNITNUMBER)
 	                            CREATE INDEX IDX_FFORMID ON #temp_0(FFORMID)
 
-	                            INSERT into #temp_0 exec 应收款明细表按部门汇总_DIY {sdt},{edt}
+	                            INSERT into #temp_0 exec 应收款明细表按部门汇总_DIY '{sdt}','{edt}'
 
 	                            IF OBJECT_ID('tempdb..#TEMP_X')is not null
 	                                DROP table #TEMP_X

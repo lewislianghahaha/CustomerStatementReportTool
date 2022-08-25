@@ -123,9 +123,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="customerlist"></param>
         private void Generate(string sdt, string edt, string customerlist)
         {
-            
+            _resultFinalRecord = generate.GenerateFincal(sdt, edt, customerlist);
         }
-
-
     }
 }

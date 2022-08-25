@@ -32,7 +32,7 @@ namespace CustomerStatementReportTool.DB
                         break;
                     case 3: //单据日期
                         dc.ColumnName = "FDATE";
-                        dc.DataType = Type.GetType("System.DateTime"); 
+                        dc.DataType = Type.GetType("System.String"); 
                         break;
                     case 4: //摘要
                         dc.ColumnName = "Remark";
@@ -61,7 +61,7 @@ namespace CustomerStatementReportTool.DB
         }
 
         /// <summary>
-        /// 获取从SQL查询语句进行的记录集
+        /// 获取从SQL查询语句运行的记录集
         /// </summary>
         /// <returns></returns>
         public DataTable GetSearchTempDt()
@@ -118,11 +118,11 @@ namespace CustomerStatementReportTool.DB
                 var dc = new DataColumn();
                 switch (i)
                 {
-                    case 0: //开始日期
+                    case 0: //客户编码
                         dc.ColumnName = "客户编码";
                         dc.DataType = Type.GetType("System.String");
                         break;
-                    case 1: //结束日期
+                    case 1: //客户名称
                         dc.ColumnName = "客户名称";
                         dc.DataType = Type.GetType("System.String");
                         break;
@@ -131,6 +131,29 @@ namespace CustomerStatementReportTool.DB
             }
             return dt;
         }
+
+        /// <summary>
+        /// 获取‘客户名称’临时表
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetCustomerNameListTempdt()
+        {
+            var dt = new DataTable();
+            for (var i = 0; i < 1; i++)
+            {
+                var dc = new DataColumn();
+                switch (i)
+                {
+                    case 0: //客户名称
+                        dc.ColumnName = "客户名称";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                }
+                dt.Columns.Add(dc);
+            }
+            return dt;
+        }
+
 
     }
 }
