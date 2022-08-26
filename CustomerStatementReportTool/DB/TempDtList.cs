@@ -44,7 +44,7 @@ namespace CustomerStatementReportTool.DB
                         break;
                     case 6: //本期收款
                         dc.ColumnName = "ReceiveCurrentQty";
-                        dc.DataType = Type.GetType("System.Decimal");
+                        dc.DataType = Type.GetType("System.Int32"); 
                         break;
                     case 7: //期末余额
                         dc.ColumnName = "EndBalance";

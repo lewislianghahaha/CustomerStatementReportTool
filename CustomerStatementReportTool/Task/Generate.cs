@@ -76,7 +76,7 @@ namespace CustomerStatementReportTool.Task
                         newrow[3] = Convert.ToString(dtlrows[i][1]);  //单据日期
                         newrow[4] = Convert.ToString(dtlrows[i][2]);  //摘要
                         newrow[5] = Convert.ToDecimal(dtlrows[i][4]); //本期应收
-                        newrow[6] = Convert.ToDecimal(dtlrows[i][5]); //本期收款
+                        newrow[6] = Convert.ToInt32(dtlrows[i][5]);   //本期收款
                         newrow[7] = Convert.ToDecimal(dtlrows[i][3]); //期末余额
                         newrow[8] = remark1;                          //记录结束日期备注
                         result.Rows.Add(newrow);
@@ -125,7 +125,7 @@ namespace CustomerStatementReportTool.Task
                     newrow[2] = Convert.ToString(dtlrows[i][2]); //摘要
                     newrow[3] = balancetemp + Convert.ToDecimal(dtlrows[i][4])- Convert.ToDecimal(dtlrows[i][5])- Convert.ToDecimal(dtlrows[i][6]); //期末余额
                     newrow[4] = Convert.ToDecimal(dtlrows[i][4]); //本期应收
-                    newrow[5] = Convert.ToDecimal(dtlrows[i][5]); //本期实收
+                    newrow[5] = Convert.ToInt32(dtlrows[i][5]); //本期实收
                     newrow[6] = Convert.ToDecimal(dtlrows[i][6]); //原币本期冲销额
 
                     tempdt.Rows.Add(newrow);
