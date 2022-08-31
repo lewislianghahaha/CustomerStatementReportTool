@@ -35,6 +35,9 @@ namespace CustomerStatementReportTool.Task
                 //通过条件获取SQL并插入至sqldt临时表内
                 sqldt = searchDt.SearchFinialRecord(sdt, edt, customerlist).Copy();
 
+                //若发现sqldt只有一行摘要为“期初余额”，即不能继续进行处理
+                if (sqldt.Rows.Count == 1 && Convert.ToString(sqldt.Rows[0][2]) == "期初余额") throw new Exception("没有明细记录");
+
                 //从sqldt获取‘客户名称’信息至临时表(取唯一值)
                 foreach (DataRow rows in sqldt.Rows)
                 {

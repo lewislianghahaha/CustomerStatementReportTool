@@ -259,7 +259,7 @@ namespace CustomerStatementReportTool
                 dt.Rows.Clear();
                 gvdtl.DataSource = dt;
 
-                if(taskLogic.ResultFinalRecord.Rows.Count == 0) throw new Exception("运算异常,请联系管理员");
+                if(taskLogic.ResultFinalRecord.Rows.Count == 0) throw new Exception($@"运算异常,检测到进行运算的客户在'{sdt}'至'{edt}'没有交易记录,请修改查询日期再进行运算.");
                 else
                 {
                     //调用STI模板并执行导出代码
