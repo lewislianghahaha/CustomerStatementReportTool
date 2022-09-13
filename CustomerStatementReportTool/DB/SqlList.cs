@@ -184,5 +184,44 @@ namespace CustomerStatementReportTool.DB
             return _result;
         }
 
+        /// <summary>
+        /// 根据客户记录查找相关应收单记录(销售单位为‘工业涂料事业部’)
+        /// </summary>
+        /// <param name="sdt"></param>
+        /// <param name="edt"></param>
+        /// <param name="customerlist"></param>
+        /// <returns></returns>
+        public string SearchProductCustomer(string sdt, string edt, string customerlist)
+        {
+            _result = $@"
+                            SELECT  A.FCUSTOMERID
+			                        ,A.FBILLNO 单据编号
+			                        ,CONVERT(VARCHAR(10),A.FDATE,23) 业务日期
+		                            ,D.FNAME 物料名称
+			                        ,E.FDATAVALUE 品牌
+			                        ,D.FSPECIFICATION 规格型号
+			                        ,ROUND(B.F_YTC_DECIMAL8,4) 实发数量
+			                        ,ROUND(B.FPRICEQTY,4) 计价数量
+			                        ,ROUND(B.FTAXPRICE,4) 含税单价
+			                        ,ROUND(B.FALLAMOUNTFOR,4) 价税合计
+                                    ,G.FNAME 客户名称                                    
+
+                        FROM dbo.T_AR_RECEIVABLE A
+                        INNER JOIN dbo.T_AR_RECEIVABLEENTRY B ON A.FID=B.FID
+                        INNER JOIN dbo.T_BD_MATERIAL C ON B.FMATERIALID=C.FMATERIALID
+                        INNER JOIN dbo.T_BD_MATERIAL_L D ON C.FMATERIALID=D.FMATERIALID AND D.FLOCALEID=2052
+                        INNER JOIN dbo.T_BAS_ASSISTANTDATAENTRY_l E ON C.F_YTC_ASSISTANT7=E.FENTRYID AND E.FLOCALEID=2052
+						INNER JOIN dbo.T_BD_CUSTOMER F ON A.FCUSTOMERID=F.FCUSTID
+                        INNER JOIN dbo.T_BD_CUSTOMER_L G ON G.FCUSTID=F.FCUSTID AND G.FLOCALEID=2052                           
+
+                        WHERE A.FDOCUMENTSTATUS='C'
+                        AND A.FSALEDEPTID='449713'   --工业涂料事业部
+                        AND CONVERT(VARCHAR(10),A.FDATE,23)>='{sdt}'
+                        AND CONVERT(VARCHAR(10),A.FDATE,23)<='{edt}'
+                        AND F.FNUMBER IN ({customerlist})
+                        ORDER BY A.FDATE,A.FCUSTOMERID
+                        ";
+            return _result;
+        }
     }
 }

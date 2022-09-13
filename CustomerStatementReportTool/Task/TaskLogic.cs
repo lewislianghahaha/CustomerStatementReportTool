@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Security.Cryptography.X509Certificates;
 
 namespace CustomerStatementReportTool.Task
 {
@@ -21,8 +20,8 @@ namespace CustomerStatementReportTool.Task
         private bool _resultmark;                //返回是否成功标记
         private DataTable _resultTable;          //返回DT(客户列表初始化获取记录时使用)
         private DataTable _searchcustomertypeDt; //根据不同条件查询客户列表信息
-        private DataTable _resultFinalRecord;    //返回运算后的记录
-
+        private DataTable _resultFinalRecord;    //返回运算后的记录(针对纵向记录)
+        private DataTable _resultProductRecord;  //返回运算后的记录(针对横向记录)
         #endregion
 
         #region Set
@@ -70,7 +69,7 @@ namespace CustomerStatementReportTool.Task
         public DataTable ResultTable => _resultTable;
 
         /// <summary>
-        /// 返回运算后的记录
+        /// 返回运算后的记录(针对纵向记录)
         /// </summary>
         public DataTable ResultFinalRecord => _resultFinalRecord;
 
@@ -78,6 +77,12 @@ namespace CustomerStatementReportTool.Task
         /// 根据不同条件查询客户列表信息
         /// </summary>
         public DataTable SearchcustomertypeDt => _searchcustomertypeDt;
+
+        /// <summary>
+        /// 返回运算后的记录(针对横向记录)
+        /// </summary>
+        public DataTable ResultProductRecord=>_resultProductRecord;
+
         #endregion
 
         public void StartTask()
@@ -92,9 +97,13 @@ namespace CustomerStatementReportTool.Task
                 case 1:
                     SearchCustomTypeList(_typeid, _value);
                     break;
-                //运算
+                //对账单生成(纵向)
                 case 2:
                     Generate(_sdt,_edt,_customerlist);
+                    break;
+                //工业对账单生成(横向)
+                case 3:
+                    GenerateProduct(_sdt,_edt,_customerlist);
                     break;
             }
         }
@@ -116,7 +125,7 @@ namespace CustomerStatementReportTool.Task
         }
 
         /// <summary>
-        /// 运算
+        /// 运算(针对纵向记录)
         /// </summary>
         /// <param name="sdt"></param>
         /// <param name="edt"></param>
@@ -125,5 +134,17 @@ namespace CustomerStatementReportTool.Task
         {
             _resultFinalRecord = generate.GenerateFincal(sdt, edt, customerlist);
         }
+
+        /// <summary>
+        /// 返回运算后的记录(针对横向记录)
+        /// </summary>
+        /// <param name="sdt"></param>
+        /// <param name="edt"></param>
+        /// <param name="customerlist"></param>
+        private void GenerateProduct(string sdt, string edt, string customerlist)
+        {
+            _resultProductRecord = generate.GenerateProduct(sdt, edt, customerlist);
+        }
+
     }
 }

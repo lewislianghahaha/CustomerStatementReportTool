@@ -154,6 +154,75 @@ namespace CustomerStatementReportTool.DB
             return dt;
         }
 
+        /// <summary>
+        /// 保存最终运算结果(工业对账单(横向)报表使用)
+        /// </summary>
+        /// <returns></returns>
+        public DataTable MakeProductExportDtTemp()
+        {
+            var dt = new DataTable();
+            for (var i = 0; i < 13; i++)
+            {
+                var dc = new DataColumn();
+                switch (i)
+                {
+                    case 0: //单据编号
+                        dc.ColumnName = "Orderno";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 1: //业务日期
+                        dc.ColumnName = "Orderdt";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 2: //物料名称
+                        dc.ColumnName = "MaterialName";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 3: //品牌
+                        dc.ColumnName = "BrandCode";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 4: //规格型号
+                        dc.ColumnName = "KuiCode";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 5: //实发数量
+                        dc.ColumnName = "Sendqty";
+                        dc.DataType = Type.GetType("System.Decimal");
+                        break;
+                    case 6: //计价数量
+                        dc.ColumnName = "Jiqty";
+                        dc.DataType = Type.GetType("System.Decimal");
+                        break;
+                    case 7: //含税单价
+                        dc.ColumnName = "Priceqty";
+                        dc.DataType = Type.GetType("System.Decimal");
+                        break;
+                    case 8: //价税合计 
+                        dc.ColumnName = "Amountqty";
+                        dc.DataType = Type.GetType("System.Decimal");
+                        break;
+                    case 9: //客户ID
+                        dc.ColumnName = "FcustId";
+                        dc.DataType = Type.GetType("System.Int32"); 
+                        break;
+                    case 10: //开始日期
+                        dc.ColumnName = "SDT";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 11: //结束日期
+                        dc.ColumnName = "EDT";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 12: //客户名称
+                        dc.ColumnName = "CustomerName";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                }
+                dt.Columns.Add(dc);
+            }
+            return dt;
+        }
 
     }
 }

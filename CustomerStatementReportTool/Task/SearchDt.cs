@@ -70,5 +70,18 @@ namespace CustomerStatementReportTool.Task
             return dt;
         }
 
+        /// <summary>
+        /// 根据客户记录查找相关应收单记录(销售单位为‘工业涂料事业部’)
+        /// </summary>
+        /// <param name="sdt"></param>
+        /// <param name="edt"></param>
+        /// <param name="customerlist"></param>
+        /// <returns></returns>
+        public DataTable SearchProductCustomer(string sdt, string edt, string customerlist)
+        {
+            var dt = UseSqlSearchIntoDt(sqlList.SearchProductCustomer(sdt, edt, customerlist));
+            return dt;
+        }
+
     }
 }

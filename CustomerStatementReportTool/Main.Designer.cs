@@ -32,8 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnclear = new System.Windows.Forms.Button();
-            this.btngenerate = new System.Windows.Forms.Button();
-            this.btnclose = new System.Windows.Forms.Button();
             this.btnsearch = new System.Windows.Forms.Button();
             this.txtValue = new System.Windows.Forms.TextBox();
             this.comtype = new System.Windows.Forms.ComboBox();
@@ -68,6 +66,11 @@
             this.gvdtl = new System.Windows.Forms.DataGridView();
             this.DelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tmdel = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.btngenproduct = new System.Windows.Forms.Button();
+            this.btngen = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.tmclose = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -79,14 +82,15 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvdtl)).BeginInit();
             this.DelMenu.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.btnclear);
-            this.panel1.Controls.Add(this.btngenerate);
-            this.panel1.Controls.Add(this.btnclose);
             this.panel1.Controls.Add(this.btnsearch);
             this.panel1.Controls.Add(this.txtValue);
             this.panel1.Controls.Add(this.comtype);
@@ -95,41 +99,23 @@
             this.panel1.Controls.Add(this.dtStr);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(0, 25);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(889, 64);
+            this.panel1.Size = new System.Drawing.Size(889, 38);
             this.panel1.TabIndex = 0;
             // 
             // btnclear
             // 
-            this.btnclear.Location = new System.Drawing.Point(389, 36);
+            this.btnclear.Location = new System.Drawing.Point(808, 8);
             this.btnclear.Name = "btnclear";
             this.btnclear.Size = new System.Drawing.Size(75, 23);
             this.btnclear.TabIndex = 9;
             this.btnclear.Text = "重置";
             this.btnclear.UseVisualStyleBackColor = true;
             // 
-            // btngenerate
-            // 
-            this.btngenerate.Location = new System.Drawing.Point(492, 36);
-            this.btngenerate.Name = "btngenerate";
-            this.btngenerate.Size = new System.Drawing.Size(75, 23);
-            this.btngenerate.TabIndex = 8;
-            this.btngenerate.Text = "运算";
-            this.btngenerate.UseVisualStyleBackColor = true;
-            // 
-            // btnclose
-            // 
-            this.btnclose.Location = new System.Drawing.Point(602, 36);
-            this.btnclose.Name = "btnclose";
-            this.btnclose.Size = new System.Drawing.Size(75, 23);
-            this.btnclose.TabIndex = 7;
-            this.btnclose.Text = "关闭";
-            this.btnclose.UseVisualStyleBackColor = true;
-            // 
             // btnsearch
             // 
-            this.btnsearch.Location = new System.Drawing.Point(279, 36);
+            this.btnsearch.Location = new System.Drawing.Point(727, 8);
             this.btnsearch.Name = "btnsearch";
             this.btnsearch.Size = new System.Drawing.Size(75, 23);
             this.btnsearch.TabIndex = 6;
@@ -138,7 +124,7 @@
             // 
             // txtValue
             // 
-            this.txtValue.Location = new System.Drawing.Point(406, 7);
+            this.txtValue.Location = new System.Drawing.Point(553, 8);
             this.txtValue.Name = "txtValue";
             this.txtValue.Size = new System.Drawing.Size(153, 21);
             this.txtValue.TabIndex = 5;
@@ -147,7 +133,7 @@
             // 
             this.comtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comtype.FormattingEnabled = true;
-            this.comtype.Location = new System.Drawing.Point(279, 8);
+            this.comtype.Location = new System.Drawing.Point(426, 9);
             this.comtype.Name = "comtype";
             this.comtype.Size = new System.Drawing.Size(121, 20);
             this.comtype.TabIndex = 4;
@@ -155,7 +141,7 @@
             // dtEnd
             // 
             this.dtEnd.CustomFormat = "yyyy-MM-dd";
-            this.dtEnd.Location = new System.Drawing.Point(99, 35);
+            this.dtEnd.Location = new System.Drawing.Point(271, 8);
             this.dtEnd.Name = "dtEnd";
             this.dtEnd.Size = new System.Drawing.Size(140, 21);
             this.dtEnd.TabIndex = 3;
@@ -163,7 +149,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(40, 39);
+            this.label2.Location = new System.Drawing.Point(212, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 12);
             this.label2.TabIndex = 2;
@@ -172,7 +158,7 @@
             // dtStr
             // 
             this.dtStr.CustomFormat = "yyyy-MM-dd";
-            this.dtStr.Location = new System.Drawing.Point(99, 8);
+            this.dtStr.Location = new System.Drawing.Point(68, 8);
             this.dtStr.Name = "dtStr";
             this.dtStr.Size = new System.Drawing.Size(140, 21);
             this.dtStr.TabIndex = 1;
@@ -180,7 +166,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(40, 12);
+            this.label1.Location = new System.Drawing.Point(9, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 12);
             this.label1.TabIndex = 0;
@@ -190,10 +176,12 @@
             // 
             this.panel2.Controls.Add(this.groupBox2);
             this.panel2.Controls.Add(this.groupBox1);
+            this.panel2.Controls.Add(this.panel1);
+            this.panel2.Controls.Add(this.menuStrip1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 64);
+            this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(889, 546);
+            this.panel2.Size = new System.Drawing.Size(889, 610);
             this.panel2.TabIndex = 1;
             // 
             // groupBox2
@@ -201,9 +189,9 @@
             this.groupBox2.Controls.Add(this.gvsearchdtl);
             this.groupBox2.Controls.Add(this.panel3);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Location = new System.Drawing.Point(0, 63);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(889, 268);
+            this.groupBox2.Size = new System.Drawing.Size(889, 269);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "查询客户记录";
@@ -219,7 +207,7 @@
             this.gvsearchdtl.Name = "gvsearchdtl";
             this.gvsearchdtl.ReadOnly = true;
             this.gvsearchdtl.RowTemplate.Height = 23;
-            this.gvsearchdtl.Size = new System.Drawing.Size(883, 222);
+            this.gvsearchdtl.Size = new System.Drawing.Size(883, 223);
             this.gvsearchdtl.TabIndex = 2;
             // 
             // AddMenu
@@ -240,7 +228,7 @@
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.bngat);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(3, 239);
+            this.panel3.Location = new System.Drawing.Point(3, 240);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(883, 26);
             this.panel3.TabIndex = 1;
@@ -398,9 +386,10 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.gvdtl);
+            this.groupBox1.Controls.Add(this.panel4);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox1.ForeColor = System.Drawing.Color.DarkRed;
-            this.groupBox1.Location = new System.Drawing.Point(0, 268);
+            this.groupBox1.Location = new System.Drawing.Point(0, 332);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(889, 278);
             this.groupBox1.TabIndex = 0;
@@ -414,12 +403,12 @@
             this.gvdtl.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvdtl.ContextMenuStrip = this.DelMenu;
             this.gvdtl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gvdtl.Location = new System.Drawing.Point(3, 17);
+            this.gvdtl.Location = new System.Drawing.Point(3, 51);
             this.gvdtl.Name = "gvdtl";
             this.gvdtl.ReadOnly = true;
             this.gvdtl.RowTemplate.Height = 23;
-            this.gvdtl.Size = new System.Drawing.Size(883, 258);
-            this.gvdtl.TabIndex = 0;
+            this.gvdtl.Size = new System.Drawing.Size(883, 224);
+            this.gvdtl.TabIndex = 2;
             // 
             // DelMenu
             // 
@@ -434,6 +423,57 @@
             this.tmdel.Size = new System.Drawing.Size(124, 22);
             this.tmdel.Text = "删除记录";
             // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.btngenproduct);
+            this.panel4.Controls.Add(this.btngen);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(3, 17);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(883, 34);
+            this.panel4.TabIndex = 1;
+            // 
+            // btngenproduct
+            // 
+            this.btngenproduct.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btngenproduct.ForeColor = System.Drawing.Color.Black;
+            this.btngenproduct.Location = new System.Drawing.Point(187, 5);
+            this.btngenproduct.Name = "btngenproduct";
+            this.btngenproduct.Size = new System.Drawing.Size(133, 23);
+            this.btngenproduct.TabIndex = 1;
+            this.btngenproduct.Text = "工业对账单生成(横向)";
+            this.btngenproduct.UseVisualStyleBackColor = true;
+            // 
+            // btngen
+            // 
+            this.btngen.BackColor = System.Drawing.SystemColors.Control;
+            this.btngen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btngen.ForeColor = System.Drawing.Color.Black;
+            this.btngen.Location = new System.Drawing.Point(20, 5);
+            this.btngen.Name = "btngen";
+            this.btngen.Size = new System.Drawing.Size(131, 23);
+            this.btngen.TabIndex = 0;
+            this.btngen.Text = "对账单生成(纵向)";
+            this.btngen.UseVisualStyleBackColor = false;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tmclose});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(889, 25);
+            this.menuStrip1.TabIndex = 2;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // tmclose
+            // 
+            this.tmclose.Name = "tmclose";
+            this.tmclose.Size = new System.Drawing.Size(44, 21);
+            this.tmclose.Text = "关闭";
+            // 
             // Main
             // 
             this.AcceptButton = this.btnsearch;
@@ -442,12 +482,12 @@
             this.ClientSize = new System.Drawing.Size(889, 610);
             this.ControlBox = false;
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
             this.Name = "Main";
             this.Text = "K3客户对账单批量生成工具";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gvsearchdtl)).EndInit();
             this.AddMenu.ResumeLayout(false);
@@ -459,6 +499,9 @@
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gvdtl)).EndInit();
             this.DelMenu.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -473,7 +516,6 @@
         private System.Windows.Forms.TextBox txtValue;
         private System.Windows.Forms.ComboBox comtype;
         private System.Windows.Forms.Button btnsearch;
-        private System.Windows.Forms.Button btnclose;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView gvsearchdtl;
@@ -496,13 +538,17 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel5;
         private System.Windows.Forms.ToolStripLabel tstotalrow;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.DataGridView gvdtl;
         private System.Windows.Forms.ContextMenuStrip AddMenu;
         private System.Windows.Forms.ToolStripMenuItem tmadd;
         private System.Windows.Forms.ContextMenuStrip DelMenu;
         private System.Windows.Forms.ToolStripMenuItem tmdel;
-        private System.Windows.Forms.Button btngenerate;
         private System.Windows.Forms.Button btnclear;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button btngenproduct;
+        private System.Windows.Forms.Button btngen;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem tmclose;
+        private System.Windows.Forms.DataGridView gvdtl;
     }
 }
 

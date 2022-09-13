@@ -38,14 +38,15 @@ namespace CustomerStatementReportTool
 
         private void OnRegisterEvents()
         {
-            btngenerate.Click += Btngenerate_Click;
             btnsearch.Click += Btnsearch_Click;
-            btnclose.Click += Btnclose_Click;
             btnclear.Click += Btnclear_Click;
+            btngen.Click += Btngen_Click;
+            btngenproduct.Click += Btngenproduct_Click;
 
+            tmclose.Click += Tmclose_Click;
             tmadd.Click += Tmadd_Click;
             tmdel.Click += Tmdel_Click;
-
+            
             bnMoveFirstItem.Click += BnMoveFirstItem_Click;
             bnMovePreviousItem.Click += BnMovePreviousItem_Click;
             bnMoveNextItem.Click += BnMoveNextItem_Click;
@@ -200,11 +201,11 @@ namespace CustomerStatementReportTool
         }
 
         /// <summary>
-        /// 运算
+        /// 对账单生成(纵向)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Btngenerate_Click(object sender, EventArgs e)
+        private void Btngen_Click(object sender, EventArgs e)
         {
             try
             {
@@ -215,20 +216,20 @@ namespace CustomerStatementReportTool
                 var edt = dtEnd.Value.ToString("yyyy-MM-dd");
 
                 //判断若gvdtl没有记录,不能进行运算
-                if (gvdtl.RowCount==0) throw new Exception("请添加记录后再进行运算");
+                if (gvdtl.RowCount == 0) throw new Exception("请添加记录后再进行运算");
 
                 //若结束日期小于开始日期,报异常提示
                 if (DateTime.Compare(Convert.ToDateTime(sdt), Convert.ToDateTime(edt)) > 0) throw new Exception("异常:结束日期不能小于开始日期,请重新选择日期并进行运算");
 
                 //对已添加的‘客户列表’整合,合拼为一行并以,分隔
-                var customerdt = (DataTable) gvdtl.DataSource;
+                var customerdt = (DataTable)gvdtl.DataSource;
 
                 //通过循环将选中行的客户编码进行收集(注:去除重复的选项,只保留不重复的主键记录)
                 foreach (DataRow rows in customerdt.Rows)
                 {
                     if (string.IsNullOrEmpty(customerlist))
                     {
-                        customerlist = "'"+ Convert.ToString(rows[0]) +"'";
+                        customerlist = "'" + Convert.ToString(rows[0]) + "'";
                         temp = Convert.ToString(rows[0]);
                     }
                     else
@@ -259,7 +260,7 @@ namespace CustomerStatementReportTool
                 dt.Rows.Clear();
                 gvdtl.DataSource = dt;
 
-                if(taskLogic.ResultFinalRecord.Rows.Count == 0) throw new Exception($@"运算异常,检测到进行运算的客户在'{sdt}'至'{edt}'没有交易记录,请修改查询日期再进行运算.");
+                if (taskLogic.ResultFinalRecord.Rows.Count == 0) throw new Exception($@"运算异常,检测到进行运算的客户在'{sdt}'至'{edt}'没有交易记录,请修改查询日期再进行运算.");
                 else
                 {
                     //调用STI模板并执行导出代码
@@ -281,11 +282,90 @@ namespace CustomerStatementReportTool
         }
 
         /// <summary>
+        /// 工业对账单生成(横向)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btngenproduct_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var customerlist = string.Empty;
+                var temp = string.Empty;
+
+                var sdt = dtStr.Value.ToString("yyyy-MM-dd");
+                var edt = dtEnd.Value.ToString("yyyy-MM-dd");
+
+                //判断若gvdtl没有记录,不能进行运算
+                if (gvdtl.RowCount == 0) throw new Exception("请添加记录后再进行运算");
+
+                //若结束日期小于开始日期,报异常提示
+                if (DateTime.Compare(Convert.ToDateTime(sdt), Convert.ToDateTime(edt)) > 0) throw new Exception("异常:结束日期不能小于开始日期,请重新选择日期并进行运算");
+
+                //对已添加的‘客户列表’整合,合拼为一行并以,分隔
+                var customerdt = (DataTable)gvdtl.DataSource;
+
+                //通过循环将选中行的客户编码进行收集(注:去除重复的选项,只保留不重复的主键记录)
+                foreach (DataRow rows in customerdt.Rows)
+                {
+                    if (string.IsNullOrEmpty(customerlist))
+                    {
+                        customerlist = "'" + Convert.ToString(rows[0]) + "'";
+                        temp = Convert.ToString(rows[0]);
+                    }
+                    else
+                    {
+                        if (temp != Convert.ToString(rows[0]))
+                        {
+                            customerlist += "," + "'" + Convert.ToString(rows[0]) + "'";
+                            temp = Convert.ToString(rows[0]);
+                        }
+                    }
+                }
+
+                taskLogic.TaskId = 3;
+                taskLogic.Sdt = sdt;
+                taskLogic.Edt = edt;
+                taskLogic.Customerlist = customerlist;
+
+                //使用子线程工作(作用:通过调用子线程进行控制Load窗体的关闭情况)
+                new Thread(Start).Start();
+                load.StartPosition = FormStartPosition.CenterScreen;
+                load.ShowDialog();
+
+                //完成后将文本框 及 gvdtl内容清空
+                txtValue.Text = "";
+                var dt = (DataTable)gvdtl.DataSource;
+                dt.Rows.Clear();
+                gvdtl.DataSource = dt;
+
+                if (taskLogic.ResultProductRecord.Rows.Count == 0) throw new Exception($@"运算异常,检测到进行运算的客户在'{sdt}'至'{edt}'没有交易记录,请修改查询日期再进行运算.");
+                else
+                {
+                    //调用STI模板并执行导出代码
+                    //加载STI模板
+                    //定义模板地址
+                    var filepath = Application.StartupPath + "/Report/ProductCustomerReport.mrt";
+                    var stireport = new StiReport();
+                    stireport.Load(filepath);
+                    //加载DATASET 或 DATATABLE
+                    stireport.RegData("ProductCustomer", taskLogic.ResultProductRecord);
+                    stireport.Compile();
+                    stireport.Show();  //调用预览功能
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, $"错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
         /// 关闭
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Btnclose_Click(object sender, EventArgs e)
+        private void Tmclose_Click(object sender, EventArgs e)
         {
             try
             {

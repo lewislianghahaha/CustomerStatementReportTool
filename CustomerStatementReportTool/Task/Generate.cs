@@ -11,7 +11,7 @@ namespace CustomerStatementReportTool.Task
         TempDtList tempDt=new TempDtList();
 
         /// <summary>
-        /// 根据各参数运算结果-供STI报表使用
+        /// 根据各参数运算结果-供STI报表使用(纵向)
         /// </summary>
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
@@ -62,7 +62,7 @@ namespace CustomerStatementReportTool.Task
                     tempdt.Merge(GenerateReportDtlTemp(Convert.ToString(row[0]),sqldt,tempdt));
                 }
 
-                var a = tempdt.Copy();
+                //var a = tempdt.Copy();
 
                 //处理数据并整理后将数据插入至result内
                 foreach (DataRow custrow in custdt.Rows)
@@ -138,6 +138,49 @@ namespace CustomerStatementReportTool.Task
             }
 
             return tempdt;
+        }
+
+        /// <summary>
+        /// 根据各参数运算结果-供STI报表使用(横向)
+        /// </summary>
+        /// <param name="sdt"></param>
+        /// <param name="edt"></param>
+        /// <param name="customerlist"></param>
+        /// <returns></returns>
+        public DataTable GenerateProduct(string sdt, string edt, string customerlist)
+        {
+            //输出结果集
+            var resultdt = tempDt.MakeProductExportDtTemp();
+
+            try
+            {
+                //根据相关条件获取‘应收单’列表记录
+                var recorddt = searchDt.SearchProductCustomer(sdt,edt,customerlist).Copy();
+                //循环recorddt,并获取相关值并插入至resultdt内
+                foreach (DataRow rows in recorddt.Rows)
+                {
+                    var newrow = resultdt.NewRow();
+                    newrow[0] = Convert.ToString(rows[1]);    //单据编号
+                    newrow[1] = Convert.ToString(rows[2]);    //业务日期
+                    newrow[2] = Convert.ToString(rows[3]);    //物料名称
+                    newrow[3] = Convert.ToString(rows[4]);    //品牌
+                    newrow[4] = Convert.ToString(rows[5]);    //规格型号
+                    newrow[5] = Math.Round(Convert.ToDecimal(rows[6]),4);   //实发数量
+                    newrow[6] = Math.Round(Convert.ToDecimal(rows[7]),4);   //计价数量
+                    newrow[7] = Math.Round(Convert.ToDecimal(rows[8]),4);   //含税单价
+                    newrow[8] = Math.Round(Convert.ToDecimal(rows[9]),4);   //价税合计
+                    newrow[9] = Convert.ToInt32(rows[0]);     //客户ID
+                    newrow[10] = sdt;   //开始日期
+                    newrow[11] = edt;   //结束日期
+                    newrow[12] = Convert.ToString(rows[10]);   //客户名称
+                    resultdt.Rows.Add(newrow);
+                }
+            }
+            catch (Exception)
+            {
+                resultdt.Columns.Clear();
+            }
+            return resultdt;
         }
 
     }

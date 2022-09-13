@@ -149,6 +149,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="STI\CustomerStatementReport.mrt" />
+    <None Include="STI\ProductCustomerReport.mrt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
