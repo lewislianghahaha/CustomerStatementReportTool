@@ -221,6 +221,10 @@ namespace CustomerStatementReportTool
                 //若结束日期小于开始日期,报异常提示
                 if (DateTime.Compare(Convert.ToDateTime(sdt), Convert.ToDateTime(edt)) > 0) throw new Exception("异常:结束日期不能小于开始日期,请重新选择日期并进行运算");
 
+                //将‘对账单生成’,‘工业对账单生成(横向)‘按钮设置为不可操作;直至运行完成才恢复
+                btngen.Enabled = false;
+                btngenproduct.Enabled = false;
+
                 //对已添加的‘客户列表’整合,合拼为一行并以,分隔
                 var customerdt = (DataTable)gvdtl.DataSource;
 
@@ -259,6 +263,8 @@ namespace CustomerStatementReportTool
                 var dt = (DataTable)gvdtl.DataSource;
                 dt.Rows.Clear();
                 gvdtl.DataSource = dt;
+                btngen.Enabled = true;
+                btngenproduct.Enabled = true;
 
                 if (taskLogic.ResultFinalRecord.Rows.Count == 0) throw new Exception($@"运算异常,检测到进行运算的客户在'{sdt}'至'{edt}'没有交易记录,请修改查询日期再进行运算.");
                 else
@@ -302,6 +308,10 @@ namespace CustomerStatementReportTool
                 //若结束日期小于开始日期,报异常提示
                 if (DateTime.Compare(Convert.ToDateTime(sdt), Convert.ToDateTime(edt)) > 0) throw new Exception("异常:结束日期不能小于开始日期,请重新选择日期并进行运算");
 
+                //将‘对账单生成’,‘工业对账单生成(横向)‘按钮设置为不可操作;直至运行完成才恢复
+                btngen.Enabled = false;
+                btngenproduct.Enabled = false;
+
                 //对已添加的‘客户列表’整合,合拼为一行并以,分隔
                 var customerdt = (DataTable)gvdtl.DataSource;
 
@@ -338,6 +348,8 @@ namespace CustomerStatementReportTool
                 var dt = (DataTable)gvdtl.DataSource;
                 dt.Rows.Clear();
                 gvdtl.DataSource = dt;
+                btngen.Enabled = true;
+                btngenproduct.Enabled = true;
 
                 if (taskLogic.ResultProductRecord.Rows.Count == 0) throw new Exception($@"运算异常,检测到进行运算的客户在'{sdt}'至'{edt}'没有交易记录,请修改查询日期再进行运算.");
                 else
