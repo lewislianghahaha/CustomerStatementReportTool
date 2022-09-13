@@ -692,6 +692,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
         <DataBand1 Ref="48" type="DataBand" isKey="true">
           <Border>All;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,4.8,27.7,0.8</ClientRectangle>
           <Components isList="true" count="25">
             <Text11 Ref="49" type="Text" isKey="true">
@@ -982,9 +983,9 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Name>Text21</Name>
                   <Page isRef="3" />
                   <Parent isRef="75" />
-                  <Text>{Round(SumD(ProductCustomer.Sendqty),4)}</Text>
+                  <Text>{SumRunning(DataBand1,ProductCustomer.Sendqty)}</Text>
                   <TextBrush>Black</TextBrush>
-                  <Type>Expression</Type>
+                  <Type>Totals</Type>
                 </Text21>
                 <Text22 Ref="78" type="Text" isKey="true">
                   <Border>None;Black;2;Solid;False;4;Black</Border>
@@ -998,9 +999,9 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Name>Text22</Name>
                   <Page isRef="3" />
                   <Parent isRef="75" />
-                  <Text>{Round(SumD(ProductCustomer.Jiqty),4)}</Text>
+                  <Text>{SumRunning(DataBand1,ProductCustomer.Jiqty)}</Text>
                   <TextBrush>Black</TextBrush>
-                  <Type>Expression</Type>
+                  <Type>Totals</Type>
                 </Text22>
                 <Text23 Ref="79" type="Text" isKey="true">
                   <Border>None;Black;2;Solid;False;4;Black</Border>
@@ -1014,9 +1015,9 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Name>Text23</Name>
                   <Page isRef="3" />
                   <Parent isRef="75" />
-                  <Text>{Round(SumD(ProductCustomer.Priceqty),4)}</Text>
+                  <Text>{SumRunning(DataBand1,ProductCustomer.Priceqty)}</Text>
                   <TextBrush>Black</TextBrush>
-                  <Type>Expression</Type>
+                  <Type>Totals</Type>
                 </Text23>
                 <Text25 Ref="80" type="Text" isKey="true">
                   <Border>None;Black;2;Solid;False;4;Black</Border>
@@ -1030,9 +1031,9 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Name>Text25</Name>
                   <Page isRef="3" />
                   <Parent isRef="75" />
-                  <Text>{Round(SumD(ProductCustomer.Amountqty),4)}</Text>
+                  <Text>{SumRunning(DataBand1,ProductCustomer.Amountqty)}</Text>
                   <TextBrush>Black</TextBrush>
-                  <Type>Expression</Type>
+                  <Type>Totals</Type>
                 </Text25>
                 <StartPointPrimitive18 Ref="81" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
                   <ClientRectangle>16.4,0,0,0</ClientRectangle>
@@ -1423,10 +1424,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/13/2022 4:36:51 PM</ReportChanged>
+  <ReportChanged>9/13/2022 5:23:48 PM</ReportChanged>
   <ReportCreated>9/13/2022 8:10:57 AM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\ProductCustomerReport.mrt</ReportFile>
-  <ReportGuid>a122c0e143d14e5b9e3b8d72bbf35ad1</ReportGuid>
+  <ReportGuid>a7106cb61c3646e09cbdc2097f81c543</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
@@ -1450,7 +1451,7 @@ namespace Reports
         }
 
         #region StiReport Designer generated code - do not modify
-        #endregion StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
     }
 }
 </Script>
