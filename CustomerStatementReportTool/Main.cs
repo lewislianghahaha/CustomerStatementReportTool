@@ -53,7 +53,7 @@ namespace CustomerStatementReportTool
             bnMoveLastItem.Click += BnMoveLastItem_Click;
             bnPositionItem.Leave += BnPositionItem_Leave;
             tmshowrows.DropDownClosed += Tmshowrows_DropDownClosed;
-            panel3.Visible = false;
+           // panel3.Visible = false;
 
             comtype.SelectedIndexChanged += Comtype_SelectedIndexChanged;
         }
@@ -466,6 +466,18 @@ namespace CustomerStatementReportTool
 
                 _dtl = taskLogic.ResultTable.Copy();
                 gvsearchdtl.DataSource = _dtl.Copy();
+
+                //修正-初始化时,将页面跳转按钮都显示
+                panel3.Visible = true;
+                //初始化下拉框所选择的默认值
+                //tmshowrows.SelectedItem = "10"; 
+                tmshowrows.SelectedItem = Convert.ToInt32(tmshowrows.SelectedItem) == 0
+                ? (object)"10"
+                : Convert.ToInt32(tmshowrows.SelectedItem);
+                //定义初始化标记
+                _pageChange = _pageCurrent <= 1;
+                //GridView分页
+                GridViewPageChange();
             }
             catch (Exception)
             {
