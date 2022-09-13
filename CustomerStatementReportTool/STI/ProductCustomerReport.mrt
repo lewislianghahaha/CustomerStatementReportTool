@@ -119,7 +119,7 @@
             <Text3 Ref="10" type="Text" isKey="true">
               <Border>None;Black;2;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>0,1.4,27.6,0.8</ClientRectangle>
+              <ClientRectangle>0,1.4,27.7,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Consolas,16</Font>
               <Guid>0b6899ca19fe453a9e6725e415fe56a9</Guid>
@@ -389,7 +389,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
             <Text30 Ref="18" type="Text" isKey="true">
               <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
               <Brush>DodgerBlue</Brush>
-              <ClientRectangle>24.8,2.8,2.8,0.8</ClientRectangle>
+              <ClientRectangle>24.8,2.8,2.9,0.8</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>Arial,9,Bold,Point,False,204</Font>
@@ -422,7 +422,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
             </Text2>
             <Text4 Ref="20" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>24.8,2.2,2.8,0.6</ClientRectangle>
+              <ClientRectangle>24.8,2.2,2.9,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Consolas,10</Font>
               <Guid>a527b57deb96485e8d2230f304e7b525</Guid>
@@ -541,7 +541,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <VertAlignment>Center</VertAlignment>
             </Text10>
             <HorizontalLinePrimitive1 Ref="27" type="HorizontalLinePrimitive" isKey="true">
-              <ClientRectangle>0,2.2,27.6,0.0254</ClientRectangle>
+              <ClientRectangle>0,2.2,27.7,0.0254</ClientRectangle>
               <Color>Black</Color>
               <EndCap Ref="28" type="Cap" isKey="true">
                 <Color>Black</Color>
@@ -727,7 +727,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <CanGrow>True</CanGrow>
               <ClientRectangle>4.6,0.2,7.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>Consolas,9</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text13</Name>
               <Page isRef="3" />
@@ -946,11 +946,11 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </Sort>
         </DataBand1>
         <GroupFooterBand1 Ref="74" type="GroupFooterBand" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,6.4,27.7,4.4</ClientRectangle>
+          <ClientRectangle>0,6.4,27.7,0.8</ClientRectangle>
           <Components isList="true" count="5">
             <Panel1 Ref="75" type="Panel" isKey="true">
-              <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0,27.6,0.8</ClientRectangle>
               <Components isList="true" count="9">
@@ -982,7 +982,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Name>Text21</Name>
                   <Page isRef="3" />
                   <Parent isRef="75" />
-                  <Text>{SumD(ProductCustomer.Sendqty)}</Text>
+                  <Text>{Round(SumD(ProductCustomer.Sendqty),4)}</Text>
                   <TextBrush>Black</TextBrush>
                   <Type>Expression</Type>
                 </Text21>
@@ -998,7 +998,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Name>Text22</Name>
                   <Page isRef="3" />
                   <Parent isRef="75" />
-                  <Text>{SumD(ProductCustomer.Jiqty)}</Text>
+                  <Text>{Round(SumD(ProductCustomer.Jiqty),4)}</Text>
                   <TextBrush>Black</TextBrush>
                   <Type>Expression</Type>
                 </Text22>
@@ -1014,7 +1014,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Name>Text23</Name>
                   <Page isRef="3" />
                   <Parent isRef="75" />
-                  <Text>{SumD(ProductCustomer.Priceqty)}</Text>
+                  <Text>{Round(SumD(ProductCustomer.Priceqty),4)}</Text>
                   <TextBrush>Black</TextBrush>
                   <Type>Expression</Type>
                 </Text23>
@@ -1030,7 +1030,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Name>Text25</Name>
                   <Page isRef="3" />
                   <Parent isRef="75" />
-                  <Text>{SumD(ProductCustomer.Amountqty)}</Text>
+                  <Text>{Round(SumD(ProductCustomer.Amountqty),4)}</Text>
                   <TextBrush>Black</TextBrush>
                   <Type>Expression</Type>
                 </Text25>
@@ -1423,10 +1423,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/13/2022 11:55:30 AM</ReportChanged>
+  <ReportChanged>9/13/2022 4:36:51 PM</ReportChanged>
   <ReportCreated>9/13/2022 8:10:57 AM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\ProductCustomerReport.mrt</ReportFile>
-  <ReportGuid>5ae85f8a73b243228c5cef8d3ce046f5</ReportGuid>
+  <ReportGuid>a122c0e143d14e5b9e3b8d72bbf35ad1</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
