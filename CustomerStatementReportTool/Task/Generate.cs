@@ -62,7 +62,7 @@ namespace CustomerStatementReportTool.Task
                     tempdt.Merge(GenerateReportDtlTemp(Convert.ToString(row[0]),sqldt,tempdt));
                 }
 
-                //var a = tempdt.Copy();
+                var a = tempdt.Copy();
 
                 //处理数据并整理后将数据插入至result内
                 foreach (DataRow custrow in custdt.Rows)
@@ -82,12 +82,14 @@ namespace CustomerStatementReportTool.Task
                         newrow[6] = Convert.ToInt32(dtlrows[i][5]);   //本期收款
                         newrow[7] = Convert.ToDecimal(dtlrows[i][3]); //期末余额
                         newrow[8] = remark1;                          //记录结束日期备注
+                        newrow[9] = Convert.ToString(dtlrows[i][7]);  //单据编号
                         result.Rows.Add(newrow);
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                var a = ex.Message;
                 result.Columns.Clear();
             }
 
@@ -130,6 +132,7 @@ namespace CustomerStatementReportTool.Task
                     newrow[4] = Convert.ToDecimal(dtlrows[i][4]); //本期应收
                     newrow[5] = Convert.ToInt32(dtlrows[i][5]); //本期实收
                     newrow[6] = Convert.ToDecimal(dtlrows[i][6]); //原币本期冲销额
+                    newrow[7] = Convert.ToString(dtlrows[i][7]); //单据编号
 
                     tempdt.Rows.Add(newrow);
                     //将当前行计算出来的‘期末余额’赋值给balancetemp,给下一行使用
@@ -202,27 +205,27 @@ namespace CustomerStatementReportTool.Task
                 foreach (DataRow rows in recorddt.Rows)
                 {
                     var newrow = resultdt.NewRow();
-                    newrow[0] = Convert.ToInt32(rows[0]); //客户ID
-                    newrow[1] = Convert.ToInt32(rows[1]); //应收单ID
-                    newrow[2] = Convert.ToString(rows[3]); //终端客户
-                    newrow[3] = Convert.ToString(rows[4]); //收货单位
-                    newrow[4] = Convert.ToString(rows[5]); //收货单位1
-                    newrow[5] = Convert.ToString(rows[6]); //二级客户
-                    newrow[6] = Convert.ToString(rows[7]); //三级客户
-                    newrow[7] = Convert.ToString(rows[8]); //摘要
-                    newrow[8] = Convert.ToString(rows[9]); //销售订单号
-                    newrow[9] = Convert.ToString(rows[10]); //日期
+                    newrow[0] = Convert.ToInt32(rows[0]);    //客户ID
+                    newrow[1] = Convert.ToInt32(rows[1]);    //应收单ID
+                    newrow[2] = Convert.ToString(rows[3]);   //终端客户
+                    newrow[3] = Convert.ToString(rows[4]);   //收货单位
+                    newrow[4] = Convert.ToString(rows[5]);   //收货单位1
+                    newrow[5] = Convert.ToString(rows[6]);   //二级客户
+                    newrow[6] = Convert.ToString(rows[7]);   //三级客户
+                    newrow[7] = Convert.ToString(rows[8]);   //摘要
+                    newrow[8] = Convert.ToString(rows[9]);   //销售订单号
+                    newrow[9] = Convert.ToString(rows[10]);  //日期
                     newrow[10] = Convert.ToString(rows[11]); //U订货单号
                     newrow[11] = Convert.ToString(rows[12]); //单据编号
                     newrow[12] = Convert.ToString(rows[13]); //托运货场地址
                     newrow[13] = Convert.ToString(rows[14]); //产品名称
                     newrow[14] = Convert.ToString(rows[15]); //规格
-                    newrow[15] = Convert.ToInt32(rows[16]); //实发罐数
-                    newrow[16] = Convert.ToDecimal(rows[17]); //单价
-                    newrow[17] = Convert.ToDouble(rows[18]); //合同金额
-                    newrow[18] = Convert.ToString(rows[19]); //备注
-                    newrow[19] = Convert.ToString(rows[20]); //促销备注
-                    newrow[20] = Convert.ToString(rows[21]); //开票人
+                    newrow[15] = Convert.ToInt32(rows[16]);  //实发罐数
+                    newrow[16] = Math.Round(Convert.ToDecimal(rows[17]),2); //单价
+                    newrow[17] = Convert.ToDouble(rows[18]);  //合同金额
+                    newrow[18] = Convert.ToString(rows[19]);  //备注
+                    newrow[19] = Convert.ToString(rows[20]);  //促销备注
+                    newrow[20] = Convert.ToString(rows[21]);  //开票人
                     resultdt.Rows.Add(newrow);
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Data;
 
 namespace CustomerStatementReportTool.DB
@@ -13,7 +14,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable MakeExportDtTemp()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 9; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -54,6 +55,10 @@ namespace CustomerStatementReportTool.DB
                         dc.ColumnName = "REMARK1";
                         dc.DataType = Type.GetType("System.String");
                         break;
+                    case 9://单据编号
+                        dc.ColumnName = "FBILLNO";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
                 }
                 dt.Columns.Add(dc);
             }
@@ -67,7 +72,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable GetSearchTempDt()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 7; i++)
+            for (var i = 0; i < 8; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -99,6 +104,10 @@ namespace CustomerStatementReportTool.DB
                     case 6:
                         dc.ColumnName = "原币本期冲销额";
                         dc.DataType = Type.GetType("System.Decimal");
+                        break;
+                    case 7:
+                        dc.ColumnName = "FBILLNO";
+                        dc.DataType = Type.GetType("System.String");
                         break;
                 }
                 dt.Columns.Add(dc);
