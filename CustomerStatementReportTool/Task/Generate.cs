@@ -183,5 +183,55 @@ namespace CustomerStatementReportTool.Task
             return resultdt;
         }
 
+        /// <summary>
+        /// 根据各参数运算结果-供STI报表使用(横向)
+        /// </summary>
+        /// <param name="sdt"></param>
+        /// <param name="edt"></param>
+        /// <param name="customerlist"></param>
+        /// <returns></returns>
+        public DataTable GenerateSalesOutList(string sdt, string edt, string customerlist)
+        {
+            //输出结果集
+            var resultdt = tempDt.MakeSalesOutListDtTemp();
+
+            try
+            {
+                //根据相关条件获取‘应收单’列表记录
+                var recorddt = searchDt.SearchSalesOutList(sdt, edt, customerlist);
+                foreach (DataRow rows in recorddt.Rows)
+                {
+                    var newrow = resultdt.NewRow();
+                    newrow[0] = Convert.ToInt32(rows[0]); //客户ID
+                    newrow[1] = Convert.ToInt32(rows[1]); //应收单ID
+                    newrow[2] = Convert.ToString(rows[3]); //终端客户
+                    newrow[3] = Convert.ToString(rows[4]); //收货单位
+                    newrow[4] = Convert.ToString(rows[5]); //收货单位1
+                    newrow[5] = Convert.ToString(rows[6]); //二级客户
+                    newrow[6] = Convert.ToString(rows[7]); //三级客户
+                    newrow[7] = Convert.ToString(rows[8]); //摘要
+                    newrow[8] = Convert.ToString(rows[9]); //销售订单号
+                    newrow[9] = Convert.ToString(rows[10]); //日期
+                    newrow[10] = Convert.ToString(rows[11]); //U订货单号
+                    newrow[11] = Convert.ToString(rows[12]); //单据编号
+                    newrow[12] = Convert.ToString(rows[13]); //托运货场地址
+                    newrow[13] = Convert.ToString(rows[14]); //产品名称
+                    newrow[14] = Convert.ToString(rows[15]); //规格
+                    newrow[15] = Convert.ToInt32(rows[16]); //实发罐数
+                    newrow[16] = Convert.ToDecimal(rows[17]); //单价
+                    newrow[17] = Convert.ToDouble(rows[18]); //合同金额
+                    newrow[18] = Convert.ToString(rows[19]); //备注
+                    newrow[19] = Convert.ToString(rows[20]); //促销备注
+                    newrow[20] = Convert.ToString(rows[21]); //开票人
+                    resultdt.Rows.Add(newrow);
+                }
+            }
+            catch (Exception)
+            {
+                resultdt.Columns.Clear();
+            }
+            return resultdt;
+        }
+
     }
 }

@@ -22,6 +22,7 @@ namespace CustomerStatementReportTool.Task
         private DataTable _searchcustomertypeDt; //根据不同条件查询客户列表信息
         private DataTable _resultFinalRecord;    //返回运算后的记录(针对纵向记录)
         private DataTable _resultProductRecord;  //返回运算后的记录(针对横向记录)
+        private DataTable _resultSalesOutListRecord;//返回运算后的记录(针对销售发货清单)
         #endregion
 
         #region Set
@@ -83,6 +84,10 @@ namespace CustomerStatementReportTool.Task
         /// </summary>
         public DataTable ResultProductRecord=>_resultProductRecord;
 
+        /// <summary>
+        /// 返回运算后的记录(针对销售发货清单)
+        /// </summary>
+        public DataTable ResultSalesOutListRecord=>_resultSalesOutListRecord;
         #endregion
 
         public void StartTask()
@@ -104,6 +109,10 @@ namespace CustomerStatementReportTool.Task
                 //工业对账单生成(横向)
                 case 3:
                     GenerateProduct(_sdt,_edt,_customerlist);
+                    break;
+                //销售发货清单
+                case 4:
+                    GenerateSalesOutList(_sdt, _edt, _customerlist);
                     break;
             }
         }
@@ -144,6 +153,17 @@ namespace CustomerStatementReportTool.Task
         private void GenerateProduct(string sdt, string edt, string customerlist)
         {
             _resultProductRecord = generate.GenerateProduct(sdt, edt, customerlist);
+        }
+
+        /// <summary>
+        /// 销售发货清单查询
+        /// </summary>
+        /// <param name="sdt"></param>
+        /// <param name="edt"></param>
+        /// <param name="customerlist"></param>
+        private void GenerateSalesOutList(string sdt, string edt, string customerlist)
+        {
+            _resultSalesOutListRecord = generate.GenerateSalesOutList(sdt, edt, customerlist);
         }
 
     }

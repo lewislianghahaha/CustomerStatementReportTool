@@ -150,6 +150,7 @@
     </Compile>
     <None Include="STI\CustomerStatementReport.mrt" />
     <None Include="STI\ProductCustomerReport.mrt" />
+    <None Include="STI\SalesOutListReport.mrt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

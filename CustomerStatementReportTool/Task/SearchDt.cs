@@ -83,5 +83,18 @@ namespace CustomerStatementReportTool.Task
             return dt;
         }
 
+        /// <summary>
+        /// 销售发货清单查询
+        /// </summary>
+        /// <param name="sdt"></param>
+        /// <param name="edt"></param>
+        /// <param name="customerlist"></param>
+        /// <returns></returns>
+        public DataTable SearchSalesOutList(string sdt, string edt, string customerlist)
+        {
+            var dt = UseSqlSearchIntoDt(sqlList.SearchSalesOutList(sdt, edt, customerlist));
+            return dt;
+        }
+
     }
 }

@@ -223,5 +223,64 @@ namespace CustomerStatementReportTool.DB
                         ";
             return _result;
         }
+
+        /// <summary>
+        /// 销售发货清单查询
+        /// </summary>
+        /// <param name="sdt"></param>
+        /// <param name="edt"></param>
+        /// <param name="customerlist"></param>
+        /// <returns></returns>
+        public string SearchSalesOutList(string sdt, string edt, string customerlist)
+        {
+            _result = $@"
+                              SELECT A.FCUSTOMERID,A.FID
+			                        ,'雅图高新材料股份有限公司' 交货单位
+			                        ,X2.FDATAVALUE 终端客户
+			                        ,F.FNAME 收货单位
+			                        ,X3.F_YTC_TEXT1 收集单位1
+			                        ,X0.FNAME 二级客户
+			                        ,X1.FNAME 三级客户
+			                        ,A.F_YTC_TEXT2 摘要
+			                        ,A.F_YTC_TEXT3 销售订单号
+			                        ,CONVERT(VARCHAR(10),A.FDATE,23) 日期
+			                        ,A.F_YTC_TEXT13 U订货单号
+			                        ,A.FBILLNO 单据编号
+			                        ,A.F_YTC_TEXT1 托运货场地址
+			                        ,D.FNAME 产品名称,D.FSPECIFICATION 规格
+			                        ,B.F_YTC_DECIMAL8 实发罐数
+			                        ,B.FTAXPRICE 单价
+			                        ,B.FALLAMOUNTFOR 合同金额
+			                        ,B.FCOMMENT 备注
+			                        ,B.F_YTC_ASSISTANT10 促销备注
+			                        ,X5.FNAME 开票人
+
+                        FROM dbo.T_AR_RECEIVABLE A
+                        INNER JOIN dbo.T_AR_RECEIVABLEENTRY B ON A.FID=B.FID
+
+                        INNER JOIN dbo.T_BD_MATERIAL C ON B.FMATERIALID=C.FMATERIALID
+                        INNER JOIN dbo.T_BD_MATERIAL_L D ON C.FMATERIALID=D.FMATERIALID AND D.FLOCALEID=2052
+                        INNER JOIN dbo.T_BD_CUSTOMER E ON A.FCUSTOMERID=E.FCUSTID
+                        INNER JOIN dbo.T_BD_CUSTOMER_L F ON E.FCUSTID=F.FCUSTID AND F.FLOCALEID=2052
+
+                        LEFT JOIN dbo.T_BD_CUSTOMER_L X0 ON A.F_YTC_BASE=X0.FCUSTID AND X0.FLOCALEID=2052
+                        LEFT JOIN dbo.T_BD_CUSTOMER_L X1 ON A.F_YTC_BASE1=X1.FCUSTID AND X1.FLOCALEID=2052
+
+                        LEFT JOIN dbo.T_BAS_ASSISTANTDATAENTRY_L X2 ON A.F_YTC_ASSISTANT9=X2.FENTRYID
+                        LEFT JOIN dbo.ytc_t_Cust100018 X3 ON A.F_YTC_BASE10=X3.FID
+
+                        LEFT JOIN T_SEC_USER X5 ON A.FCREATORID=X5.FUSERID
+
+                        WHERE A.FDOCUMENTSTATUS='C'
+                        AND CONVERT(VARCHAR(10),A.FDATE,23)>='{sdt}'
+                        AND CONVERT(VARCHAR(10),A.FDATE,23)<='{edt}'
+                        AND E.FNUMBER IN ({customerlist})
+                        --AND A.FBILLNO='AR00175220'--'AR00130430'--'AR00175243'--'AR00175282'
+                        ORDER BY A.FCUSTOMERID,A.FID 
+                        ";
+            return _result;
+        }
+
+
     }
 }

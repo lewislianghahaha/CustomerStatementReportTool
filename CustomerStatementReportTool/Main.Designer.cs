@@ -71,6 +71,7 @@
             this.btngen = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tmclose = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnsalesoutlist = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -426,6 +427,7 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.btnsalesoutlist);
             this.panel4.Controls.Add(this.btngenproduct);
             this.panel4.Controls.Add(this.btngen);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
@@ -473,6 +475,17 @@
             this.tmclose.Name = "tmclose";
             this.tmclose.Size = new System.Drawing.Size(44, 21);
             this.tmclose.Text = "关闭";
+            // 
+            // btnsalesoutlist
+            // 
+            this.btnsalesoutlist.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnsalesoutlist.ForeColor = System.Drawing.Color.Black;
+            this.btnsalesoutlist.Location = new System.Drawing.Point(374, 5);
+            this.btnsalesoutlist.Name = "btnsalesoutlist";
+            this.btnsalesoutlist.Size = new System.Drawing.Size(133, 23);
+            this.btnsalesoutlist.TabIndex = 2;
+            this.btnsalesoutlist.Text = "销售发货清单(纵向)";
+            this.btnsalesoutlist.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -549,6 +562,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem tmclose;
         private System.Windows.Forms.DataGridView gvdtl;
+        private System.Windows.Forms.Button btnsalesoutlist;
     }
 }
 

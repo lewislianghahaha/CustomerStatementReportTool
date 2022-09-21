@@ -224,5 +224,107 @@ namespace CustomerStatementReportTool.DB
             return dt;
         }
 
+        /// <summary>
+        /// 销售发货清单临时表
+        /// </summary>
+        /// <returns></returns>
+        public DataTable MakeSalesOutListDtTemp()
+        {
+            var dt = new DataTable();
+            for (var i = 0; i < 21; i++)
+            {
+                var dc = new DataColumn();
+                switch (i)
+                {
+                    case 0: //客户ID
+                        dc.ColumnName = "FCUSTID";
+                        dc.DataType = Type.GetType("System.Int32"); 
+                        break;
+                    case 1: //应收单ID
+                        dc.ColumnName = "FID";
+                        dc.DataType = Type.GetType("System.Int32");
+                        break;
+                    case 2: //终端客户
+                        dc.ColumnName = "FDATAVALUE";
+                        dc.DataType = Type.GetType("System.String"); 
+                        break;
+                    case 3: //收货单位
+                        dc.ColumnName = "ReceiveFNAME";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 4: //收货单位1
+                        dc.ColumnName = "ReceiveFNAME1";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 5: //二级客户
+                        dc.ColumnName = "TwoCustomerName";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 6: //三级客户
+                        dc.ColumnName = "ThreeCustomerName";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 7: //摘要
+                        dc.ColumnName = "Remark";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 8: //销售订单号
+                        dc.ColumnName = "SaleOrderNo";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 9: //日期
+                        dc.ColumnName = "FDATE";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 10: //U订货单号
+                        dc.ColumnName = "UOrderNo";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 11: //单据编号
+                        dc.ColumnName = "FBILLNO";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 12: //托运货场地址
+                        dc.ColumnName = "FAddress";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 13: //产品名称
+                        dc.ColumnName = "FMaterialCode";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 14: //规格
+                        dc.ColumnName = "KuiName";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 15: //实发罐数
+                        dc.ColumnName = "FQty";
+                        dc.DataType = Type.GetType("System.Int32"); 
+                        break;
+                    case 16: //单价
+                        dc.ColumnName = "FPrice";
+                        dc.DataType = Type.GetType("System.Decimal"); 
+                        break;
+                    case 17: //合同金额
+                        dc.ColumnName = "FAmount";
+                        dc.DataType = Type.GetType("System.Double"); 
+                        break;
+                    case 18: //备注
+                        dc.ColumnName = "FNote";
+                        dc.DataType = Type.GetType("System.String"); 
+                        break;
+                    case 19: //促销备注
+                        dc.ColumnName = "FSalesNote";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 20: //开票人
+                        dc.ColumnName = "FCeateName";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                }
+                dt.Columns.Add(dc);
+            }
+            return dt;
+        }
+
     }
 }
