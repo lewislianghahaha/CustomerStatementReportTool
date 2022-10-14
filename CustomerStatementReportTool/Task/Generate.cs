@@ -217,7 +217,7 @@ namespace CustomerStatementReportTool.Task
             newrow[6] = yuabalance;             //原币本期冲销额
             newrow[7] = fbillno;                //单据编号
             newrow[8] = lastEndBalance;         //判断,若不是最后一行时,LastEndBalance为0,反之,将balancetemp赋值给[8]
-            newrow[9] = month;  //月份(用于STI报表排序)
+            newrow[9] = month;                  //月份(用于STI报表排序)
             tempdt.Rows.Add(newrow);
             return tempdt; 
         }
