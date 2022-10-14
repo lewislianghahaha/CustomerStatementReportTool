@@ -14,7 +14,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable MakeExportDtTemp()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 13; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -45,7 +45,7 @@ namespace CustomerStatementReportTool.DB
                         break;
                     case 6: //本期收款
                         dc.ColumnName = "ReceiveCurrentQty";
-                        dc.DataType = Type.GetType("System.Int32"); 
+                        dc.DataType = Type.GetType("System.Decimal"); 
                         break;
                     case 7: //期末余额
                         dc.ColumnName = "EndBalance";
@@ -57,6 +57,19 @@ namespace CustomerStatementReportTool.DB
                         break;
                     case 9://单据编号
                         dc.ColumnName = "FBILLNO";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 10:
+                        dc.ColumnName = "LastEndBalance";
+                        dc.DataType = Type.GetType("System.Decimal");
+                        break;
+                    case 11:
+                        dc.ColumnName = "Month";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //单据日期-用于显示
+                    case 12:
+                        dc.ColumnName = "FDATE1";
                         dc.DataType = Type.GetType("System.String");
                         break;
                 }
@@ -72,7 +85,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable GetSearchTempDt()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -107,6 +120,16 @@ namespace CustomerStatementReportTool.DB
                         break;
                     case 7:
                         dc.ColumnName = "FBILLNO";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                     //记录‘期末余额’
+                    case 8:
+                        dc.ColumnName = "LastEndBalance";
+                        dc.DataType = Type.GetType("System.Decimal"); 
+                        break;
+                    //月份
+                    case 9:
+                        dc.ColumnName = "Month";
                         dc.DataType = Type.GetType("System.String");
                         break;
                 }
