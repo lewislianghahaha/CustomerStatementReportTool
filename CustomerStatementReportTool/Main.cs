@@ -261,10 +261,11 @@ namespace CustomerStatementReportTool
                 load.ShowDialog();
 
                 //完成后将文本框 及 gvdtl内容清空
+                //change date:20221014 取消对gvdtl内空清空设计
                 txtValue.Text = "";
-                var dt = (DataTable)gvdtl.DataSource;
-                dt.Rows.Clear();
-                gvdtl.DataSource = dt;
+                //var dt = (DataTable)gvdtl.DataSource;
+                //dt.Rows.Clear();
+                //gvdtl.DataSource = dt;
                 btngen.Enabled = true;
                 btngenproduct.Enabled = true;
                 btnsalesoutlist.Enabled = true;
@@ -348,10 +349,11 @@ namespace CustomerStatementReportTool
                 load.ShowDialog();
 
                 //完成后将文本框 及 gvdtl内容清空
+                //change date:20221014 取消对gvdtl内空清空设计
                 txtValue.Text = "";
-                var dt = (DataTable)gvdtl.DataSource;
-                dt.Rows.Clear();
-                gvdtl.DataSource = dt;
+                //var dt = (DataTable)gvdtl.DataSource;
+                //dt.Rows.Clear();
+                //gvdtl.DataSource = dt;
                 btngen.Enabled = true;
                 btngenproduct.Enabled = true;
                 btnsalesoutlist.Enabled = true;
@@ -435,10 +437,11 @@ namespace CustomerStatementReportTool
                 load.ShowDialog();
 
                 //完成后将文本框 及 gvdtl内容清空
+                //change date:20221014 取消对gvdtl内空清空设计
                 txtValue.Text = "";
-                var dt = (DataTable)gvdtl.DataSource;
-                dt.Rows.Clear();
-                gvdtl.DataSource = dt;
+                //var dt = (DataTable)gvdtl.DataSource;
+                //dt.Rows.Clear();
+                //gvdtl.DataSource = dt;
                 btngen.Enabled = true;
                 btngenproduct.Enabled = true;
                 btnsalesoutlist.Enabled = true;
