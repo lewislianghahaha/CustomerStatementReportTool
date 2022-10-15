@@ -41,15 +41,15 @@ namespace CustomerStatementReportTool.DB
                         break;
                     case 5: //本期应收
                         dc.ColumnName = "ReceiveQTY";
-                        dc.DataType = Type.GetType("System.Decimal");
+                        dc.DataType = Type.GetType("System.String");
                         break;
                     case 6: //本期收款
                         dc.ColumnName = "ReceiveCurrentQty";
-                        dc.DataType = Type.GetType("System.Decimal"); 
+                        dc.DataType = Type.GetType("System.String"); 
                         break;
                     case 7: //期末余额
                         dc.ColumnName = "EndBalance";
-                        dc.DataType = Type.GetType("System.Decimal");
+                        dc.DataType = Type.GetType("System.String");
                         break;
                     case 8: //记录结束日期备注
                         dc.ColumnName = "REMARK1";
@@ -104,7 +104,7 @@ namespace CustomerStatementReportTool.DB
                         break;
                     case 3:
                         dc.ColumnName = "期末余额";
-                        dc.DataType = Type.GetType("System.Decimal");
+                        dc.DataType = Type.GetType("System.String");
                         break;
                     case 4:
                         dc.ColumnName = "本期应收";

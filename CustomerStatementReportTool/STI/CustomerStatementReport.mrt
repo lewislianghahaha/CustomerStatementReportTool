@@ -12,9 +12,9 @@
           <value>CustomerName,System.String</value>
           <value>FDATE,System.String</value>
           <value>Remark,System.String</value>
-          <value>ReceiveQTY,System.Decimal</value>
-          <value>ReceiveCurrentQty,System.Decimal</value>
-          <value>EndBalance,System.Decimal</value>
+          <value>ReceiveQTY,System.String</value>
+          <value>ReceiveCurrentQty,System.String</value>
+          <value>EndBalance,System.String</value>
           <value>Remark1,System.String</value>
           <value>FBILLNO,System.String</value>
           <value>LastEndBalance,System.Decimal</value>
@@ -617,6 +617,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Parent isRef="38" />
               <Text>{CustomerStatement.Remark}</Text>
               <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Text12>
             <Text11 Ref="44" type="Text" isKey="true">
@@ -1030,10 +1031,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>10/14/2022 8:58:55 AM</ReportChanged>
+  <ReportChanged>10/15/2022 11:16:42 AM</ReportChanged>
   <ReportCreated>8/23/2022 2:39:50 PM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\CustomerStatementReport.mrt</ReportFile>
-  <ReportGuid>574cbc6439904e0fb0a49b8a8269afb5</ReportGuid>
+  <ReportGuid>739f8eb03e314b5e97e18d6a352ca3a6</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>

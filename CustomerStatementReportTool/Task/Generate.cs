@@ -35,8 +35,8 @@ namespace CustomerStatementReportTool.Task
                 //通过条件获取SQL并插入至sqldt临时表内
                 sqldt = searchDt.SearchFinialRecord(sdt, edt, customerlist).Copy();
 
-                //若发现sqldt只有一行摘要为“期初余额”，即不能继续进行处理
-                if (sqldt.Rows.Count == 1 && Convert.ToString(sqldt.Rows[0][2]) == "期初余额") throw new Exception("没有明细记录");
+                //change date:20221015 当sqldt没有记录时才出异常提法
+                if (sqldt.Rows.Count == 0) throw new Exception("没有明细记录");
 
                 //从sqldt获取‘客户名称’信息至临时表(取唯一值)
                 foreach (DataRow rows in sqldt.Rows)
@@ -56,10 +56,16 @@ namespace CustomerStatementReportTool.Task
                     custdt.Rows.Add(newrow);
                 }
 
-                //循环处理(重) 期末余额=期未余额+本期应收-本期实收-本期冲销额 
-                foreach (DataRow row in custdt.Rows)
+                var a1 = custdt.Copy();
+
+                //当发现sqldt不只有一行时,才执行
+                if(sqldt.Rows.Count >1)
                 {
-                    tempdt.Merge(GenerateReportDtlTemp(Convert.ToString(row[0]),sqldt,tempdt));
+                    //循环处理(重) 期末余额=期未余额+本期应收-本期实收-本期冲销额 
+                    foreach (DataRow row in custdt.Rows)
+                    {
+                        tempdt.Merge(GenerateReportDtlTemp(Convert.ToString(row[0]), sqldt, tempdt));
+                    }
                 }
 
                 var a = tempdt.Copy();
@@ -67,26 +73,27 @@ namespace CustomerStatementReportTool.Task
                 //处理数据并整理后将数据插入至result内
                 foreach (DataRow custrow in custdt.Rows)
                 {
-                    //根据customername,查询明细记录
-                    var dtlrows = tempdt.Select("往来单位名称='" + Convert.ToString(custrow[0]) + "'");
-
-                    for (var i = 0; i < dtlrows.Length; i++)
+                    //若在检测sqldt到只有1行,即插入至结果临时表
+                    var sdtlrows = sqldt.Select("往来单位名称='" + Convert.ToString(custrow[0]) + "'");
+                    if (sdtlrows.Length == 1)
                     {
-                        var newrow = result.NewRow();
-                        newrow[0] = sdt;                              //开始日期
-                        newrow[1] = edt;                              //结束日期
-                        newrow[2] = Convert.ToString(dtlrows[i][0]);  //往来单位名称
-                        newrow[3] = Convert.ToString(dtlrows[i][1]); //单据日期-用于排序
-                        newrow[4] = Convert.ToString(dtlrows[i][2]);  //摘要
-                        newrow[5] = Convert.ToDecimal(dtlrows[i][4]); //本期应收
-                        newrow[6] = Convert.ToDecimal(dtlrows[i][5]); //本期收款
-                        newrow[7] = Convert.ToDecimal(dtlrows[i][3]); //期末余额
-                        newrow[8] = remark1;                          //记录结束日期备注
-                        newrow[9] = Convert.ToString(dtlrows[i][7]);  //单据编号
-                        newrow[10] = Convert.ToDecimal(dtlrows[i][8]); //记录最后一行‘期末余额’
-                        newrow[11] = Convert.ToString(dtlrows[i][9]);  //月份
-                        newrow[12] = Convert.ToString(dtlrows[i][2]) == "本期合计" ? "" : Convert.ToString(dtlrows[i][1]); ;//单据日期-用于显示
-                        result.Rows.Add(newrow);
+                        result.Merge(GetResultDt(result,sdt,edt, Convert.ToString(custrow[0]),"",Convert.ToString(sdtlrows[0][2]),
+                                                0,0, Convert.ToDecimal(sdtlrows[0][3]),remark1,null, 
+                                                Convert.ToDecimal(sdtlrows[0][3]),null));
+                    }
+                    //当为多行时,才获取tempdt计算的数据
+                    else
+                    {
+                        //根据customername,查询明细记录
+                        var dtlrows = tempdt.Select("往来单位名称='" + Convert.ToString(custrow[0]) + "'");
+
+                        for (var i = 0; i < dtlrows.Length; i++)
+                        {
+                            result.Merge(GetResultDt(result, sdt, edt, Convert.ToString(dtlrows[i][0]), Convert.ToString(dtlrows[i][1]),
+                                                Convert.ToString(dtlrows[i][2]), Convert.ToDecimal(dtlrows[i][4]), Convert.ToDecimal(dtlrows[i][5]),
+                                                Convert.ToDecimal(dtlrows[i][3]), remark1, Convert.ToString(dtlrows[i][7]), Convert.ToDecimal(dtlrows[i][8]),
+                                                Convert.ToString(dtlrows[i][9])));
+                        }
                     }
                 }
             }
@@ -97,6 +104,45 @@ namespace CustomerStatementReportTool.Task
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 整合最终结果
+        /// </summary>
+        /// <param name="tempdt"></param>
+        /// <param name="sdt">开始日期</param>
+        /// <param name="edt">结束日期</param>
+        /// <param name="customerName">往来单位名称</param>
+        /// <param name="dt">单据日期-用于排序</param>
+        /// <param name="remark">摘要</param>
+        /// <param name="yibalance">本期应收</param>
+        /// <param name="xibalance">本期实收</param>
+        /// <param name="endbalance">期末余额</param>
+        /// <param name="fbillno">单据编号</param>
+        /// <param name="lastEndBalance">记录最后一行‘期末余额’</param>
+        /// <param name="month">月份</param>
+        /// <param name="remark1">记录结束日期备注</param>
+        /// <returns></returns>
+        private DataTable GetResultDt(DataTable tempdt, string sdt,string edt,string customerName, string dt, string remark
+                                      ,decimal yibalance, decimal xibalance, decimal endbalance,string remark1,string fbillno
+                                      ,decimal lastEndBalance, string month)
+        {
+            var newrow = tempdt.NewRow();
+            newrow[0] = sdt;                               //开始日期
+            newrow[1] = edt;                               //结束日期
+            newrow[2] = customerName;                      //往来单位名称
+            newrow[3] = dt;                                //单据日期-用于排序
+            newrow[4] = remark;                            //摘要
+            newrow[5] = remark == "期初余额" ? "" : Convert.ToString(Decimal.Round(yibalance,2)); //本期应收(当“摘要”为“期初余额”时,"本期应收"项为空显示)                 
+            newrow[6] = remark == "期初余额" ? "" : Convert.ToString(Decimal.Round(xibalance,2)); //本期实收(当“摘要”为“期初余额”时,"本期实收"项为空显示)      
+            newrow[7] = Convert.ToString(Decimal.Round(endbalance, 2));      //期末余额
+            newrow[8] = remark1;                           //记录结束日期备注
+            newrow[9] = fbillno;                           //单据编号
+            newrow[10] = lastEndBalance;                   //记录最后一行‘期末余额’
+            newrow[11] = month;                            //月份
+            newrow[12] = remark == "本期合计" ? "" : dt;    //单据日期-用于显示
+            tempdt.Rows.Add(newrow);
+            return tempdt;
         }
 
         /// <summary>
