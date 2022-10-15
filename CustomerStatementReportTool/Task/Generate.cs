@@ -138,7 +138,7 @@ namespace CustomerStatementReportTool.Task
             newrow[7] = Convert.ToString(Decimal.Round(endbalance, 2));      //期末余额
             newrow[8] = remark1;                           //记录结束日期备注
             newrow[9] = fbillno;                           //单据编号
-            newrow[10] = lastEndBalance;                   //记录最后一行‘期末余额’
+            newrow[10] = Decimal.Round(lastEndBalance,2);                   //记录最后一行‘期末余额’
             newrow[11] = month;                            //月份
             newrow[12] = remark == "本期合计" ? "" : dt;    //单据日期-用于显示
             tempdt.Rows.Add(newrow);
