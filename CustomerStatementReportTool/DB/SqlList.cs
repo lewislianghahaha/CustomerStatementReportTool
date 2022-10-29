@@ -104,7 +104,7 @@ namespace CustomerStatementReportTool.DB
 				                                when ISNULL(t1.FCONTACTUNITNAME,'') like '%本期合计' and isnull(t1.FBUSINESSDESP,'') <> '冲销额' and isnull(t1.FBUSINESSDESP,'') <> '期初余额' then '本期合计'
 				                                when ISNULL(t1.FCONTACTUNITNUMBER,'') = '合计' then '累计合计'
 				                                when isnull(t1.FBUSINESSDESP,'') = '期初余额' then '期初余额'
-				                                when isnull(t1.FBUSINESSDESP,'') = '冲销额' then '冲销额' END 摘要
+				                                when isnull(t1.FBUSINESSDESP,'') = '冲销额' then '冲销额' ELSE '0' END 摘要
 
 	                            INTO #temp_1
 	                            FROM #TEMP_X t1
