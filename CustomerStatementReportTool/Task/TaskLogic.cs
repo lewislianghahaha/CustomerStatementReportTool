@@ -7,6 +7,7 @@ namespace CustomerStatementReportTool.Task
     {
         SearchDt serchDt = new SearchDt();
         Generate generate=new Generate();
+        ImportDt importDt=new ImportDt();
 
         #region 变量参数
 
@@ -16,13 +17,15 @@ namespace CustomerStatementReportTool.Task
         private string _customerlist;  //客户列表(运算时使用)
         private int _typeid;           //-1:全查找记录 0:按‘客户编码’查找 1:按'客户名称'查找(查询客户时使用)
         private string _value;         //查询文件框值
+        private string _fileAddress;   //文件地址
 
-        private bool _resultmark;                //返回是否成功标记
-        private DataTable _resultTable;          //返回DT(客户列表初始化获取记录时使用)
-        private DataTable _searchcustomertypeDt; //根据不同条件查询客户列表信息
-        private DataTable _resultFinalRecord;    //返回运算后的记录(针对纵向记录)
-        private DataTable _resultProductRecord;  //返回运算后的记录(针对横向记录)
+        private bool _resultmark;                   //返回是否成功标记
+        private DataTable _resultTable;             //返回DT(客户列表初始化获取记录时使用)
+        private DataTable _searchcustomertypeDt;    //根据不同条件查询客户列表信息
+        private DataTable _resultFinalRecord;       //返回运算后的记录(针对纵向记录)
+        private DataTable _resultProductRecord;     //返回运算后的记录(针对横向记录)
         private DataTable _resultSalesOutListRecord;//返回运算后的记录(针对销售发货清单)
+        private DataTable _resultImportDt;          //返回导入EXCEL信息
         #endregion
 
         #region Set
@@ -56,6 +59,11 @@ namespace CustomerStatementReportTool.Task
         /// </summary>
         public string Value { set { _value = value; } }
 
+        /// <summary>
+        /// //接收文件地址信息
+        /// </summary>
+        public string FileAddress { set { _fileAddress = value; } }
+
         #endregion
 
         #region Get
@@ -88,6 +96,11 @@ namespace CustomerStatementReportTool.Task
         /// 返回运算后的记录(针对销售发货清单)
         /// </summary>
         public DataTable ResultSalesOutListRecord=>_resultSalesOutListRecord;
+
+        /// <summary>
+        /// 返回导入EXCEL结果
+        /// </summary>
+        public DataTable ResultImportDt => _resultImportDt;
         #endregion
 
         public void StartTask()
@@ -113,6 +126,10 @@ namespace CustomerStatementReportTool.Task
                 //销售发货清单
                 case 4:
                     GenerateSalesOutList(_sdt, _edt, _customerlist);
+                    break;
+                //导入-自定义批量导出功能使用
+                case 5:
+                    ImportExcelRecord(_fileAddress);
                     break;
             }
         }
@@ -141,7 +158,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="customerlist"></param>
         private void Generate(string sdt, string edt, string customerlist)
         {
-            _resultFinalRecord = generate.GenerateFincal(sdt, edt, customerlist);
+            _resultFinalRecord = generate.GenerateFincal(sdt, edt, customerlist).Copy();
         }
 
         /// <summary>
@@ -152,7 +169,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="customerlist"></param>
         private void GenerateProduct(string sdt, string edt, string customerlist)
         {
-            _resultProductRecord = generate.GenerateProduct(sdt, edt, customerlist);
+            _resultProductRecord = generate.GenerateProduct(sdt, edt, customerlist).Copy();
         }
 
         /// <summary>
@@ -163,8 +180,19 @@ namespace CustomerStatementReportTool.Task
         /// <param name="customerlist"></param>
         private void GenerateSalesOutList(string sdt, string edt, string customerlist)
         {
-            _resultSalesOutListRecord = generate.GenerateSalesOutList(sdt, edt, customerlist);
+            _resultSalesOutListRecord = generate.GenerateSalesOutList(sdt, edt, customerlist).Copy();
         }
+
+        /// <summary>
+        /// 导入EXCEL-自定义批量导出功能使用
+        /// </summary>
+        /// <param name="fileadd"></param>
+        private void ImportExcelRecord(string fileadd)
+        {
+            _resultImportDt = importDt.OpenExcelImporttoDt(fileadd).Copy();
+        }
+
+
 
     }
 }

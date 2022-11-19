@@ -3,6 +3,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using CustomerStatementReportTool.BatchExport;
 using CustomerStatementReportTool.DB;
 using CustomerStatementReportTool.Task;
 using Stimulsoft.Report;
@@ -14,6 +15,7 @@ namespace CustomerStatementReportTool
         Load load=new Load();
         TaskLogic taskLogic=new TaskLogic();
         TempDtList tempDt=new TempDtList();
+        CustBatchExport custBatchExport=new CustBatchExport();
 
         #region 变量参数
         //保存GridView内需要进行添加的临时表
@@ -57,6 +59,8 @@ namespace CustomerStatementReportTool
            // panel3.Visible = false;
 
             comtype.SelectedIndexChanged += Comtype_SelectedIndexChanged;
+
+            tmbatchexport.Click += Tmbatchexport_Click;
         }
 
         /// <summary>
@@ -460,6 +464,25 @@ namespace CustomerStatementReportTool
                     stireport.Compile();
                     stireport.Show();  //调用预览功能
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, $"错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// 自定义批量导出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Tmbatchexport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //todo:调用‘自定义批量导出’窗体
+                custBatchExport.StartPosition = FormStartPosition.CenterParent;
+                custBatchExport.ShowDialog();
             }
             catch (Exception ex)
             {

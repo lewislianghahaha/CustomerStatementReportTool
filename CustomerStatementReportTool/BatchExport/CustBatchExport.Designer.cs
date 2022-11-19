@@ -1,16 +1,16 @@
-﻿namespace CustomerStatementReportTool
+﻿namespace CustomerStatementReportTool.BatchExport
 {
-    partial class Main
+    partial class CustBatchExport
     {
         /// <summary>
-        /// 必需的设计器变量。
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// 清理所有正在使用的资源。
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,31 +20,32 @@
             base.Dispose(disposing);
         }
 
-        #region Windows 窗体设计器生成的代码
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// 设计器支持所需的方法 - 不要修改
-        /// 使用代码编辑器修改此方法的内容。
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustBatchExport));
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.tmclose = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmimport = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnclear = new System.Windows.Forms.Button();
-            this.btnsearch = new System.Windows.Forms.Button();
-            this.txtValue = new System.Windows.Forms.TextBox();
-            this.comtype = new System.Windows.Forms.ComboBox();
             this.dtEnd = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.dtStr = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
+            this.btngenerate = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.gvsearchdtl = new System.Windows.Forms.DataGridView();
-            this.AddMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tmadd = new System.Windows.Forms.ToolStripMenuItem();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtadd = new System.Windows.Forms.TextBox();
+            this.btnsetadd = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.bngat = new System.Windows.Forms.BindingNavigator(this.components);
             this.bnCountItem = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -62,40 +63,52 @@
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
-            this.DelMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tmdel = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.btnsalesoutlist = new System.Windows.Forms.Button();
-            this.btngenproduct = new System.Windows.Forms.Button();
-            this.btngen = new System.Windows.Forms.Button();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.tmclose = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmbatchexport = new System.Windows.Forms.ToolStripMenuItem();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gvsearchdtl)).BeginInit();
-            this.AddMenu.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bngat)).BeginInit();
             this.bngat.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvdtl)).BeginInit();
-            this.DelMenu.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tmclose,
+            this.tmimport});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(734, 25);
+            this.menuStrip1.TabIndex = 3;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // tmclose
+            // 
+            this.tmclose.Name = "tmclose";
+            this.tmclose.Size = new System.Drawing.Size(44, 21);
+            this.tmclose.Text = "关闭";
+            // 
+            // tmimport
+            // 
+            this.tmimport.Name = "tmimport";
+            this.tmimport.Size = new System.Drawing.Size(73, 21);
+            this.tmimport.Text = "导入Excel";
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.btnclear);
-            this.panel1.Controls.Add(this.btnsearch);
-            this.panel1.Controls.Add(this.txtValue);
-            this.panel1.Controls.Add(this.comtype);
+            this.panel1.Controls.Add(this.btngenerate);
             this.panel1.Controls.Add(this.dtEnd);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.dtStr);
@@ -103,58 +116,24 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 25);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(889, 38);
-            this.panel1.TabIndex = 0;
-            // 
-            // btnclear
-            // 
-            this.btnclear.Location = new System.Drawing.Point(808, 8);
-            this.btnclear.Name = "btnclear";
-            this.btnclear.Size = new System.Drawing.Size(75, 23);
-            this.btnclear.TabIndex = 9;
-            this.btnclear.Text = "重置";
-            this.btnclear.UseVisualStyleBackColor = true;
-            // 
-            // btnsearch
-            // 
-            this.btnsearch.Location = new System.Drawing.Point(727, 8);
-            this.btnsearch.Name = "btnsearch";
-            this.btnsearch.Size = new System.Drawing.Size(75, 23);
-            this.btnsearch.TabIndex = 6;
-            this.btnsearch.Text = "查询";
-            this.btnsearch.UseVisualStyleBackColor = true;
-            // 
-            // txtValue
-            // 
-            this.txtValue.Location = new System.Drawing.Point(553, 8);
-            this.txtValue.Name = "txtValue";
-            this.txtValue.Size = new System.Drawing.Size(153, 21);
-            this.txtValue.TabIndex = 5;
-            // 
-            // comtype
-            // 
-            this.comtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comtype.FormattingEnabled = true;
-            this.comtype.Location = new System.Drawing.Point(426, 9);
-            this.comtype.Name = "comtype";
-            this.comtype.Size = new System.Drawing.Size(121, 20);
-            this.comtype.TabIndex = 4;
+            this.panel1.Size = new System.Drawing.Size(734, 38);
+            this.panel1.TabIndex = 4;
             // 
             // dtEnd
             // 
             this.dtEnd.CustomFormat = "yyyy-MM-dd";
-            this.dtEnd.Location = new System.Drawing.Point(271, 8);
+            this.dtEnd.Location = new System.Drawing.Point(293, 8);
             this.dtEnd.Name = "dtEnd";
             this.dtEnd.Size = new System.Drawing.Size(140, 21);
-            this.dtEnd.TabIndex = 3;
+            this.dtEnd.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(212, 12);
+            this.label2.Location = new System.Drawing.Point(234, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 12);
-            this.label2.TabIndex = 2;
+            this.label2.TabIndex = 6;
             this.label2.Text = "结束日期:";
             // 
             // dtStr
@@ -163,7 +142,7 @@
             this.dtStr.Location = new System.Drawing.Point(68, 8);
             this.dtStr.Name = "dtStr";
             this.dtStr.Size = new System.Drawing.Size(140, 21);
-            this.dtStr.TabIndex = 1;
+            this.dtStr.TabIndex = 5;
             // 
             // label1
             // 
@@ -171,69 +150,90 @@
             this.label1.Location = new System.Drawing.Point(9, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 12);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 4;
             this.label1.Text = "开始日期:";
+            // 
+            // btngenerate
+            // 
+            this.btngenerate.Location = new System.Drawing.Point(446, 8);
+            this.btngenerate.Name = "btngenerate";
+            this.btngenerate.Size = new System.Drawing.Size(75, 23);
+            this.btngenerate.TabIndex = 8;
+            this.btngenerate.Text = "运算";
+            this.btngenerate.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.groupBox2);
-            this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Controls.Add(this.panel1);
-            this.panel2.Controls.Add(this.menuStrip1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.btnsetadd);
+            this.panel2.Controls.Add(this.txtadd);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 63);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(889, 610);
-            this.panel2.TabIndex = 1;
+            this.panel2.Size = new System.Drawing.Size(734, 38);
+            this.panel2.TabIndex = 5;
             // 
-            // groupBox2
+            // label3
             // 
-            this.groupBox2.Controls.Add(this.gvsearchdtl);
-            this.groupBox2.Controls.Add(this.panel3);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 63);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(889, 269);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "查询客户记录";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(83, 12);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "设置导出地址:";
             // 
-            // gvsearchdtl
+            // txtadd
             // 
-            this.gvsearchdtl.AllowUserToAddRows = false;
-            this.gvsearchdtl.AllowUserToDeleteRows = false;
-            this.gvsearchdtl.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gvsearchdtl.ContextMenuStrip = this.AddMenu;
-            this.gvsearchdtl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gvsearchdtl.Location = new System.Drawing.Point(3, 17);
-            this.gvsearchdtl.Name = "gvsearchdtl";
-            this.gvsearchdtl.ReadOnly = true;
-            this.gvsearchdtl.RowTemplate.Height = 23;
-            this.gvsearchdtl.Size = new System.Drawing.Size(883, 223);
-            this.gvsearchdtl.TabIndex = 2;
+            this.txtadd.Enabled = false;
+            this.txtadd.Location = new System.Drawing.Point(94, 7);
+            this.txtadd.Name = "txtadd";
+            this.txtadd.Size = new System.Drawing.Size(554, 21);
+            this.txtadd.TabIndex = 1;
             // 
-            // AddMenu
+            // btnsetadd
             // 
-            this.AddMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tmadd});
-            this.AddMenu.Name = "AddMenu";
-            this.AddMenu.Size = new System.Drawing.Size(161, 26);
-            // 
-            // tmadd
-            // 
-            this.tmadd.Name = "tmadd";
-            this.tmadd.Size = new System.Drawing.Size(160, 22);
-            this.tmadd.Text = "添加至明细记录";
+            this.btnsetadd.Location = new System.Drawing.Point(654, 8);
+            this.btnsetadd.Name = "btnsetadd";
+            this.btnsetadd.Size = new System.Drawing.Size(75, 23);
+            this.btnsetadd.TabIndex = 2;
+            this.btnsetadd.Text = "浏览";
+            this.btnsetadd.UseVisualStyleBackColor = true;
             // 
             // panel3
             // 
+            this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.bngat);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(3, 240);
+            this.panel3.Controls.Add(this.textBox3);
+            this.panel3.Controls.Add(this.label6);
+            this.panel3.Controls.Add(this.textBox2);
+            this.panel3.Controls.Add(this.label5);
+            this.panel3.Controls.Add(this.label4);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(0, 101);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(883, 26);
-            this.panel3.TabIndex = 1;
+            this.panel3.Size = new System.Drawing.Size(734, 38);
+            this.panel3.TabIndex = 6;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 12);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 12);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "设置导出份数:";
+            // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.bngat);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel4.Location = new System.Drawing.Point(0, 482);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(734, 26);
+            this.panel4.TabIndex = 7;
             // 
             // bngat
             // 
@@ -260,7 +260,7 @@
             this.toolStripLabel5,
             this.tstotalrow});
             this.bngat.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.bngat.Location = new System.Drawing.Point(395, 0);
+            this.bngat.Location = new System.Drawing.Point(246, 0);
             this.bngat.MoveFirstItem = this.bnMoveFirstItem;
             this.bngat.MoveLastItem = this.bnMoveLastItem;
             this.bngat.MoveNextItem = this.bnMoveNextItem;
@@ -385,162 +385,119 @@
             this.tstotalrow.Size = new System.Drawing.Size(55, 21);
             this.tstotalrow.Text = "共 {0} 行";
             // 
-            // groupBox1
+            // panel5
             // 
-            this.groupBox1.Controls.Add(this.gvdtl);
-            this.groupBox1.Controls.Add(this.panel4);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.ForeColor = System.Drawing.Color.DarkRed;
-            this.groupBox1.Location = new System.Drawing.Point(0, 332);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(889, 278);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "添加记录 (注意:添加记录不能超过10行)";
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.gvdtl);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(0, 139);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(734, 343);
+            this.panel5.TabIndex = 8;
             // 
             // gvdtl
             // 
             this.gvdtl.AllowUserToAddRows = false;
             this.gvdtl.AllowUserToDeleteRows = false;
             this.gvdtl.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gvdtl.ContextMenuStrip = this.DelMenu;
             this.gvdtl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gvdtl.Location = new System.Drawing.Point(3, 51);
+            this.gvdtl.Location = new System.Drawing.Point(0, 0);
             this.gvdtl.Name = "gvdtl";
             this.gvdtl.ReadOnly = true;
             this.gvdtl.RowTemplate.Height = 23;
-            this.gvdtl.Size = new System.Drawing.Size(883, 224);
-            this.gvdtl.TabIndex = 2;
+            this.gvdtl.Size = new System.Drawing.Size(732, 341);
+            this.gvdtl.TabIndex = 0;
             // 
-            // DelMenu
+            // label5
             // 
-            this.DelMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tmdel});
-            this.DelMenu.Name = "DelMenu";
-            this.DelMenu.Size = new System.Drawing.Size(125, 26);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(95, 12);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "对账单->";
             // 
-            // tmdel
+            // textBox2
             // 
-            this.tmdel.Name = "tmdel";
-            this.tmdel.Size = new System.Drawing.Size(124, 22);
-            this.tmdel.Text = "删除记录";
+            this.textBox2.Location = new System.Drawing.Point(151, 7);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(57, 21);
+            this.textBox2.TabIndex = 5;
+            this.textBox2.Text = "1";
+            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // panel4
+            // textBox3
             // 
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Controls.Add(this.btnsalesoutlist);
-            this.panel4.Controls.Add(this.btngenproduct);
-            this.panel4.Controls.Add(this.btngen);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(3, 17);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(883, 34);
-            this.panel4.TabIndex = 1;
+            this.textBox3.Location = new System.Drawing.Point(332, 7);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.textBox3.Size = new System.Drawing.Size(57, 21);
+            this.textBox3.TabIndex = 7;
+            this.textBox3.Text = "1";
+            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btnsalesoutlist
+            // label6
             // 
-            this.btnsalesoutlist.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnsalesoutlist.ForeColor = System.Drawing.Color.Black;
-            this.btnsalesoutlist.Location = new System.Drawing.Point(374, 5);
-            this.btnsalesoutlist.Name = "btnsalesoutlist";
-            this.btnsalesoutlist.Size = new System.Drawing.Size(133, 23);
-            this.btnsalesoutlist.TabIndex = 2;
-            this.btnsalesoutlist.Text = "销售发货清单(纵向)";
-            this.btnsalesoutlist.UseVisualStyleBackColor = true;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(237, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(89, 12);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "销售发货清单->";
             // 
-            // btngenproduct
+            // CustBatchExport
             // 
-            this.btngenproduct.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btngenproduct.ForeColor = System.Drawing.Color.Black;
-            this.btngenproduct.Location = new System.Drawing.Point(187, 5);
-            this.btngenproduct.Name = "btngenproduct";
-            this.btngenproduct.Size = new System.Drawing.Size(133, 23);
-            this.btngenproduct.TabIndex = 1;
-            this.btngenproduct.Text = "工业对账单生成(横向)";
-            this.btngenproduct.UseVisualStyleBackColor = true;
-            // 
-            // btngen
-            // 
-            this.btngen.BackColor = System.Drawing.SystemColors.Control;
-            this.btngen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btngen.ForeColor = System.Drawing.Color.Black;
-            this.btngen.Location = new System.Drawing.Point(20, 5);
-            this.btngen.Name = "btngen";
-            this.btngen.Size = new System.Drawing.Size(131, 23);
-            this.btngen.TabIndex = 0;
-            this.btngen.Text = "对账单生成(纵向)";
-            this.btngen.UseVisualStyleBackColor = false;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tmclose,
-            this.tmbatchexport});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(889, 25);
-            this.menuStrip1.TabIndex = 2;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // tmclose
-            // 
-            this.tmclose.Name = "tmclose";
-            this.tmclose.Size = new System.Drawing.Size(44, 21);
-            this.tmclose.Text = "关闭";
-            // 
-            // tmbatchexport
-            // 
-            this.tmbatchexport.Name = "tmbatchexport";
-            this.tmbatchexport.Size = new System.Drawing.Size(104, 21);
-            this.tmbatchexport.Text = "自定义批量导出";
-            // 
-            // Main
-            // 
-            this.AcceptButton = this.btnsearch;
+            this.AcceptButton = this.btngenerate;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(889, 610);
+            this.ClientSize = new System.Drawing.Size(734, 508);
             this.ControlBox = false;
+            this.Controls.Add(this.panel5);
+            this.Controls.Add(this.panel4);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Name = "Main";
-            this.Text = "K3客户对账单批量生成工具";
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.menuStrip1);
+            this.Name = "CustBatchExport";
+            this.Text = "自定义批量导出";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gvsearchdtl)).EndInit();
-            this.AddMenu.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bngat)).EndInit();
             this.bngat.ResumeLayout(false);
             this.bngat.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gvdtl)).EndInit();
-            this.DelMenu.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem tmclose;
+        private System.Windows.Forms.ToolStripMenuItem tmimport;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DateTimePicker dtEnd;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dtStr;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtValue;
-        private System.Windows.Forms.ComboBox comtype;
-        private System.Windows.Forms.Button btnsearch;
+        private System.Windows.Forms.Button btngenerate;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.DataGridView gvsearchdtl;
+        private System.Windows.Forms.Button btnsetadd;
+        private System.Windows.Forms.TextBox txtadd;
+        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.BindingNavigator bngat;
         private System.Windows.Forms.ToolStripLabel bnCountItem;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
@@ -558,20 +515,11 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
         private System.Windows.Forms.ToolStripLabel toolStripLabel5;
         private System.Windows.Forms.ToolStripLabel tstotalrow;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ContextMenuStrip AddMenu;
-        private System.Windows.Forms.ToolStripMenuItem tmadd;
-        private System.Windows.Forms.ContextMenuStrip DelMenu;
-        private System.Windows.Forms.ToolStripMenuItem tmdel;
-        private System.Windows.Forms.Button btnclear;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Button btngenproduct;
-        private System.Windows.Forms.Button btngen;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem tmclose;
+        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.DataGridView gvdtl;
-        private System.Windows.Forms.Button btnsalesoutlist;
-        private System.Windows.Forms.ToolStripMenuItem tmbatchexport;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label5;
     }
 }
-

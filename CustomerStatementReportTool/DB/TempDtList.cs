@@ -358,5 +358,30 @@ namespace CustomerStatementReportTool.DB
             return dt;
         }
 
+        /// <summary>
+        /// 导入模板-自定义批量导出功能使用
+        /// </summary>
+        /// <returns></returns>
+        public DataTable ImportBatchCustomerExcelDt()
+        {
+            var dt = new DataTable();
+            for (var i = 0; i < 2; i++)
+            {
+                var dc = new DataColumn();
+                switch (i)
+                {
+                    case 0: //客户编码
+                        dc.ColumnName = "客户编码";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 1: //客户名称
+                        dc.ColumnName = "客户名称";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                }
+                dt.Columns.Add(dc);
+            }
+            return dt;
+        }
     }
 }

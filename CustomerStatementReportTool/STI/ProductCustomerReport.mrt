@@ -121,7 +121,7 @@
               <Brush>Transparent</Brush>
               <ClientRectangle>0,1.4,27.7,0.8</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,16</Font>
+              <Font>宋体,15.75,Bold,Point,False,134</Font>
               <Guid>0b6899ca19fe453a9e6725e415fe56a9</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -287,7 +287,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>2,2.2,17.2,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <Guid>d7086fafa656416ab5fd09e5b5fc7a65</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text1</Name>
@@ -302,7 +302,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>0,2.2,2,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <Guid>b00dae20b5d246438035c24afef4cab4</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -320,7 +320,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ClientRectangle>0,2.8,2.4,0.8</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9,Bold,Point,False,204</Font>
+              <Font>宋体,10.5,Bold,Point,False,134</Font>
               <Guid>35760dca52aa4b55a1ed2c1e1c3eb771</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -338,7 +338,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ClientRectangle>2.4,2.8,2.2,0.8</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9,Bold,Point,False,204</Font>
+              <Font>宋体,10.5,Bold,Point,False,134</Font>
               <Guid>b9fcc864d0da499b8c6c668413a57fd7</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -356,7 +356,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ClientRectangle>4.6,2.8,7.8,0.8</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9,Bold,Point,False,204</Font>
+              <Font>宋体,10.5,Bold,Point,False,134</Font>
               <Guid>26ecf0cfafeb43099b4f23724a940fda</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -374,7 +374,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ClientRectangle>22,2.8,2.8,0.8</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9,Bold,Point,False,204</Font>
+              <Font>宋体,10.5,Bold,Point,False,134</Font>
               <Guid>bc043f8d41b34b8f90dc1556cec830ea</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -392,7 +392,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ClientRectangle>24.8,2.8,2.9,0.8</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9,Bold,Point,False,204</Font>
+              <Font>宋体,10.5,Bold,Point,False,134</Font>
               <Guid>d1e9afe1026c4111a3ba9c8a12509ea5</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -408,7 +408,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>19.2,2.2,2,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <Guid>a0d6f1f65cc74f86a2e458530df0beb6</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -424,7 +424,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>24.8,2.2,2.9,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <Guid>a527b57deb96485e8d2230f304e7b525</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -440,7 +440,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>23.8,2.2,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,0</Font>
               <Guid>eac0409fa62d4b3caaad8300f36f39a9</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -456,7 +456,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>21.2,2.2,2.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <Guid>2e5570da5dbe49c3a0be956526e993f9</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -474,7 +474,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ClientRectangle>12.4,2.8,2,0.8</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9,Bold,Point,False,204</Font>
+              <Font>宋体,10.5,Bold,Point,False,134</Font>
               <Guid>d8a77356da42478cb97691ad1b32ae0a</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -492,7 +492,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ClientRectangle>14.4,2.8,2,0.8</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9,Bold,Point,False,204</Font>
+              <Font>宋体,10.5,Bold,Point,False,134</Font>
               <Guid>4f687a9000114d12a47a7f12b3e93ce9</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -510,7 +510,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ClientRectangle>16.4,2.8,2.8,0.8</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9,Bold,Point,False,204</Font>
+              <Font>宋体,10.5,Bold,Point,False,134</Font>
               <Guid>37e7db17856f4a418ddc5619daf0fd46</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -528,7 +528,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ClientRectangle>19.2,2.8,2.8,0.8</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,9,Bold,Point,False,204</Font>
+              <Font>宋体,10.5,Bold,Point,False,134</Font>
               <Guid>47c86123bad74af886e075b03bf52c95</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -699,7 +699,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0.2,2.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text11</Name>
@@ -713,7 +713,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>2.4,0.2,2.2,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text12</Name>
@@ -728,7 +728,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <CanGrow>True</CanGrow>
               <ClientRectangle>4.6,0.2,7.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,9</Font>
+              <Font>宋体,10.5,Regular,Point,False,0</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text13</Name>
               <Page isRef="3" />
@@ -741,7 +741,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>12.4,0.2,2,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text14</Name>
@@ -755,7 +755,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>14.4,0.2,2,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text15</Name>
@@ -769,7 +769,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>16.4,0.2,2.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text16</Name>
@@ -783,7 +783,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>19.2,0.2,2.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text17</Name>
@@ -797,7 +797,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>22,0.2,2.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text18</Name>
@@ -811,7 +811,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <Brush>Transparent</Brush>
               <ClientRectangle>24.8,0.2,2.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Consolas,10</Font>
+              <Font>宋体,10.5,Regular,Point,False,134</Font>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text19</Name>
@@ -959,7 +959,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Brush>Transparent</Brush>
                   <ClientRectangle>8.2,0,8.2,0.8</ClientRectangle>
                   <Conditions isList="true" count="0" />
-                  <Font>Consolas,10</Font>
+                  <Font>宋体,10.5,Regular,Point,False,134</Font>
                   <Guid>54a95ae4f92b45deb0fedb13454dd9fc</Guid>
                   <HorAlignment>Right</HorAlignment>
                   <Margins>0,0,0,0</Margins>
@@ -976,7 +976,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Brush>Transparent</Brush>
                   <ClientRectangle>16.4,0.2,2.8,0.6</ClientRectangle>
                   <Conditions isList="true" count="0" />
-                  <Font>Consolas,9</Font>
+                  <Font>宋体,10.5,Regular,Point,False,0</Font>
                   <Guid>bfebf0b1aca6478d8d86a3ecc6bfe847</Guid>
                   <HorAlignment>Right</HorAlignment>
                   <Margins>0,0,0,0</Margins>
@@ -992,7 +992,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Brush>Transparent</Brush>
                   <ClientRectangle>19.2,0.2,2.8,0.6</ClientRectangle>
                   <Conditions isList="true" count="0" />
-                  <Font>Consolas,9</Font>
+                  <Font>宋体,10.5,Regular,Point,False,0</Font>
                   <Guid>71ea0fb006cf4da09262577379554401</Guid>
                   <HorAlignment>Right</HorAlignment>
                   <Margins>0,0,0,0</Margins>
@@ -1008,7 +1008,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Brush>Transparent</Brush>
                   <ClientRectangle>22,0.2,2.8,0.6</ClientRectangle>
                   <Conditions isList="true" count="0" />
-                  <Font>Consolas,9</Font>
+                  <Font>宋体,10.5,Regular,Point,False,0</Font>
                   <Guid>a5e00e7cccbf470bb15ad576257e934e</Guid>
                   <HorAlignment>Right</HorAlignment>
                   <Margins>0,0,0,0</Margins>
@@ -1024,7 +1024,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Brush>Transparent</Brush>
                   <ClientRectangle>24.8,0.2,2.8,0.6</ClientRectangle>
                   <Conditions isList="true" count="0" />
-                  <Font>Consolas,9</Font>
+                  <Font>宋体,10.5,Regular,Point,False,0</Font>
                   <Guid>919f351ca74e4cc3909fa37186a239ce</Guid>
                   <HorAlignment>Right</HorAlignment>
                   <Margins>0,0,0,0</Margins>
@@ -1424,10 +1424,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/13/2022 5:23:48 PM</ReportChanged>
+  <ReportChanged>11/19/2022 2:20:45 PM</ReportChanged>
   <ReportCreated>9/13/2022 8:10:57 AM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\ProductCustomerReport.mrt</ReportFile>
-  <ReportGuid>a7106cb61c3646e09cbdc2097f81c543</ReportGuid>
+  <ReportGuid>1df8af2ad7be45cc84f691199260cdba</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
