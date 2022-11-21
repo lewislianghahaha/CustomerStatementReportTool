@@ -34,16 +34,20 @@
             this.tmclose = new System.Windows.Forms.ToolStripMenuItem();
             this.tmimport = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btngenerate = new System.Windows.Forms.Button();
             this.dtEnd = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.dtStr = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.btngenerate = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtadd = new System.Windows.Forms.TextBox();
             this.btnsetadd = new System.Windows.Forms.Button();
+            this.txtadd = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.txtsalesprintpage = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtdiuprintpage = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.bngat = new System.Windows.Forms.BindingNavigator(this.components);
@@ -65,10 +69,6 @@
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -119,6 +119,15 @@
             this.panel1.Size = new System.Drawing.Size(734, 38);
             this.panel1.TabIndex = 4;
             // 
+            // btngenerate
+            // 
+            this.btngenerate.Location = new System.Drawing.Point(446, 8);
+            this.btngenerate.Name = "btngenerate";
+            this.btngenerate.Size = new System.Drawing.Size(75, 23);
+            this.btngenerate.TabIndex = 8;
+            this.btngenerate.Text = "运算";
+            this.btngenerate.UseVisualStyleBackColor = true;
+            // 
             // dtEnd
             // 
             this.dtEnd.CustomFormat = "yyyy-MM-dd";
@@ -153,15 +162,6 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "开始日期:";
             // 
-            // btngenerate
-            // 
-            this.btngenerate.Location = new System.Drawing.Point(446, 8);
-            this.btngenerate.Name = "btngenerate";
-            this.btngenerate.Size = new System.Drawing.Size(75, 23);
-            this.btngenerate.TabIndex = 8;
-            this.btngenerate.Text = "运算";
-            this.btngenerate.UseVisualStyleBackColor = true;
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
@@ -175,14 +175,14 @@
             this.panel2.Size = new System.Drawing.Size(734, 38);
             this.panel2.TabIndex = 5;
             // 
-            // label3
+            // btnsetadd
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 12);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 12);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "设置导出地址:";
+            this.btnsetadd.Location = new System.Drawing.Point(654, 7);
+            this.btnsetadd.Name = "btnsetadd";
+            this.btnsetadd.Size = new System.Drawing.Size(75, 23);
+            this.btnsetadd.TabIndex = 2;
+            this.btnsetadd.Text = "浏览";
+            this.btnsetadd.UseVisualStyleBackColor = true;
             // 
             // txtadd
             // 
@@ -192,22 +192,22 @@
             this.txtadd.Size = new System.Drawing.Size(554, 21);
             this.txtadd.TabIndex = 1;
             // 
-            // btnsetadd
+            // label3
             // 
-            this.btnsetadd.Location = new System.Drawing.Point(654, 8);
-            this.btnsetadd.Name = "btnsetadd";
-            this.btnsetadd.Size = new System.Drawing.Size(75, 23);
-            this.btnsetadd.TabIndex = 2;
-            this.btnsetadd.Text = "浏览";
-            this.btnsetadd.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(83, 12);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "设置导出地址:";
             // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.textBox3);
+            this.panel3.Controls.Add(this.txtsalesprintpage);
             this.panel3.Controls.Add(this.label6);
-            this.panel3.Controls.Add(this.textBox2);
+            this.panel3.Controls.Add(this.txtdiuprintpage);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
@@ -215,6 +215,43 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(734, 38);
             this.panel3.TabIndex = 6;
+            // 
+            // txtsalesprintpage
+            // 
+            this.txtsalesprintpage.Location = new System.Drawing.Point(332, 7);
+            this.txtsalesprintpage.Name = "txtsalesprintpage";
+            this.txtsalesprintpage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.txtsalesprintpage.Size = new System.Drawing.Size(57, 21);
+            this.txtsalesprintpage.TabIndex = 7;
+            this.txtsalesprintpage.Text = "1";
+            this.txtsalesprintpage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(237, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(89, 12);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "销售发货清单->";
+            // 
+            // txtdiuprintpage
+            // 
+            this.txtdiuprintpage.Location = new System.Drawing.Point(151, 7);
+            this.txtdiuprintpage.Name = "txtdiuprintpage";
+            this.txtdiuprintpage.Size = new System.Drawing.Size(57, 21);
+            this.txtdiuprintpage.TabIndex = 5;
+            this.txtdiuprintpage.Text = "1";
+            this.txtdiuprintpage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(95, 12);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "对账单->";
             // 
             // label4
             // 
@@ -408,43 +445,6 @@
             this.gvdtl.Size = new System.Drawing.Size(732, 341);
             this.gvdtl.TabIndex = 0;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(95, 12);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 12);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "对账单->";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(151, 7);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(57, 21);
-            this.textBox2.TabIndex = 5;
-            this.textBox2.Text = "1";
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(332, 7);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.textBox3.Size = new System.Drawing.Size(57, 21);
-            this.textBox3.TabIndex = 7;
-            this.textBox3.Text = "1";
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(237, 12);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(89, 12);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "销售发货清单->";
-            // 
             // CustBatchExport
             // 
             this.AcceptButton = this.btngenerate;
@@ -517,9 +517,9 @@
         private System.Windows.Forms.ToolStripLabel tstotalrow;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.DataGridView gvdtl;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtsalesprintpage;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtdiuprintpage;
         private System.Windows.Forms.Label label5;
     }
 }

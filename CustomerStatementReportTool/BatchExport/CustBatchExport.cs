@@ -11,6 +11,7 @@ namespace CustomerStatementReportTool.BatchExport
     {
         Load load=new Load();
         TaskLogic taskLogic=new TaskLogic();
+        MessageFrm messageFrm=new MessageFrm();
 
         #region 变量参数
         //保存查询出来的GridView记录
@@ -42,7 +43,7 @@ namespace CustomerStatementReportTool.BatchExport
             bnMoveLastItem.Click += BnMoveLastItem_Click;
             bnPositionItem.Leave += BnPositionItem_Leave;
             tmshowrows.DropDownClosed += Tmshowrows_DropDownClosed;
-            panel3.Visible = false;
+            panel4.Visible = false;
         }
 
         /// <summary>
@@ -105,10 +106,82 @@ namespace CustomerStatementReportTool.BatchExport
         {
             try
             {
-                //todo:
+                var clickMessage = $"准备执行,请注意:执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,请先关闭下载文件夹再继续,\n 是否继续执行?";
+                var customerlist = string.Empty;
+                var temp = string.Empty;
 
+                var sdt = dtStr.Value.ToString("yyyy-MM-dd");
+                var edt = dtEnd.Value.ToString("yyyy-MM-dd");
 
+                //检查‘输出地址’是否有填
+                if (txtadd.Text == "") throw new Exception($"请设置导出地址.");
+                //判断若gvdtl没有记录,不能进行运算
+                if (gvdtl.RowCount == 0) throw new Exception($"请添加记录后再进行运算");
+                //若结束日期小于开始日期,报异常提示
+                if (DateTime.Compare(Convert.ToDateTime(sdt), Convert.ToDateTime(edt)) > 0) throw new Exception($"异常:结束日期不能小于开始日期,请重新选择日期并进行运算");
 
+                //todo:开始执行
+                if (MessageBox.Show(clickMessage, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    //将相关按钮设置为不可操作;直至运行完成后才恢复
+                    tmclose.Enabled = false;
+                    tmimport.Enabled = false;
+                    btngenerate.Enabled = false;
+                    btnsetadd.Enabled = false;
+                    txtdiuprintpage.Enabled = false;
+                    txtsalesprintpage.Enabled = false;
+
+                    //对已添加的‘客户列表’整合,合拼为一行并以,分隔
+                    var customerdt = (DataTable)gvdtl.DataSource;
+                    //通过循环将选中行的客户编码进行收集(注:去除重复的选项,只保留不重复的主键记录)
+                    foreach (DataRow rows in customerdt.Rows)
+                    {
+                        if (string.IsNullOrEmpty(customerlist))
+                        {
+                            customerlist = "'" + Convert.ToString(rows[0]) + "'";
+                            temp = Convert.ToString(rows[0]);
+                        }
+                        else
+                        {
+                            if (temp != Convert.ToString(rows[0]))
+                            {
+                                customerlist += "," + "'" + Convert.ToString(rows[0]) + "'";
+                                temp = Convert.ToString(rows[0]);
+                            }
+                        }
+                    }
+
+                    var a = customerdt;
+
+                    taskLogic.TaskId = 6;
+                    taskLogic.Sdt = sdt;
+                    taskLogic.Edt = edt;
+                    taskLogic.Customerlist = customerlist;
+                    taskLogic.Duiprintpagenumber = Convert.ToInt32(txtdiuprintpage.Text);
+                    taskLogic.Salesoutprintpagenumber = Convert.ToInt32(txtsalesprintpage.Text);
+                    taskLogic.FileAddress = txtadd.Text;
+
+                    //使用子线程工作(作用:通过调用子线程进行控制Load窗体的关闭情况)
+                    new Thread(Start).Start();
+                    load.StartPosition = FormStartPosition.CenterScreen;
+                    load.ShowDialog();
+
+                    //todo:运算完成后,将原来设置的文本框(按钮)设置为可用
+                    tmclose.Enabled = true;
+                    tmimport.Enabled = true;
+                    btngenerate.Enabled = true;
+                    btnsetadd.Enabled = true;
+                    txtdiuprintpage.Enabled = true;
+                    txtsalesprintpage.Enabled = true;
+
+                    var a1= taskLogic.ResultMessageDt.Copy();
+
+                    //todo:将返回结果传输至MessageFrm窗体内
+                    messageFrm.Resultdt = taskLogic.ResultMessageDt;
+                    //todo:弹出信息窗体
+                    messageFrm.StartPosition = FormStartPosition.CenterParent;
+                    messageFrm.ShowDialog();
+                }
             }
             catch (Exception ex)
             {

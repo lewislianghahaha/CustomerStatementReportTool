@@ -17,7 +17,9 @@ namespace CustomerStatementReportTool.Task
         private string _customerlist;  //客户列表(运算时使用)
         private int _typeid;           //-1:全查找记录 0:按‘客户编码’查找 1:按'客户名称'查找(查询客户时使用)
         private string _value;         //查询文件框值
-        private string _fileAddress;   //文件地址
+        private string _fileAddress;   //文件地址('自定义批量导出'-导入EXCEL 及 导出地址收集使用)
+        private int _duiprintpagenumber;       //对账单打印次数
+        private int _salesoutprintpagenumber;  //销售出库清单打印次数
 
         private bool _resultmark;                   //返回是否成功标记
         private DataTable _resultTable;             //返回DT(客户列表初始化获取记录时使用)
@@ -26,6 +28,7 @@ namespace CustomerStatementReportTool.Task
         private DataTable _resultProductRecord;     //返回运算后的记录(针对横向记录)
         private DataTable _resultSalesOutListRecord;//返回运算后的记录(针对销售发货清单)
         private DataTable _resultImportDt;          //返回导入EXCEL信息
+        private DataTable _resultMessageDt;         //返回‘自定义批量打印’返回结果
         #endregion
 
         #region Set
@@ -60,10 +63,19 @@ namespace CustomerStatementReportTool.Task
         public string Value { set { _value = value; } }
 
         /// <summary>
-        /// //接收文件地址信息
+        /// 接收文件地址信息
         /// </summary>
         public string FileAddress { set { _fileAddress = value; } }
 
+        /// <summary>
+        /// 对账单打印次数
+        /// </summary>
+        public int Duiprintpagenumber { set { _duiprintpagenumber = value; } }
+
+        /// <summary>
+        /// 销售出库清单打印次数
+        /// </summary>
+        public int Salesoutprintpagenumber { set { _salesoutprintpagenumber = value; } }
         #endregion
 
         #region Get
@@ -101,6 +113,11 @@ namespace CustomerStatementReportTool.Task
         /// 返回导入EXCEL结果
         /// </summary>
         public DataTable ResultImportDt => _resultImportDt;
+
+        /// <summary>
+        /// 返回‘自定义批量打印’返回结果
+        /// </summary>
+        public DataTable ResultMessageDt=>_resultMessageDt;
         #endregion
 
         public void StartTask()
@@ -130,6 +147,10 @@ namespace CustomerStatementReportTool.Task
                 //导入-自定义批量导出功能使用
                 case 5:
                     ImportExcelRecord(_fileAddress);
+                    break;
+                //‘自定义批量功能’-运算
+                case 6:
+                    GenerateBatchexport(_sdt, _edt, _customerlist,_duiprintpagenumber, _salesoutprintpagenumber);
                     break;
             }
         }
@@ -192,7 +213,19 @@ namespace CustomerStatementReportTool.Task
             _resultImportDt = importDt.OpenExcelImporttoDt(fileadd).Copy();
         }
 
-
-
+        /// <summary>
+        /// '自定义批量导出'-运算执行
+        /// </summary>
+        /// <param name="sdt">开始日期</param>
+        /// <param name="edt">结束日期</param>
+        /// <param name="customerlist">客户列表信息</param>
+        /// <param name="duiprintpagenum">对账单打印次数</param>
+        /// <param name="salesoutprintpagenum">销售发货清单打印次数</param>
+        private void GenerateBatchexport(string sdt,string edt,string customerlist,
+                                        int duiprintpagenum,int salesoutprintpagenum)
+        {
+            _resultMessageDt = generate.GenerateBatchexport(sdt,edt,customerlist,
+                                        duiprintpagenum,salesoutprintpagenum);
+        }
     }
 }

@@ -362,5 +362,31 @@ namespace CustomerStatementReportTool.Task
             return resultdt;
         }
 
+        /// <summary>
+        /// '自定义批量导出'-运算执行
+        /// </summary>
+        /// <param name="sdt"></param>
+        /// <param name="edt"></param>
+        /// <param name="customerlist"></param>
+        /// <param name="duiprintpagenum"></param>
+        /// <param name="salesoutprintpagenum"></param>
+        /// <returns></returns>
+        public DataTable GenerateBatchexport(string sdt, string edt, string customerlist,int duiprintpagenum, int salesoutprintpagenum)
+        {
+            var resultdt = tempDt.GenerateResultDt();
+
+            try
+            {
+                //todo:
+
+            }
+            catch (Exception)
+            {
+                resultdt.Rows.Clear();
+            }
+
+            return resultdt;
+        }
+
     }
 }
