@@ -106,7 +106,7 @@ namespace CustomerStatementReportTool.BatchExport
         {
             try
             {
-                var clickMessage = $"准备执行,请注意:执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,请先关闭下载文件夹再继续,\n 是否继续执行?";
+                var clickMessage = $"准备执行,请注意:执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,请先关闭下载文件夹(并在执行过程中不要打开)再继续,\n 是否继续执行?";
                 var customerlist = string.Empty;
                 var temp = string.Empty;
 

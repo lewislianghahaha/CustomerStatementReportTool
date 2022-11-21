@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.SqlClient;
 using CustomerStatementReportTool.DB;
-using Stimulsoft.Controls.Win.DotNetBar.Controls;
 
 namespace CustomerStatementReportTool.Task
 {
@@ -93,6 +92,17 @@ namespace CustomerStatementReportTool.Task
         public DataTable SearchSalesOutList(string sdt, string edt, string customerlist)
         {
             var dt = UseSqlSearchIntoDt(sqlList.SearchSalesOutList(sdt, edt, customerlist));
+            return dt;
+        }
+
+        /// <summary>
+        /// 获取客户列表信息-'自定义批量导出'功能使用
+        /// </summary>
+        /// <param name="customerlist"></param>
+        /// <returns></returns>
+        public DataTable GetSearchCustomerList(string customerlist)
+        {
+            var dt = UseSqlSearchIntoDt(sqlList.GetSearchCustomerList(customerlist));
             return dt;
         }
 

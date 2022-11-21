@@ -140,7 +140,7 @@ namespace CustomerStatementReportTool.Task
                 case 3:
                     GenerateProduct(_sdt,_edt,_customerlist);
                     break;
-                //销售发货清单
+                //销售发货清单(纵向)
                 case 4:
                     GenerateSalesOutList(_sdt, _edt, _customerlist);
                     break;
@@ -150,7 +150,7 @@ namespace CustomerStatementReportTool.Task
                     break;
                 //‘自定义批量功能’-运算
                 case 6:
-                    GenerateBatchexport(_sdt, _edt, _customerlist,_duiprintpagenumber, _salesoutprintpagenumber);
+                    GenerateBatchexport(_sdt, _edt, _customerlist,_duiprintpagenumber,_salesoutprintpagenumber);
                     break;
             }
         }
@@ -172,7 +172,7 @@ namespace CustomerStatementReportTool.Task
         }
 
         /// <summary>
-        /// 运算(针对纵向记录)
+        /// '对账单'运算(针对纵向记录)
         /// </summary>
         /// <param name="sdt"></param>
         /// <param name="edt"></param>
@@ -225,7 +225,7 @@ namespace CustomerStatementReportTool.Task
                                         int duiprintpagenum,int salesoutprintpagenum)
         {
             _resultMessageDt = generate.GenerateBatchexport(sdt,edt,customerlist,
-                                        duiprintpagenum,salesoutprintpagenum);
+                                        duiprintpagenum,salesoutprintpagenum).Copy();
         }
     }
 }

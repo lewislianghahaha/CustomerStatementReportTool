@@ -138,7 +138,7 @@ namespace CustomerStatementReportTool.Task
             newrow[7] = Convert.ToString(Decimal.Round(endbalance, 2));      //期末余额
             newrow[8] = remark1;                           //记录结束日期备注
             newrow[9] = fbillno;                           //单据编号
-            newrow[10] = Decimal.Round(lastEndBalance,2);                   //记录最后一行‘期末余额’
+            newrow[10] = Decimal.Round(lastEndBalance,2);  //记录最后一行‘期末余额’
             newrow[11] = month;                            //月份
             newrow[12] = remark == "本期合计" ? "" : dt;    //单据日期-用于显示
             tempdt.Rows.Add(newrow);
@@ -364,20 +364,36 @@ namespace CustomerStatementReportTool.Task
 
         /// <summary>
         /// '自定义批量导出'-运算执行
+        /// 执行
         /// </summary>
-        /// <param name="sdt"></param>
-        /// <param name="edt"></param>
-        /// <param name="customerlist"></param>
-        /// <param name="duiprintpagenum"></param>
-        /// <param name="salesoutprintpagenum"></param>
+        /// <param name="sdt">开始日期</param>
+        /// <param name="edt">结束日期</param>
+        /// <param name="customerlist">客户列表信息</param>
+        /// <param name="duiprintpagenum">对账单打印次数</param>
+        /// <param name="salesoutprintpagenum">销售发货清单打印次数</param>
         /// <returns></returns>
         public DataTable GenerateBatchexport(string sdt, string edt, string customerlist,int duiprintpagenum, int salesoutprintpagenum)
         {
+            //记录‘自定义批量导出’返回结果
             var resultdt = tempDt.GenerateResultDt();
+            //输出结果集(销售出库清单)
+            var salesOutresultdt = tempDt.MakeSalesOutListDtTemp();
+            //
+
 
             try
             {
+
+
+
+                //todo:根据customerlist获取客户记录
+                var customerdt = searchDt.GetSearchCustomerList(customerlist);
                 //todo:
+                searchDt.SearchFinialRecord(sdt, edt, customerlist).Copy();
+                //todo:
+                searchDt.SearchSalesOutList(sdt, edt, customerlist);
+
+
 
             }
             catch (Exception)
@@ -387,6 +403,8 @@ namespace CustomerStatementReportTool.Task
 
             return resultdt;
         }
+
+
 
     }
 }

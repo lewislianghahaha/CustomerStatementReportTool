@@ -34,7 +34,7 @@ namespace CustomerStatementReportTool.BatchExport
         {
             InitializeComponent();
             OnRegisterEvents();
-            OnShow();
+            //OnShow();
         }
 
         private void OnRegisterEvents()
@@ -53,7 +53,7 @@ namespace CustomerStatementReportTool.BatchExport
         /// <summary>
         /// 接收‘自定义批量导出’功能的返回结果
         /// </summary>
-        private void OnShow()
+        public void OnShow()
         {
             if (_resultdt.Rows.Count > 0)
             {
