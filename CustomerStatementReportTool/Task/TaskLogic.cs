@@ -150,7 +150,7 @@ namespace CustomerStatementReportTool.Task
                     break;
                 //‘自定义批量功能’-运算
                 case 6:
-                    GenerateBatchexport(_sdt, _edt, _customerlist,_duiprintpagenumber,_salesoutprintpagenumber);
+                    GenerateBatchexport(_sdt, _edt, _fileAddress,_customerlist,_duiprintpagenumber,_salesoutprintpagenumber);
                     break;
             }
         }
@@ -218,13 +218,14 @@ namespace CustomerStatementReportTool.Task
         /// </summary>
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
+        /// <param name="exportaddress">输出地址</param>
         /// <param name="customerlist">客户列表信息</param>
         /// <param name="duiprintpagenum">对账单打印次数</param>
         /// <param name="salesoutprintpagenum">销售发货清单打印次数</param>
-        private void GenerateBatchexport(string sdt,string edt,string customerlist,
+        private void GenerateBatchexport(string sdt,string edt,string exportaddress,string customerlist,
                                         int duiprintpagenum,int salesoutprintpagenum)
         {
-            _resultMessageDt = generate.GenerateBatchexport(sdt,edt,customerlist,
+            _resultMessageDt = generate.GenerateBatchexport(sdt,edt, exportaddress,customerlist,
                                         duiprintpagenum,salesoutprintpagenum).Copy();
         }
     }

@@ -364,35 +364,49 @@ namespace CustomerStatementReportTool.Task
 
         /// <summary>
         /// '自定义批量导出'-运算执行
-        /// 执行
+        /// 执行顺序:1)对账单  2)销售发货清单 
         /// </summary>
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
+        /// <param name="exportaddress">输出地址</param>
         /// <param name="customerlist">客户列表信息</param>
         /// <param name="duiprintpagenum">对账单打印次数</param>
         /// <param name="salesoutprintpagenum">销售发货清单打印次数</param>
         /// <returns></returns>
-        public DataTable GenerateBatchexport(string sdt, string edt, string customerlist,int duiprintpagenum, int salesoutprintpagenum)
+        public DataTable GenerateBatchexport(string sdt, string edt, string exportaddress, string customerlist,int duiprintpagenum, int salesoutprintpagenum)
         {
-            //记录‘自定义批量导出’返回结果
-            var resultdt = tempDt.GenerateResultDt();
-            //输出结果集(销售出库清单)
-            var salesOutresultdt = tempDt.MakeSalesOutListDtTemp();
-            //
+            //todo:记录返回结果
+            var message = string.Empty;
+            //‘对账单’输出结果集
+            var fincalresultdt = tempDt.BatchMakeExportDtTemp();
+            //'销售出库清单'输出结果集
+            var salesOutresultdt = tempDt.BatchMakeSalesOutListDtTemp();
 
+            //记录‘自定义批量导出’返回结果
+            var resultdt = tempDt.BatchGenerateResultDt();
 
             try
             {
+                //根据customerlist获取K3客户记录
+                var customerk3Dt = searchDt.GetSearchCustomerList(customerlist).Copy();
+
+                //todo:获取‘对账单’SQL记录
+                var fincalK3Record = searchDt.SearchFinialRecord(sdt, edt, customerlist).Copy();
+                //todo:获取‘销售出库清单’SQL记录
+                var salesoutK3Record = searchDt.SearchSalesOutList(sdt, edt, customerlist).Copy();
+
+                //todo:循环customerK3Dt - 收集分别收集‘对账单’及‘销售发货清单’结果集
+                foreach (DataRow rows in customerk3Dt.Rows)
+                {
+                    //todo:循环执行顺序:(0)对账单->(1)销售发货清单,分别收集这两种单据类型的执行结果
+
+                    GenerateFincalDtRecord();
 
 
 
-                //todo:根据customerlist获取客户记录
-                var customerdt = searchDt.GetSearchCustomerList(customerlist);
+                }
+
                 //todo:
-                searchDt.SearchFinialRecord(sdt, edt, customerlist).Copy();
-                //todo:
-                searchDt.SearchSalesOutList(sdt, edt, customerlist);
-
 
 
             }
@@ -402,6 +416,26 @@ namespace CustomerStatementReportTool.Task
             }
 
             return resultdt;
+        }
+
+        /// <summary>
+        /// '对账单'所表所需数据生成
+        /// </summary>
+        /// <returns></returns>
+        private DataTable GenerateFincalDtRecord()
+        {
+            //todo:根据duiprintpagenum循环(若为0,即插入错误信息并continue)
+
+        }
+
+        /// <summary>
+        /// '销售发货清单'报表所需数据生成
+        /// </summary>
+        /// <returns></returns>
+        private DataTable GenerateSalesoutlistDtRecord()
+        {
+            //todo:根据salesoutK3Record循环(若为0,即插入错误信息并continue)
+
         }
 
 
