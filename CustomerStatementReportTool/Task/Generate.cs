@@ -10,6 +10,12 @@ namespace CustomerStatementReportTool.Task
         SearchDt searchDt=new SearchDt();
         TempDtList tempDt=new TempDtList();
 
+        #region 参数
+        //记录出现异常的提示
+        public string Errormessage = string.Empty;
+
+        #endregion
+
         /// <summary>
         /// 根据各参数运算结果-供STI报表使用(纵向)
         /// </summary>
@@ -100,7 +106,7 @@ namespace CustomerStatementReportTool.Task
             catch (Exception ex)
             {
                 var a = ex.Message;
-                result.Columns.Clear();
+                result.Rows.Clear();
             }
 
             return result;
@@ -375,14 +381,19 @@ namespace CustomerStatementReportTool.Task
         /// <returns></returns>
         public DataTable GenerateBatchexport(string sdt, string edt, string exportaddress, string customerlist,int duiprintpagenum, int salesoutprintpagenum)
         {
-            //todo:记录返回结果
-            var message = string.Empty;
+            //定义执行结束时间
+            var endtime = DateTime.Now;
+            //定义‘对账单’收集SQL返回记录临时表
+            var fincalK3Record = tempDt.GetSearchTempDt();
+            //定义‘销售出库清单’收集SQL返回记录临时表
+            var salesoutK3Record = tempDt.MakeSalesOutListDtTemp();
+
             //‘对账单’输出结果集
             var fincalresultdt = tempDt.BatchMakeExportDtTemp();
             //'销售出库清单'输出结果集
             var salesOutresultdt = tempDt.BatchMakeSalesOutListDtTemp();
 
-            //记录‘自定义批量导出’返回结果
+            //记录‘自定义批量导出’返回结果-(即记录各个客户执行历史记录)
             var resultdt = tempDt.BatchGenerateResultDt();
 
             try
@@ -390,23 +401,59 @@ namespace CustomerStatementReportTool.Task
                 //根据customerlist获取K3客户记录
                 var customerk3Dt = searchDt.GetSearchCustomerList(customerlist).Copy();
 
-                //todo:获取‘对账单’SQL记录
-                var fincalK3Record = searchDt.SearchFinialRecord(sdt, edt, customerlist).Copy();
-                //todo:获取‘销售出库清单’SQL记录
-                var salesoutK3Record = searchDt.SearchSalesOutList(sdt, edt, customerlist).Copy();
-
-                //todo:循环customerK3Dt - 收集分别收集‘对账单’及‘销售发货清单’结果集
-                foreach (DataRow rows in customerk3Dt.Rows)
+                //获取‘对账单’SQL记录(必须‘对账单打印次数’大于0时才会执行)
+                if (duiprintpagenum > 0)
                 {
-                    //todo:循环执行顺序:(0)对账单->(1)销售发货清单,分别收集这两种单据类型的执行结果
-
-                    GenerateFincalDtRecord();
-
-
-
+                    fincalK3Record = searchDt.SearchFinialRecord(sdt, edt, customerlist).Copy();
                 }
 
-                //todo:
+                //todo:获取‘销售出库清单’SQL记录(必须‘销售出库清单打印次数’大于0时才会执行)
+                if (salesoutprintpagenum > 0)
+                {
+                    salesoutK3Record = searchDt.SearchSalesOutList(sdt, edt, customerlist).Copy();
+                }
+
+                //循环customerK3Dt - 分别收集‘对账单’及‘销售发货清单’结果集
+                foreach (DataRow rows in customerk3Dt.Rows)
+                {
+                    //针对每个客户中在‘对账单’‘销售发货清单’中的返回结果;每循环一个客户将重新创建该Dt对象
+                    var tempdt = new DataTable();
+                    //记录开始执行时间
+                    var stime = DateTime.Now.ToLocalTime();
+
+                    //循环执行顺序:(0)对账单->(1)销售发货清单,分别收集这两种单据类型的执行结果
+                    for (var i = 0; i < 2; i++)
+                    {
+                        switch (i)
+                        {
+                            //todo:‘对账单’使用,匹配条件:客户名称
+                            case 0:
+                                tempdt = GenerateFincalDtRecord(fincalresultdt,fincalK3Record,Convert.ToString(rows[2]),duiprintpagenum,sdt,edt).Copy();
+                                endtime = DateTime.Now.ToLocalTime();
+                                //todo:若tempdt返回行数为0,即不插入
+                                if(tempdt.Rows.Count>0)
+                                 fincalresultdt.Merge(tempdt);
+                                break;
+                            //todo:'销售出库清单'使用,条件:Fcustid 
+                            case 1:
+                               // tempdt = ;
+                                endtime = DateTime.Now.ToLocalTime();
+                                //todo:若tempdt返回行数为0,即不插入
+                                if (tempdt.Rows.Count > 0)
+                                    salesOutresultdt.Merge(tempdt);
+                                break;
+                        }
+                        //todo:执行插入历史记录临时表
+                        resultdt.Merge(InsertHistoryToDt(tempdt,resultdt,Convert.ToString(rows[1]),Convert.ToString(rows[2]), stime, endtime, i));
+                        var a1 = tempdt;
+                    }
+                }
+
+                var b = fincalresultdt.Copy();
+                var c = salesOutresultdt.Copy();
+
+                //todo:输出至PDF
+
 
 
             }
@@ -420,13 +467,115 @@ namespace CustomerStatementReportTool.Task
 
         /// <summary>
         /// '对账单'所表所需数据生成
+        /// 运算核心:针对同一个客户,只运算一次将结果保存至tempdt内,然后通过printpaagenum ('对账单'打印次数) 进行循环插入至resultdt
         /// </summary>
+        /// <param name="resultdt">结果集临时表（作用:STI报表使用）</param>
+        /// <param name="k3Record">K3获取数据结果集</param>
+        /// <param name="customername">客户名称</param>
+        /// <param name="printpagenum">'对账单'打印次数</param>
+        /// <param name="sdt">开始日期</param>
+        /// <param name="edt">结束日期</param>
         /// <returns></returns>
-        private DataTable GenerateFincalDtRecord()
+        private DataTable GenerateFincalDtRecord(DataTable resultdt,DataTable k3Record,string customername,int printpagenum,string sdt,string edt)
         {
-            //todo:根据duiprintpagenum循环(若为0,即插入错误信息并continue)
+            try
+            {
+                //记录结束日期备注
+                var remark1 = Convert.ToDateTime(edt).Year + "年" + Convert.ToDateTime(edt).Month + "月";
+                //若printpagenum-打印数量为0,即跳出异常
+                if(printpagenum == 0) throw new Exception("因'对账单'打印次数为0,故不能生成打印");
 
+                //若k3Record 为空,即跳出异常
+                if(k3Record.Rows.Count == 0) throw new Exception("没有K3对应的返回记录.");
+                //中间表-递归运算时使用(与K3Record的表结构一致)
+                var tempdt = k3Record.Clone();
+
+                //当发现sqldt不只有一行时,才执行;tempdt为运算后的记录集(重)
+                if (k3Record.Rows.Count > 1)
+                {
+                    //期末余额=期未余额+本期应收-本期实收-本期冲销额 
+                    tempdt.Merge(GenerateReportDtlTemp(customername,k3Record,tempdt));
+                }
+
+                var a = tempdt.Copy();
+
+                //处理数据并整理后将数据插入至resultdt内
+                //若在检测k3Record到只有1行,即插入至结果临时表
+                //todo:循环printpagenum(对账单打印次数)，并将记录插入至resultdt内
+                for (var i = 0; i < printpagenum; i++)
+                {
+                    var sdtlows = k3Record.Select("往来单位名称='" + customername + "'");
+                    if (sdtlows.Length == 1)
+                    {
+                        resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, customername, "", Convert.ToString(sdtlows[0][2]),
+                                                0, 0, Convert.ToDecimal(sdtlows[0][3]), remark1, null,
+                                                Convert.ToDecimal(sdtlows[0][3]), null,i));
+                    }
+                    else
+                    {
+                        //根据customername,查询明细记录
+                        var dtlrows = tempdt.Select("往来单位名称='" + customername + "'");
+                        for (var j = 0; j < dtlrows.Length; i++)
+                        {
+                            resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, Convert.ToString(dtlrows[i][0]), Convert.ToString(dtlrows[i][1]),
+                                                Convert.ToString(dtlrows[i][2]), Convert.ToDecimal(dtlrows[i][4]), Convert.ToDecimal(dtlrows[i][5]),
+                                                Convert.ToDecimal(dtlrows[i][3]), remark1, Convert.ToString(dtlrows[i][7]), Convert.ToDecimal(dtlrows[i][8]),
+                                                Convert.ToString(dtlrows[i][9]),j));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //收集异常信息
+                Errormessage = ex.Message;
+                resultdt.Rows.Clear();
+            }
+
+            return resultdt;
         }
+
+        /// <summary>
+        /// 对账单-‘自定义批量导出’功能使用
+        /// </summary>
+        /// <param name="tempdt">输出临时表</param>
+        /// <param name="sdt">开始日期</param>
+        /// <param name="edt">结束日期</param>
+        /// <param name="customerName">往来单位名称</param>
+        /// <param name="dt">单据日期-用于排序</param>
+        /// <param name="remark">摘要</param>
+        /// <param name="yibalance">本期应收</param>
+        /// <param name="xibalance">本期实收</param>
+        /// <param name="endbalance">期末余额</param>
+        /// <param name="fbillno">单据编号</param>
+        /// <param name="lastEndBalance">月份</param>
+        /// <param name="month">月份</param>
+        /// <param name="remark1">记录结束日期备注</param>
+        /// <param name="fRowId">对相同客户的区分显示(当要针对相同客户打印多次时)</param>
+        /// <returns></returns>
+        private DataTable GetBatchResultDt(DataTable tempdt, string sdt, string edt, string customerName, string dt, string remark
+                              , decimal yibalance, decimal xibalance, decimal endbalance, string remark1, string fbillno
+                              , decimal lastEndBalance, string month,int fRowId)
+        {
+            var newrow = tempdt.NewRow();
+            newrow[0] = sdt;                               //开始日期
+            newrow[1] = edt;                               //结束日期
+            newrow[2] = customerName;                      //往来单位名称
+            newrow[3] = dt;                                //单据日期-用于排序
+            newrow[4] = remark;                            //摘要
+            newrow[5] = remark == "期初余额" ? "" : Convert.ToString(Decimal.Round(yibalance, 2)); //本期应收(当“摘要”为“期初余额”时,"本期应收"项为空显示)                 
+            newrow[6] = remark == "期初余额" ? "" : Convert.ToString(Decimal.Round(xibalance, 2)); //本期实收(当“摘要”为“期初余额”时,"本期实收"项为空显示)      
+            newrow[7] = Convert.ToString(Decimal.Round(endbalance, 2));      //期末余额
+            newrow[8] = remark1;                           //记录结束日期备注
+            newrow[9] = fbillno;                           //单据编号
+            newrow[10] = Decimal.Round(lastEndBalance, 2);  //记录最后一行‘期末余额’
+            newrow[11] = month;                            //月份
+            newrow[12] = remark == "本期合计" ? "" : dt;    //单据日期-用于显示
+            newrow[13] = fRowId;                           //对相同客户的区分显示(当要针对相同客户打印多次时)
+            tempdt.Rows.Add(newrow);
+            return tempdt;
+        }
+
 
         /// <summary>
         /// '销售发货清单'报表所需数据生成
@@ -439,6 +588,33 @@ namespace CustomerStatementReportTool.Task
         }
 
 
+
+        /// <summary>
+        /// 将每个客户的执行结果插入至操作日志记录表内
+        /// </summary>
+        /// <param name="tempdt">中间结果临时表;主要用于收集‘对账单’及‘销售发货清单’记录集</param>
+        /// <param name="resultdt">返回DT</param>
+        /// <param name="customercode">客户编码</param>
+        /// <param name="customername">客户名称</param>
+        /// <param name="stime">开始执行时间</param>
+        /// <param name="endtime">结束执行时间</param>
+        /// <param name="ordertypeid">单据类型;0:对账单  1:销售发货清单</param>
+        /// <returns></returns>
+        private DataTable InsertHistoryToDt(DataTable tempdt,DataTable resultdt, string customercode,string customername,DateTime stime,DateTime endtime, int ordertypeid)
+        {
+            var result = tempdt.Rows.Count == 0 ? "执行异常,原因:" + Errormessage : "执行成功,请到导出地址进行查阅.";
+
+            var newrow = resultdt.NewRow();
+            newrow[0] = customercode;                    //客户编码
+            newrow[1] = customername;                    //客户名称
+            newrow[2] = stime;                           //开始执行时间
+            newrow[3] = endtime;                         //结束执行时间
+            newrow[4] = result;                          //执行结果
+            newrow[5] = Convert.ToString(ordertypeid);   //导出单据类型-(0)'对帐单' (1)‘销售出库清单’
+            newrow[6] = !result.Contains("成功") ? 1 : 0; //是否成功标记(0:是 1:否)
+            resultdt.Rows.Add(newrow);
+            return resultdt;
+        }
 
     }
 }

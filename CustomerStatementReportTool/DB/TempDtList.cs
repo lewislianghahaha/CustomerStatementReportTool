@@ -416,7 +416,7 @@ namespace CustomerStatementReportTool.DB
                         dc.ColumnName = "执行结果";
                         dc.DataType = Type.GetType("System.String");
                         break;
-                    case 5: //导出单据类型-'对帐单' ‘销售出库清单’
+                    case 5: //导出单据类型-(0)'对帐单' (1)‘销售出库清单’
                         dc.ColumnName = "导出单据类型";
                         dc.DataType = Type.GetType("System.String");
                         break;
