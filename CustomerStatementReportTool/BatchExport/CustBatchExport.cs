@@ -55,7 +55,7 @@ namespace CustomerStatementReportTool.BatchExport
         {
             try
             {
-                //todo:设置导入地址
+                //设置导入地址
                 var openFileDialog = new OpenFileDialog { Filter = $"Xlsx文件|*.xlsx" };
                 if (openFileDialog.ShowDialog() != DialogResult.OK) return;
                 var fileAdd = openFileDialog.FileName;
@@ -75,7 +75,7 @@ namespace CustomerStatementReportTool.BatchExport
                 else
                 {
                     MessageBox.Show($"导入数据成功,请输入相关值进行查询", $"信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //todo:将数据存放至Gridview内
+                    //将数据存放至Gridview内
                     _dtl = importdt.Copy();
                     gvdtl.DataSource = _dtl.Copy();
                     //修正-初始化时,将页面跳转按钮都显示
@@ -106,7 +106,7 @@ namespace CustomerStatementReportTool.BatchExport
         {
             try
             {
-                var clickMessage = $"准备执行,请注意:执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,请先关闭下载文件夹(并在执行过程中不要打开)再继续,\n 是否继续执行?";
+                var clickMessage = $"准备执行,请注意:执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,请先关闭下载文件夹(并在执行过程中不要打开)再继续,\n是否继续执行?";
                 var customerlist = string.Empty;
                 var temp = string.Empty;
 
@@ -120,7 +120,7 @@ namespace CustomerStatementReportTool.BatchExport
                 //若结束日期小于开始日期,报异常提示
                 if (DateTime.Compare(Convert.ToDateTime(sdt), Convert.ToDateTime(edt)) > 0) throw new Exception($"异常:结束日期不能小于开始日期,请重新选择日期并进行运算");
 
-                //todo:开始执行
+                //开始执行
                 if (MessageBox.Show(clickMessage, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
                     //将相关按钮设置为不可操作;直至运行完成后才恢复
@@ -132,7 +132,7 @@ namespace CustomerStatementReportTool.BatchExport
                     txtsalesprintpage.Enabled = false;
 
                     //对已添加的‘客户列表’整合,合拼为一行并以,分隔
-                    var customerdt = (DataTable)gvdtl.DataSource;
+                    var customerdt = _dtl; //(DataTable)gvdtl.DataSource;
                     //通过循环将选中行的客户编码进行收集(注:去除重复的选项,只保留不重复的主键记录)
                     foreach (DataRow rows in customerdt.Rows)
                     {

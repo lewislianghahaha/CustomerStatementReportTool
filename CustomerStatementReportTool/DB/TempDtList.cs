@@ -117,6 +117,7 @@ namespace CustomerStatementReportTool.DB
                         dc.ColumnName = "原币本期冲销额";
                         dc.DataType = Type.GetType("System.Decimal");
                         break;
+                      //单据编号
                     case 7:
                         dc.ColumnName = "FBILLNO";
                         dc.DataType = Type.GetType("System.String");
