@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
+using System.Windows.Forms;
 using CustomerStatementReportTool.DB;
+using Stimulsoft.Report;
 
 namespace CustomerStatementReportTool.Task
 {
@@ -13,7 +15,6 @@ namespace CustomerStatementReportTool.Task
         #region 参数
         //记录出现异常的提示
         public string Errormessage = string.Empty;
-
         #endregion
 
         /// <summary>
@@ -313,7 +314,7 @@ namespace CustomerStatementReportTool.Task
             }
             catch (Exception)
             {
-                resultdt.Columns.Clear();
+                resultdt.Rows.Clear();
             }
             return resultdt;
         }
@@ -363,7 +364,7 @@ namespace CustomerStatementReportTool.Task
             }
             catch (Exception)
             {
-                resultdt.Columns.Clear();
+                resultdt.Rows.Clear();
             }
             return resultdt;
         }
@@ -381,8 +382,13 @@ namespace CustomerStatementReportTool.Task
         /// <returns></returns>
         public DataTable GenerateBatchexport(string sdt, string edt, string exportaddress, string customerlist,int duiprintpagenum, int salesoutprintpagenum)
         {
+            //定义生成PDF返回是否成功标记
+            var resultbool = true;
+            //定义STI文件名称
+            var stifilename = string.Empty;
             //定义执行结束时间
             var endtime = DateTime.Now;
+
             //定义‘对账单’收集SQL返回记录临时表
             var fincalK3Record = tempDt.GetSearchTempDt();
             //定义‘销售出库清单’收集SQL返回记录临时表
@@ -407,7 +413,7 @@ namespace CustomerStatementReportTool.Task
                     fincalK3Record = searchDt.SearchFinialRecord(sdt, edt, customerlist).Copy();
                 }
 
-                //todo:获取‘销售出库清单’SQL记录(必须‘销售出库清单打印次数’大于0时才会执行)
+                //获取‘销售出库清单’SQL记录(必须‘销售出库清单打印次数’大于0时才会执行)
                 if (salesoutprintpagenum > 0)
                 {
                     salesoutK3Record = searchDt.SearchSalesOutList(sdt, edt, customerlist).Copy();
@@ -426,24 +432,24 @@ namespace CustomerStatementReportTool.Task
                     {
                         switch (i)
                         {
-                            //todo:‘对账单’使用,匹配条件:客户名称
+                            //‘对账单’使用,匹配条件:客户名称
                             case 0:
                                 tempdt = GenerateFincalDtRecord(fincalresultdt,fincalK3Record,Convert.ToString(rows[2]),duiprintpagenum,sdt,edt).Copy();
                                 endtime = DateTime.Now.ToLocalTime();
-                                //todo:若tempdt返回行数为0,即不插入
-                                if(tempdt.Rows.Count>0)
+                                //若tempdt返回行数为0,即不插入
+                                if(tempdt.Rows.Count == 0) continue;
                                  fincalresultdt.Merge(tempdt);
                                 break;
-                            //todo:'销售出库清单'使用,条件:Fcustid 
+                            //'销售出库清单'使用,匹配条件:Fcustid 
                             case 1:
-                               // tempdt = ;
+                                tempdt = GenerateSalesoutlistDtRecord(salesOutresultdt, salesoutK3Record,salesoutprintpagenum).Copy();
                                 endtime = DateTime.Now.ToLocalTime();
-                                //todo:若tempdt返回行数为0,即不插入
-                                if (tempdt.Rows.Count > 0)
+                                //若tempdt返回行数为0,即不插入
+                                if (tempdt.Rows.Count == 0) continue;
                                     salesOutresultdt.Merge(tempdt);
                                 break;
                         }
-                        //todo:执行插入历史记录临时表
+                        //执行插入历史记录临时表
                         resultdt.Merge(InsertHistoryToDt(tempdt,resultdt,Convert.ToString(rows[1]),Convert.ToString(rows[2]), stime, endtime, i));
                         var a1 = tempdt;
                     }
@@ -452,13 +458,20 @@ namespace CustomerStatementReportTool.Task
                 var b = fincalresultdt.Copy();
                 var c = salesOutresultdt.Copy();
 
-                //todo:输出至PDF
-
-
-
+                //循环执行顺序:(0)对账单->(1)销售发货清单
+                //注:‘对账单’批量一次性生成PDF  ‘销售出库清单’是根据‘客户ID’循环生成PDF,并且文件名为‘客户名称’+'生成日期'
+                for (var i = 0; i < 2; i++)
+                {
+                    stifilename = i == 0 ? "BatchCustomerStatementReport.mrt" : "BatchSalesOutListReport.mrt";
+                    var dt = i == 0 ? fincalresultdt.Copy() : salesOutresultdt.Copy();
+                    resultbool = ExportDtToPdf(i, exportaddress, stifilename, customerk3Dt, dt);
+                }
+                //检测若resultbool最后的结果为false,即跳出异常
+                if(!resultbool) throw new Exception("导出PDF产生异常");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                var a = ex.Message;
                 resultdt.Rows.Clear();
             }
 
@@ -466,10 +479,105 @@ namespace CustomerStatementReportTool.Task
         }
 
         /// <summary>
+        /// 将计算的DT输出至指定位置的PDF
+        /// 注:‘对账单’批量一次性生成PDF  并且文件名为‘对账单’+'生成日期'
+        ///    ‘销售出库清单’是根据‘客户ID’循环生成PDF,并且文件名为‘客户名称’+'生成日期'
+        /// </summary>
+        /// <param name="typeid">类型ID 0:'对账单' 1:'销售出库清单'</param>
+        /// <param name="address">输出地址</param>
+        /// <param name="filename">STI文件名</param>
+        /// <param name="custdt">客户DT</param>
+        /// <param name="resultdt">运行结果集DT</param>
+        /// <returns></returns>
+        private bool ExportDtToPdf(int typeid,string address,string filename,DataTable custdt,DataTable resultdt)
+        {
+            var result = true;
+            var stiReport = new StiReport();
+            var filepath = Application.StartupPath + "/Report/" + filename;
+
+            try
+            {
+                //执行‘对账单’输出设置  STI文件里的DB名称:CustomerStatement
+                if (typeid == 0)
+                {
+                    var pdfFileAddress = address + "\\" + "对账单_" + DateTime.Now.Date + ".pdf";
+
+                    stiReport.Load(filepath);
+                    stiReport.RegData("CustomerStatement", resultdt);
+                    stiReport.Render(false);  //重点-没有这个生成的文件会提示“文件已损坏”
+                    stiReport.ExportDocument(StiExportFormat.Pdf, pdfFileAddress); //生成指定格式文件
+                }
+                //执行‘销售发货清单’输出 STI文件里的DB名称:SalesOutList
+                //根据custdt循环输出;输出文件名为‘客户名称’+'生成日期'
+                else
+                {
+                    foreach (DataRow rows in custdt.Rows)
+                    {
+                        var pdfFileAddress = address + "\\" + Convert.ToString(rows[2]) +"_" + DateTime.Now.Date + ".pdf";
+
+                        //根据Convert.ToInt32(rows[0]) 在resultdt查找,并最后整合记录至dt内
+                        var dt = Getreportdt(Convert.ToInt32(rows[0]),resultdt).Copy();
+
+                        stiReport.Load(filepath);
+                        stiReport.RegData("SalesOutList", dt);
+                        stiReport.Render(false);  //重点-没有这个生成的文件会提示“文件已损坏”
+                        stiReport.ExportDocument(StiExportFormat.Pdf, pdfFileAddress); //生成指定格式文件
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 根据客户ID整合相关记录集-‘销售发货清单’使用
+        /// </summary>
+        /// <param name="fcustid">客户ID</param>
+        /// <param name="sourcedt">结果集DT</param>
+        /// <returns></returns>
+        private DataTable Getreportdt(int fcustid,DataTable sourcedt)
+        {
+            var resultdt = sourcedt.Clone();
+            var dtlrows = sourcedt.Select("FCUSTID='"+fcustid+"'");
+
+            for (var i = 0; i < dtlrows.Length; i++)
+            {
+                var newrow = resultdt.NewRow();
+                newrow[0] = Convert.ToInt32(dtlrows[i][0]);                    //客户ID
+                newrow[1] = Convert.ToInt32(dtlrows[i][1]);                    //应收单ID
+                newrow[2] = Convert.ToString(dtlrows[i][2]);                   //终端客户
+                newrow[3] = Convert.ToString(dtlrows[i][3]);                   //收货单位
+                newrow[4] = Convert.ToString(dtlrows[i][4]);                   //收货单位1
+                newrow[5] = Convert.ToString(dtlrows[i][5]);                   //二级客户
+                newrow[6] = Convert.ToString(dtlrows[i][6]);                   //三级客户
+                newrow[7] = Convert.ToString(dtlrows[i][7]);                   //摘要
+                newrow[8] = Convert.ToString(dtlrows[i][8]);                   //销售订单号
+                newrow[9] = Convert.ToString(dtlrows[i][9]);                   //日期
+                newrow[10] = Convert.ToString(dtlrows[i][10]);                 //U订货单号
+                newrow[11] = Convert.ToString(dtlrows[i][11]);                 //单据编号
+                newrow[12] = Convert.ToString(dtlrows[i][12]);                 //托运货场地址
+                newrow[13] = Convert.ToString(dtlrows[i][13]);                 //产品名称
+                newrow[14] = Convert.ToString(dtlrows[i][14]);                 //规格
+                newrow[15] = Convert.ToInt32(dtlrows[i][15]);                  //实发罐数
+                newrow[16] = Math.Round(Convert.ToDecimal(dtlrows[i][16]), 2); //单价
+                newrow[17] = Convert.ToDouble(dtlrows[i][17]);                 //合同金额
+                newrow[18] = Convert.ToString(dtlrows[i][18]);                 //备注
+                newrow[19] = Convert.ToString(dtlrows[i][19]);                 //促销备注
+                newrow[20] = Convert.ToString(dtlrows[i][20]);                 //开票人
+                newrow[21] = Convert.ToInt32(dtlrows[i][21]);                  //作用:对相同客户的区分显示(当要针对相同客户打印多次时)
+                resultdt.Rows.Add(newrow);
+            }
+            return resultdt;
+        }
+
+        /// <summary>
         /// '对账单'所表所需数据生成
         /// 运算核心:针对同一个客户,只运算一次将结果保存至tempdt内,然后通过printpaagenum ('对账单'打印次数) 进行循环插入至resultdt
         /// </summary>
-        /// <param name="resultdt">结果集临时表（作用:STI报表使用）</param>
+        /// <param name="resultdt">结果集临时表（作用:STI对账单报表使用）</param>
         /// <param name="k3Record">K3获取数据结果集</param>
         /// <param name="customername">客户名称</param>
         /// <param name="printpagenum">'对账单'打印次数</param>
@@ -483,14 +591,13 @@ namespace CustomerStatementReportTool.Task
                 //记录结束日期备注
                 var remark1 = Convert.ToDateTime(edt).Year + "年" + Convert.ToDateTime(edt).Month + "月";
                 //若printpagenum-打印数量为0,即跳出异常
-                if(printpagenum == 0) throw new Exception("因'对账单'打印次数为0,故不能生成打印");
-
+                if(printpagenum == 0) throw new Exception("因'对账单'打印次数为0,故不能生成文件");
                 //若k3Record 为空,即跳出异常
-                if(k3Record.Rows.Count == 0) throw new Exception("没有K3对应的返回记录.");
+                if(k3Record.Rows.Count == 0) throw new Exception("没有K3对应的返回记录,故不能生成文件");
                 //中间表-递归运算时使用(与K3Record的表结构一致)
                 var tempdt = k3Record.Clone();
 
-                //当发现sqldt不只有一行时,才执行;tempdt为运算后的记录集(重)
+                //当发现k3Record不只有一行时才执行;tempdt为运算后的记录集(重)
                 if (k3Record.Rows.Count > 1)
                 {
                     //期末余额=期未余额+本期应收-本期实收-本期冲销额 
@@ -499,9 +606,9 @@ namespace CustomerStatementReportTool.Task
 
                 var a = tempdt.Copy();
 
+                //循环printpagenum(对账单打印次数)，并将记录插入至resultdt内
                 //处理数据并整理后将数据插入至resultdt内
                 //若在检测k3Record到只有1行,即插入至结果临时表
-                //todo:循环printpagenum(对账单打印次数)，并将记录插入至resultdt内
                 for (var i = 0; i < printpagenum; i++)
                 {
                     var sdtlows = k3Record.Select("往来单位名称='" + customername + "'");
@@ -515,12 +622,12 @@ namespace CustomerStatementReportTool.Task
                     {
                         //根据customername,查询明细记录
                         var dtlrows = tempdt.Select("往来单位名称='" + customername + "'");
-                        for (var j = 0; j < dtlrows.Length; i++)
+                        for (var j = 0; j < dtlrows.Length; j++)
                         {
-                            resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, Convert.ToString(dtlrows[i][0]), Convert.ToString(dtlrows[i][1]),
-                                                Convert.ToString(dtlrows[i][2]), Convert.ToDecimal(dtlrows[i][4]), Convert.ToDecimal(dtlrows[i][5]),
-                                                Convert.ToDecimal(dtlrows[i][3]), remark1, Convert.ToString(dtlrows[i][7]), Convert.ToDecimal(dtlrows[i][8]),
-                                                Convert.ToString(dtlrows[i][9]),j));
+                            resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, Convert.ToString(dtlrows[j][0]), Convert.ToString(dtlrows[j][1]),
+                                                Convert.ToString(dtlrows[j][2]), Convert.ToDecimal(dtlrows[j][4]), Convert.ToDecimal(dtlrows[j][5]),
+                                                Convert.ToDecimal(dtlrows[j][3]), remark1, Convert.ToString(dtlrows[j][7]), Convert.ToDecimal(dtlrows[j][8]),
+                                                Convert.ToString(dtlrows[j][9]),i));
                         }
                     }
                 }
@@ -580,11 +687,58 @@ namespace CustomerStatementReportTool.Task
         /// <summary>
         /// '销售发货清单'报表所需数据生成
         /// </summary>
+        /// <param name="resultdt">结果集临时表（作用:STI'销售出库清单'报表使用）</param>
+        /// <param name="salesoutK3Record">K3获取数据结果集</param>
+        /// <param name="salesoutprintpagenum">'销售出库清单'打印次数</param>
         /// <returns></returns>
-        private DataTable GenerateSalesoutlistDtRecord()
+        private DataTable GenerateSalesoutlistDtRecord(DataTable resultdt, DataTable salesoutK3Record, int salesoutprintpagenum)
         {
-            //todo:根据salesoutK3Record循环(若为0,即插入错误信息并continue)
+            try
+            {
+                //若'销售出库清单'打印次数为0,即跳出异常
+                if(salesoutprintpagenum == 0) throw new Exception("因'销售出库清单'打印次数为0,故不能生成文件");
+                //根据salesoutK3Record循环(若为0,即插入错误信息并continue)
+                if(salesoutK3Record.Rows.Count == 0) throw new Exception("没有K3对应的返回记录,故不能生成文件");
 
+                //根据salesoutprintpagenum循环插入记录至resultdt
+                for (var i = 0; i < salesoutprintpagenum; i++)
+                {
+                    foreach (DataRow rows in salesoutK3Record.Rows)
+                    {
+                        var newrow = resultdt.NewRow();
+                        newrow[0] = Convert.ToInt32(rows[0]);    //客户ID
+                        newrow[1] = Convert.ToInt32(rows[1]);    //应收单ID
+                        newrow[2] = Convert.ToString(rows[3]);   //终端客户
+                        newrow[3] = Convert.ToString(rows[4]);   //收货单位
+                        newrow[4] = Convert.ToString(rows[5]);   //收货单位1
+                        newrow[5] = Convert.ToString(rows[6]);   //二级客户
+                        newrow[6] = Convert.ToString(rows[7]);   //三级客户
+                        newrow[7] = Convert.ToString(rows[8]);   //摘要
+                        newrow[8] = Convert.ToString(rows[9]);   //销售订单号
+                        newrow[9] = Convert.ToString(rows[10]);  //日期
+                        newrow[10] = Convert.ToString(rows[11]); //U订货单号
+                        newrow[11] = Convert.ToString(rows[12]); //单据编号
+                        newrow[12] = Convert.ToString(rows[13]); //托运货场地址
+                        newrow[13] = Convert.ToString(rows[14]); //产品名称
+                        newrow[14] = Convert.ToString(rows[15]); //规格
+                        newrow[15] = Convert.ToInt32(rows[16]);  //实发罐数
+                        newrow[16] = Math.Round(Convert.ToDecimal(rows[17]), 2); //单价
+                        newrow[17] = Convert.ToDouble(rows[18]);  //合同金额
+                        newrow[18] = Convert.ToString(rows[19]);  //备注
+                        newrow[19] = Convert.ToString(rows[20]);  //促销备注
+                        newrow[20] = Convert.ToString(rows[21]);  //开票人
+                        newrow[21] = i;                           //作用:对相同客户的区分显示(当要针对相同客户打印多次时)
+                        resultdt.Rows.Add(newrow);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Errormessage = ex.Message;
+                resultdt.Rows.Clear();
+            }
+            return resultdt;
         }
 
 
@@ -605,12 +759,12 @@ namespace CustomerStatementReportTool.Task
             var result = tempdt.Rows.Count == 0 ? "执行异常,原因:" + Errormessage : "执行成功,请到导出地址进行查阅.";
 
             var newrow = resultdt.NewRow();
-            newrow[0] = customercode;                    //客户编码
-            newrow[1] = customername;                    //客户名称
-            newrow[2] = stime;                           //开始执行时间
-            newrow[3] = endtime;                         //结束执行时间
-            newrow[4] = result;                          //执行结果
-            newrow[5] = Convert.ToString(ordertypeid);   //导出单据类型-(0)'对帐单' (1)‘销售出库清单’
+            newrow[0] = customercode;                     //客户编码
+            newrow[1] = customername;                     //客户名称
+            newrow[2] = stime;                            //开始执行时间
+            newrow[3] = endtime;                          //结束执行时间
+            newrow[4] = result;                           //执行结果
+            newrow[5] = Convert.ToString(ordertypeid);    //导出单据类型-(0)'对帐单' (1)‘销售出库清单’
             newrow[6] = !result.Contains("成功") ? 1 : 0; //是否成功标记(0:是 1:否)
             resultdt.Rows.Add(newrow);
             return resultdt;

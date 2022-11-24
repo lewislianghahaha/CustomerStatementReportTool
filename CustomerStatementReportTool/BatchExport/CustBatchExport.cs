@@ -166,7 +166,7 @@ namespace CustomerStatementReportTool.BatchExport
                     load.StartPosition = FormStartPosition.CenterScreen;
                     load.ShowDialog();
 
-                    //todo:运算完成后,将原来设置的文本框(按钮)设置为可用
+                    //运算完成后,将原来设置的文本框(按钮)设置为可用
                     tmclose.Enabled = true;
                     tmimport.Enabled = true;
                     btngenerate.Enabled = true;
