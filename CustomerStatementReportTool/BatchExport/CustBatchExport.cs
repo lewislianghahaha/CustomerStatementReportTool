@@ -131,8 +131,12 @@ namespace CustomerStatementReportTool.BatchExport
                     txtdiuprintpage.Enabled = false;
                     txtsalesprintpage.Enabled = false;
 
+
                     //对已添加的‘客户列表’整合,合拼为一行并以,分隔
-                    var customerdt = _dtl; //(DataTable)gvdtl.DataSource;
+
+                    var a2 = _dtl.Copy();
+
+                    var customerdt = _dtl.Copy(); //(DataTable)gvdtl.DataSource;
                     //通过循环将选中行的客户编码进行收集(注:去除重复的选项,只保留不重复的主键记录)
                     foreach (DataRow rows in customerdt.Rows)
                     {
@@ -160,6 +164,7 @@ namespace CustomerStatementReportTool.BatchExport
                     taskLogic.Duiprintpagenumber = Convert.ToInt32(txtdiuprintpage.Text);
                     taskLogic.Salesoutprintpagenumber = Convert.ToInt32(txtsalesprintpage.Text);
                     taskLogic.FileAddress = txtadd.Text;
+                    taskLogic.Custdtlist = _dtl;
 
                     //使用子线程工作(作用:通过调用子线程进行控制Load窗体的关闭情况)
                     new Thread(Start).Start();

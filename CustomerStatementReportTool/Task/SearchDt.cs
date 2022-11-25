@@ -98,11 +98,11 @@ namespace CustomerStatementReportTool.Task
         /// <summary>
         /// 获取客户列表信息-'自定义批量导出'功能使用
         /// </summary>
-        /// <param name="customerlist"></param>
+        /// <param name="customer"></param>
         /// <returns></returns>
-        public DataTable GetSearchCustomerList(string customerlist)
+        public DataTable GetSearchCustomerList(string customer)
         {
-            var dt = UseSqlSearchIntoDt(sqlList.GetSearchCustomerList(customerlist));
+            var dt = UseSqlSearchIntoDt(sqlList.GetSearchCustomerList(customer));
             return dt;
         }
 

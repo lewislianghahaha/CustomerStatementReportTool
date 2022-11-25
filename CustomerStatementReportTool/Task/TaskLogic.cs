@@ -29,6 +29,8 @@ namespace CustomerStatementReportTool.Task
         private DataTable _resultSalesOutListRecord;//返回运算后的记录(针对销售发货清单)
         private DataTable _resultImportDt;          //返回导入EXCEL信息
         private DataTable _resultMessageDt;         //返回‘自定义批量打印’返回结果
+        private DataTable _custdtlist;              //获取前端的客户列表DT(自定义批量导出功能使用)
+
         #endregion
 
         #region Set
@@ -76,6 +78,11 @@ namespace CustomerStatementReportTool.Task
         /// 销售出库清单打印次数
         /// </summary>
         public int Salesoutprintpagenumber { set { _salesoutprintpagenumber = value; } }
+
+        /// <summary>
+        /// 获取前端的客户列表DT(自定义批量导出功能使用)
+        /// </summary>
+        public DataTable Custdtlist { set { _custdtlist = value; } }
         #endregion
 
         #region Get
@@ -150,7 +157,7 @@ namespace CustomerStatementReportTool.Task
                     break;
                 //‘自定义批量功能’-运算
                 case 6:
-                    GenerateBatchexport(_sdt, _edt, _fileAddress,_customerlist,_duiprintpagenumber,_salesoutprintpagenumber);
+                    GenerateBatchexport(_sdt, _edt, _fileAddress,_customerlist,_duiprintpagenumber,_salesoutprintpagenumber, _custdtlist);
                     break;
             }
         }
@@ -222,10 +229,11 @@ namespace CustomerStatementReportTool.Task
         /// <param name="customerlist">客户列表信息</param>
         /// <param name="duiprintpagenum">对账单打印次数</param>
         /// <param name="salesoutprintpagenum">销售发货清单打印次数</param>
+        /// <param name="custdtlist">接收前端客户DT</param>
         private void GenerateBatchexport(string sdt,string edt,string exportaddress,string customerlist,
-                                        int duiprintpagenum,int salesoutprintpagenum)
+                                        int duiprintpagenum,int salesoutprintpagenum,DataTable custdtlist)
         {
-            _resultMessageDt = generate.GenerateBatchexport(sdt,edt, exportaddress,customerlist,
+            _resultMessageDt = generate.GenerateBatchexport(sdt,edt, exportaddress,customerlist, custdtlist,
                                         duiprintpagenum,salesoutprintpagenum).Copy();
         }
     }

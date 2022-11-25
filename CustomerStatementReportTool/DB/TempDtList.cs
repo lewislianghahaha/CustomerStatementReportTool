@@ -407,11 +407,11 @@ namespace CustomerStatementReportTool.DB
                         break;
                     case 2: //开始执行时间
                         dc.ColumnName = "开始执行时间";
-                        dc.DataType = Type.GetType("System.DateTime");
+                        dc.DataType = Type.GetType("System.String");
                         break;
                     case 3: //结束执行时间
                         dc.ColumnName = "结束执行时间";
-                        dc.DataType = Type.GetType("System.DateTime");
+                        dc.DataType = Type.GetType("System.String");
                         break;
                     case 4: //执行结果
                         dc.ColumnName = "执行结果";
@@ -438,7 +438,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable BatchMakeExportDtTemp()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 14; i++)
+            for (var i = 0; i < 15; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -501,6 +501,10 @@ namespace CustomerStatementReportTool.DB
                         dc.ColumnName = "FRowId";
                         dc.DataType = Type.GetType("System.String");
                         break;
+                    case 14://作用:批量打印时,作用:显示出来的打印排列顺序要与前面导入的DT一致
+                        dc.ColumnName = "FSortId";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
                 }
                 dt.Columns.Add(dc);
             }
@@ -514,7 +518,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable BatchMakeSalesOutListDtTemp()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 22; i++)
+            for (var i = 0; i < 23; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -605,6 +609,40 @@ namespace CustomerStatementReportTool.DB
                         break;
                     case 21://作用:对相同客户的区分显示(当要针对相同客户打印多次时)
                         dc.ColumnName = "FRowId";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 22://作用:批量打印时,作用:显示出来的打印排列顺序要与前面导入的DT一致
+                        dc.ColumnName = "FSortId";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                }
+                dt.Columns.Add(dc);
+            }
+            return dt;
+        }
+
+        /// <summary>
+        /// 获取前端导入的客户列表-‘自定义批量导出’功能使用
+        /// </summary>
+        /// <returns></returns>
+        public DataTable SearchBatchCustomerDt()
+        {
+            var dt = new DataTable();
+            for (var i = 0; i < 3; i++)
+            {
+                var dc = new DataColumn();
+                switch (i)
+                {
+                    case 0:  //FCUSTID
+                        dc.ColumnName = "FCUSTID";
+                        dc.DataType = Type.GetType("System.Int32");
+                        break;
+                    case 1: //客户编码
+                        dc.ColumnName = "客户编码";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 2: //客户名称
+                        dc.ColumnName = "客户名称";
                         dc.DataType = Type.GetType("System.String");
                         break;
                 }

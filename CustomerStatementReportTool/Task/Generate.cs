@@ -382,17 +382,21 @@ namespace CustomerStatementReportTool.Task
         /// <param name="edt">结束日期</param>
         /// <param name="exportaddress">输出地址</param>
         /// <param name="customerlist">客户列表信息</param>
+        /// <param name="custlistdt">接收从前端导入的客户DT,用于在不改变导入顺序的前提下获取对应的FCUSTID,并整合成customerk3Dt</param>
         /// <param name="duiprintpagenum">对账单打印次数</param>
         /// <param name="salesoutprintpagenum">销售发货清单打印次数</param>
         /// <returns></returns>
-        public DataTable GenerateBatchexport(string sdt, string edt, string exportaddress, string customerlist,int duiprintpagenum, int salesoutprintpagenum)
+        public DataTable GenerateBatchexport(string sdt, string edt, string exportaddress, string customerlist,DataTable custlistdt,int duiprintpagenum, int salesoutprintpagenum)
         {
+            //定义STI使用的排序ID;
+            var fsortid = 0;
+
             //定义生成PDF返回是否成功标记
             var resultbool = true;
             //定义STI文件名称
             var stifilename = string.Empty;
             //定义执行结束时间
-            var endtime = DateTime.Now;
+            var endtime = string.Empty;
 
             //定义‘对账单’收集SQL返回记录临时表
             var fincalK3Record = tempDt.GetSearchTempDt();
@@ -409,8 +413,8 @@ namespace CustomerStatementReportTool.Task
 
             try
             {
-                //根据customerlist获取K3客户记录
-                var customerk3Dt = searchDt.GetSearchCustomerList(customerlist).Copy();
+                //接收从前端导入的客户DT,用于在不改变导入顺序的前提下获取对应的FCUSTID,并整合成customerk3Dt
+                var customerk3Dt = GetSearchCustomerList(custlistdt).Copy();
 
                 //获取‘对账单’SQL记录(必须‘对账单打印次数’大于0时才会执行)
                 if (duiprintpagenum > 0)
@@ -427,42 +431,33 @@ namespace CustomerStatementReportTool.Task
                 //循环customerK3Dt - 分别收集‘对账单’及‘销售发货清单’结果集
                 foreach (DataRow rows in customerk3Dt.Rows)
                 {
-                    var a = Convert.ToString(rows[2]);
-                    //循环执行顺序:(0)对账单->(1)销售发货清单,分别收集这两种单据类型的执行结果
-                    for (var i = 0; i < 2; i++)
-                    {
-                        //记录开始执行时间
-                        var stime = DateTime.Now.ToLocalTime();
+                    //记录开始执行时间
+                    var stime = DateTime.Now.ToString();
 
-                        switch (i)
-                        {                    
-                            //‘对账单’使用,匹配条件:客户名称
-                            case 0:
-                                var tempdt = fincalresultdt.Clone();
-                                tempdt = GenerateFincalDtRecord(tempdt, fincalK3Record,Convert.ToString(rows[2]),duiprintpagenum,sdt,edt).Copy();
-                                endtime = DateTime.Now.ToLocalTime();
-                                //执行插入历史记录临时表
-                                resultdt.Merge(InsertHistoryToDt(tempdt, resultdt, Convert.ToString(rows[1]), Convert.ToString(rows[2]), stime, endtime, i));
+                    //执行顺序: (0)对账单->(1)销售发货清单,分别收集这两种单据类型的执行结果
+                    //‘对账单’使用,匹配条件:客户名称
+                    var tempdt = fincalresultdt.Clone();
+                    tempdt = GenerateFincalDtRecord(tempdt, fincalK3Record, Convert.ToString(rows[2]), duiprintpagenum, sdt, edt, fsortid).Copy();
+                    endtime = DateTime.Now.ToString();
+                    //执行插入历史记录临时表
+                    resultdt.Merge(InsertHistoryToDt(tempdt, resultdt, Convert.ToString(rows[1]), Convert.ToString(rows[2]), stime, endtime, 0));
 
-                                //若tempdt返回行数为0,即不插入
-                                if (tempdt.Rows.Count == 0) continue;
-                                 fincalresultdt.Merge(tempdt);
-                                break;
-                            //'销售出库清单'使用,匹配条件:Fcustid 
-                            case 1:
-                                var tempdt1 = salesOutresultdt.Clone();
-                                tempdt1 = GenerateSalesoutlistDtRecord(tempdt1, salesoutK3Record,salesoutprintpagenum,Convert.ToInt32(rows[0]),
-                                                                       sdt,edt,Convert.ToString(rows[2])).Copy();
-                                endtime = DateTime.Now.ToLocalTime();
-                                //执行插入历史记录临时表
-                                resultdt.Merge(InsertHistoryToDt(tempdt1, resultdt, Convert.ToString(rows[1]), Convert.ToString(rows[2]), stime, endtime, i));
+                    //若tempdt返回行数不为0,才插入
+                    if (tempdt.Rows.Count > 0) { fincalresultdt.Merge(tempdt);}
 
-                                //若tempdt返回行数为0,即不插入
-                                if (tempdt1.Rows.Count == 0) continue;
-                                    salesOutresultdt.Merge(tempdt1);
-                                break;
-                        }
-                    }
+                    //'销售出库清单'使用,匹配条件:Fcustid 
+                    var tempdt1 = salesOutresultdt.Clone();
+                    tempdt1 = GenerateSalesoutlistDtRecord(tempdt1, salesoutK3Record, salesoutprintpagenum, Convert.ToInt32(rows[0]),
+                                                           sdt, edt, Convert.ToString(rows[2]), fsortid).Copy();
+                    endtime = DateTime.Now.ToString();
+                    //执行插入历史记录临时表
+                    resultdt.Merge(InsertHistoryToDt(tempdt1, resultdt, Convert.ToString(rows[1]), Convert.ToString(rows[2]), stime, endtime, 1));
+
+                    //若tempdt返回行数不为0,才插入
+                    if (tempdt1.Rows.Count > 0) { salesOutresultdt.Merge(tempdt1);}
+
+                    //每循环一次将fsortid自增1
+                    fsortid++;
                 }
 
                 var avc = resultdt.Copy();
@@ -485,6 +480,30 @@ namespace CustomerStatementReportTool.Task
             {
                 var a = ex.Message;
                 resultdt.Rows.Clear();
+            }
+
+            return resultdt;
+        }
+
+        /// <summary>
+        /// 根据前端获取的客户DT,返回获取其对应的Fcustid值
+        /// 注:不要改变源客户DT的顺序
+        /// </summary>
+        /// <param name="custsourcedt"></param>
+        /// <returns></returns>
+        private DataTable GetSearchCustomerList(DataTable custsourcedt)
+        {
+            //获取输出临时表
+            var resultdt = tempDt.SearchBatchCustomerDt();
+
+            //循环custsourcedt,获取其‘客户编码’
+            foreach (DataRow rows in custsourcedt.Rows)
+            {
+                var newrow = resultdt.NewRow();
+                newrow[0] = Convert.ToInt32(searchDt.GetSearchCustomerList(Convert.ToString(rows[0])).Rows[0][0]);  //FCUSTID
+                newrow[1] = Convert.ToString(rows[0]);  //客户编码
+                newrow[2] = Convert.ToString(rows[1]);  //客户名称
+                resultdt.Rows.Add(newrow);              
             }
 
             return resultdt;
@@ -584,7 +603,8 @@ namespace CustomerStatementReportTool.Task
                 newrow[18] = Convert.ToString(dtlrows[i][18]);                 //备注
                 newrow[19] = Convert.ToString(dtlrows[i][19]);                 //促销备注
                 newrow[20] = Convert.ToString(dtlrows[i][20]);                 //开票人
-                newrow[21] = Convert.ToInt32(dtlrows[i][21]);                  //作用:对相同客户的区分显示(当要针对相同客户打印多次时)
+                newrow[21] = Convert.ToString(dtlrows[i][21]);                 //作用:对相同客户的区分显示(当要针对相同客户打印多次时)
+                newrow[22] = Convert.ToString(dtlrows[i][22]);                 //STI排序ID
                 resultdt.Rows.Add(newrow);
             }
             return resultdt;
@@ -600,8 +620,9 @@ namespace CustomerStatementReportTool.Task
         /// <param name="printpagenum">'对账单'打印次数</param>
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
+        /// <param name="fsortid">STI排序ID</param>
         /// <returns></returns>
-        private DataTable GenerateFincalDtRecord(DataTable resultdt,DataTable k3Record,string customername,int printpagenum,string sdt,string edt)
+        private DataTable GenerateFincalDtRecord(DataTable resultdt,DataTable k3Record,string customername,int printpagenum,string sdt,string edt,int fsortid)
         {
             try
             {
@@ -639,7 +660,7 @@ namespace CustomerStatementReportTool.Task
                     {
                         resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, customername, "", Convert.ToString(sdtlows[0][2]),
                                                 0, 0, Convert.ToDecimal(sdtlows[0][3]), remark1, null,
-                                                Convert.ToDecimal(sdtlows[0][3]), null,i));
+                                                Convert.ToDecimal(sdtlows[0][3]), null,i,fsortid));
                     }
                     else
                     {
@@ -650,7 +671,7 @@ namespace CustomerStatementReportTool.Task
                             resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, Convert.ToString(dtlrows[j][0]), Convert.ToString(dtlrows[j][1]),
                                                 Convert.ToString(dtlrows[j][2]), Convert.ToDecimal(dtlrows[j][4]), Convert.ToDecimal(dtlrows[j][5]),
                                                 Convert.ToDecimal(dtlrows[j][3]), remark1, Convert.ToString(dtlrows[j][7]), Convert.ToDecimal(dtlrows[j][8]),
-                                                Convert.ToString(dtlrows[j][9]),i));
+                                                Convert.ToString(dtlrows[j][9]),i, fsortid));
                         }
                     }
                 }
@@ -682,10 +703,11 @@ namespace CustomerStatementReportTool.Task
         /// <param name="month">月份</param>
         /// <param name="remark1">记录结束日期备注</param>
         /// <param name="fRowId">对相同客户的区分显示(当要针对相同客户打印多次时)</param>
+        /// <param name="fsortid">STI排序ID</param>
         /// <returns></returns>
         private DataTable GetBatchResultDt(DataTable tempdt, string sdt, string edt, string customerName, string dt, string remark
                               , decimal yibalance, decimal xibalance, decimal endbalance, string remark1, string fbillno
-                              , decimal lastEndBalance, string month,int fRowId)
+                              , decimal lastEndBalance, string month,int fRowId,int fsortid)
         {
             var newrow = tempdt.NewRow();
             newrow[0] = sdt;                               //开始日期
@@ -702,6 +724,7 @@ namespace CustomerStatementReportTool.Task
             newrow[11] = month;                            //月份
             newrow[12] = remark == "本期合计" ? "" : dt;    //单据日期-用于显示
             newrow[13] = fRowId;                           //对相同客户的区分显示(当要针对相同客户打印多次时)
+            newrow[14] = fsortid;                          //STI排序ID
             tempdt.Rows.Add(newrow);
             return tempdt;
         }
@@ -717,9 +740,10 @@ namespace CustomerStatementReportTool.Task
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
         /// <param name="customername">客户名称</param>
-        /// <returns></returns>
+        /// <param name="fsortid">STI排序ID</param>
+        /// <returns>STI排序ID</returns>
         private DataTable GenerateSalesoutlistDtRecord(DataTable resultdt, DataTable salesoutK3Record
-                                                        , int salesoutprintpagenum,int fcustid,string sdt,string edt,string customername)
+                                                        ,int salesoutprintpagenum,int fcustid,string sdt,string edt,string customername, int fsortid)
         {
             try
             {
@@ -762,6 +786,7 @@ namespace CustomerStatementReportTool.Task
                         newrow[19] = Convert.ToString(dtlrows[j][20]);  //促销备注
                         newrow[20] = Convert.ToString(dtlrows[j][21]);  //开票人
                         newrow[21] = i;                                 //作用:对相同客户的区分显示(当要针对相同客户打印多次时)
+                        newrow[22] = fsortid;                           //STI排序ID
                         resultdt.Rows.Add(newrow);
                     }
                 }
@@ -788,7 +813,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="endtime">结束执行时间</param>
         /// <param name="ordertypeid">单据类型;0:对账单  1:销售发货清单</param>
         /// <returns></returns>
-        private DataTable InsertHistoryToDt(DataTable tempdt,DataTable resultdt, string customercode,string customername,DateTime stime,DateTime endtime, int ordertypeid)
+        private DataTable InsertHistoryToDt(DataTable tempdt,DataTable resultdt, string customercode,string customername,string stime,string endtime, int ordertypeid)
         {
             var ordertype = ordertypeid == 0 ? "对账单" : "销售出库清单";
 

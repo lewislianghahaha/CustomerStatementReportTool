@@ -287,15 +287,15 @@ namespace CustomerStatementReportTool.DB
         /// 获取客户列表信息-'自定义批量导出'功能使用
         /// </summary>
         /// <returns></returns>
-        public string GetSearchCustomerList(string customerlist)
+        public string GetSearchCustomerList(string customer)
         {
             _result = $@"
                             SELECT A.FCUSTID,A.FNUMBER 客户编码,B.FNAME 客户名称 
                             FROM dbo.T_BD_CUSTOMER A
                             INNER JOIN dbo.T_BD_CUSTOMER_L B ON A.FCUSTID=B.FCUSTID AND B.FLOCALEID=2052
                             WHERE a.FDOCUMENTSTATUS='C'
-                            AND A.FNUMBER NOT LIKE 'INT%'
-                            AND A.FNUMBER IN ({customerlist})
+                            --AND A.FNUMBER NOT LIKE 'INT%'
+                            AND A.FNUMBER ='{customer}'
                             ORDER BY a.FCUSTID
                          ";
 
