@@ -480,7 +480,7 @@ namespace CustomerStatementReportTool
         {
             try
             {
-                //todo:调用‘自定义批量导出’窗体
+                //调用‘自定义批量导出’窗体
                 custBatchExport.StartPosition = FormStartPosition.CenterParent;
                 custBatchExport.ShowDialog();
             }

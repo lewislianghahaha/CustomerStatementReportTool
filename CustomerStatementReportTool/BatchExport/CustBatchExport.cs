@@ -151,7 +151,7 @@ namespace CustomerStatementReportTool.BatchExport
                         }
                     }
 
-                    var a = customerdt;
+                    //var a = customerdt;
 
                     taskLogic.TaskId = 6;
                     taskLogic.Sdt = sdt;
@@ -176,9 +176,10 @@ namespace CustomerStatementReportTool.BatchExport
 
                     var a1= taskLogic.ResultMessageDt.Copy();
 
-                    //todo:将返回结果传输至MessageFrm窗体内
+                    //将返回结果传输至MessageFrm窗体内
                     messageFrm.Resultdt = taskLogic.ResultMessageDt;
-                    //todo:弹出信息窗体
+                    messageFrm.OnShow();
+                    //弹出信息窗体
                     messageFrm.StartPosition = FormStartPosition.CenterParent;
                     messageFrm.ShowDialog();
                 }
