@@ -6,7 +6,7 @@
     <DataSources isList="true" count="1">
       <SalesOutList Ref="2" type="DataTableSource" isKey="true">
         <Alias>SalesOutList</Alias>
-        <Columns isList="true" count="23">
+        <Columns isList="true" count="22">
           <value>FCUSTID,System.Int32</value>
           <value>FID,System.Int32</value>
           <value>FDATAVALUE,System.String</value>
@@ -28,8 +28,7 @@
           <value>FNote,System.String</value>
           <value>FSalesNote,System.String</value>
           <value>FCeateName,System.String</value>
-          <value>FRowId,System.Int32</value>
-          <value>FSortId,System.Int32</value>
+          <value>FRowId,System.String</value>
         </Columns>
         <Dictionary isRef="1" />
         <Name>SalesOutList</Name>
@@ -92,7 +91,7 @@
         <GroupHeaderBand1 Ref="7" type="GroupHeaderBand" isKey="true">
           <Border>All;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,0.4,19,7.8</ClientRectangle>
+          <ClientRectangle>0,0.4,19,8</ClientRectangle>
           <Components isList="true" count="67">
             <Image1 Ref="8" type="Image" isKey="true">
               <Border>None;Black;2;Solid;False;4;Black</Border>
@@ -541,7 +540,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
             <Text26 Ref="28" type="Text" isKey="true">
               <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
               <Brush>DodgerBlue</Brush>
-              <ClientRectangle>0,7,5.2,0.8</ClientRectangle>
+              <ClientRectangle>0,7,5.2,1</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Bold,Point,False,134</Font>
@@ -589,7 +588,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
             </Text30>
             <Text31 Ref="31" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>10.4,5.2,4.2,0.6</ClientRectangle>
+              <ClientRectangle>10.4,5.2,5.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Regular,Point,False,134</Font>
               <Guid>1cbbd693b58b4a7c83bb8b2c22822a3d</Guid>
@@ -652,7 +651,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
             <Text21 Ref="35" type="Text" isKey="true">
               <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
               <Brush>DodgerBlue</Brush>
-              <ClientRectangle>5.2,7,1.6,0.8</ClientRectangle>
+              <ClientRectangle>5.2,7,1.6,1</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Bold,Point,False,134</Font>
@@ -670,7 +669,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
             <Text22 Ref="36" type="Text" isKey="true">
               <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
               <Brush>DodgerBlue</Brush>
-              <ClientRectangle>6.8,7,1.8,0.8</ClientRectangle>
+              <ClientRectangle>6.8,7,1.8,1</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Bold,Point,False,134</Font>
@@ -689,7 +688,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
             <Text23 Ref="37" type="Text" isKey="true">
               <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
               <Brush>DodgerBlue</Brush>
-              <ClientRectangle>8.6,7,1.8,0.8</ClientRectangle>
+              <ClientRectangle>8.6,7,1.8,1</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Bold,Point,False,134</Font>
@@ -707,7 +706,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
             <Text25 Ref="38" type="Text" isKey="true">
               <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
               <Brush>DodgerBlue</Brush>
-              <ClientRectangle>10.4,7,2.2,0.8</ClientRectangle>
+              <ClientRectangle>10.4,7,2.2,1</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Bold,Point,False,134</Font>
@@ -725,7 +724,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
             <Text27 Ref="39" type="Text" isKey="true">
               <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
               <Brush>DodgerBlue</Brush>
-              <ClientRectangle>12.6,7,3.2,0.8</ClientRectangle>
+              <ClientRectangle>12.6,7,3.2,1</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Bold,Point,False,134</Font>
@@ -743,7 +742,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
             <Text28 Ref="40" type="Text" isKey="true">
               <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
               <Brush>DodgerBlue</Brush>
-              <ClientRectangle>15.8,7,3.2,0.8</ClientRectangle>
+              <ClientRectangle>15.8,7,3.2,1</ClientRectangle>
               <ComponentStyle>样式1</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Bold,Point,False,134</Font>
@@ -990,7 +989,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ReferenceToGuid>36d6ad4782964fbbaf0e1958d764e10d</ReferenceToGuid>
             </StartPointPrimitive8>
             <EndPointPrimitive8 Ref="84" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
-              <ClientRectangle>5.2,7.8,0,0</ClientRectangle>
+              <ClientRectangle>5.2,8,0,0</ClientRectangle>
               <Name>EndPointPrimitive8</Name>
               <Page isRef="3" />
               <Parent isRef="7" />
@@ -1004,7 +1003,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ReferenceToGuid>5f8eab54bd05437eb3eccdb2b3e0fd09</ReferenceToGuid>
             </StartPointPrimitive9>
             <EndPointPrimitive9 Ref="86" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
-              <ClientRectangle>6.8,7.8,0,0</ClientRectangle>
+              <ClientRectangle>6.8,8,0,0</ClientRectangle>
               <Name>EndPointPrimitive9</Name>
               <Page isRef="3" />
               <Parent isRef="7" />
@@ -1018,7 +1017,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ReferenceToGuid>aeaf86f594b142b490c6d6ec58146691</ReferenceToGuid>
             </StartPointPrimitive18>
             <EndPointPrimitive18 Ref="88" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
-              <ClientRectangle>8.6,7.8,0,0</ClientRectangle>
+              <ClientRectangle>8.6,8,0,0</ClientRectangle>
               <Name>EndPointPrimitive18</Name>
               <Page isRef="3" />
               <Parent isRef="7" />
@@ -1032,7 +1031,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ReferenceToGuid>a6648fc85c70464f9a96fe77e1bf5ed3</ReferenceToGuid>
             </StartPointPrimitive22>
             <EndPointPrimitive19 Ref="90" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
-              <ClientRectangle>10.4,7.8,0,0</ClientRectangle>
+              <ClientRectangle>10.4,8,0,0</ClientRectangle>
               <Name>EndPointPrimitive19</Name>
               <Page isRef="3" />
               <Parent isRef="7" />
@@ -1046,7 +1045,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ReferenceToGuid>dc8e5a835ab64622b255b52664e212e1</ReferenceToGuid>
             </StartPointPrimitive23>
             <EndPointPrimitive20 Ref="92" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
-              <ClientRectangle>12.6,7.8,0,0</ClientRectangle>
+              <ClientRectangle>12.6,8,0,0</ClientRectangle>
               <Name>EndPointPrimitive20</Name>
               <Page isRef="3" />
               <Parent isRef="7" />
@@ -1060,14 +1059,14 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ReferenceToGuid>2521cfc8419b4b268dca01501989f9fa</ReferenceToGuid>
             </StartPointPrimitive24>
             <EndPointPrimitive21 Ref="94" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
-              <ClientRectangle>15.8,7.8,0,0</ClientRectangle>
+              <ClientRectangle>15.8,8,0,0</ClientRectangle>
               <Name>EndPointPrimitive21</Name>
               <Page isRef="3" />
               <Parent isRef="7" />
               <ReferenceToGuid>2521cfc8419b4b268dca01501989f9fa</ReferenceToGuid>
             </EndPointPrimitive21>
           </Components>
-          <Condition>{SalesOutList.FID}{SalesOutList.FCUSTID}{SalesOutList.FRowId}</Condition>
+          <Condition>{SalesOutList.FCUSTID}{SalesOutList.FRowId}</Condition>
           <Conditions isList="true" count="0" />
           <Name>GroupHeaderBand1</Name>
           <NewPageBefore>True</NewPageBefore>
@@ -1078,8 +1077,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
         <DataBand1 Ref="95" type="DataBand" isKey="true">
           <Border>All;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
-          <BusinessObjectGuid isNull="true" />
-          <ClientRectangle>0,9,19,1</ClientRectangle>
+          <ClientRectangle>0,9.2,19,1</ClientRectangle>
           <Components isList="true" count="19">
             <Text33 Ref="96" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -1286,11 +1284,14 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           <Name>DataBand1</Name>
           <Page isRef="3" />
           <Parent isRef="3" />
-          <Sort isList="true" count="0" />
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>FMaterialCode</value>
+          </Sort>
         </DataBand1>
         <GroupFooterBand1 Ref="115" type="GroupFooterBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,10.8,19,2.8</ClientRectangle>
+          <ClientRectangle>0,11,19,2.8</ClientRectangle>
           <Components isList="true" count="9">
             <Panel1 Ref="116" type="Panel" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
@@ -1606,7 +1607,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive6>
         <VerticalLinePrimitive7 Ref="152" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>5.2,9,0.0254,1</ClientRectangle>
+          <ClientRectangle>5.2,9.2,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="153" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1620,7 +1621,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive7>
         <VerticalLinePrimitive11 Ref="155" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>6.8,9,0.0254,1</ClientRectangle>
+          <ClientRectangle>6.8,9.2,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="156" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1634,7 +1635,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive11>
         <VerticalLinePrimitive12 Ref="158" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>8.6,9,0.0254,1</ClientRectangle>
+          <ClientRectangle>8.6,9.2,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="159" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1648,7 +1649,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive12>
         <VerticalLinePrimitive13 Ref="161" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>10.4,9,0.0254,1</ClientRectangle>
+          <ClientRectangle>10.4,9.2,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="162" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1662,7 +1663,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive13>
         <VerticalLinePrimitive14 Ref="164" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>12.6,9,0.0254,1</ClientRectangle>
+          <ClientRectangle>12.6,9.2,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="165" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1676,7 +1677,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive14>
         <VerticalLinePrimitive15 Ref="167" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>15.8,9,0.0254,1</ClientRectangle>
+          <ClientRectangle>15.8,9.2,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="168" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1690,7 +1691,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive15>
         <VerticalLinePrimitive16 Ref="170" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>5.2,10.8,0.0254,0.6</ClientRectangle>
+          <ClientRectangle>5.2,11,0.0254,0.6</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="171" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1704,7 +1705,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive16>
         <VerticalLinePrimitive17 Ref="173" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>8.6,10.8,0.0254,0.6</ClientRectangle>
+          <ClientRectangle>8.6,11,0.0254,0.6</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="174" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1718,7 +1719,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive17>
         <VerticalLinePrimitive9 Ref="176" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>5.2,7.4,0.0254,0.8</ClientRectangle>
+          <ClientRectangle>5.2,7.4,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="177" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1732,7 +1733,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive9>
         <VerticalLinePrimitive10 Ref="179" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>6.8,7.4,0.0254,0.8</ClientRectangle>
+          <ClientRectangle>6.8,7.4,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="180" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1746,7 +1747,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive10>
         <VerticalLinePrimitive18 Ref="182" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>8.6,7.4,0.0254,0.8</ClientRectangle>
+          <ClientRectangle>8.6,7.4,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="183" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1760,7 +1761,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive18>
         <VerticalLinePrimitive19 Ref="185" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>10.4,7.4,0.0254,0.8</ClientRectangle>
+          <ClientRectangle>10.4,7.4,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="186" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1774,7 +1775,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive19>
         <VerticalLinePrimitive20 Ref="188" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>12.6,7.4,0.0254,0.8</ClientRectangle>
+          <ClientRectangle>12.6,7.4,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="189" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1788,7 +1789,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           </StartCap>
         </VerticalLinePrimitive20>
         <VerticalLinePrimitive21 Ref="191" type="VerticalLinePrimitive" isKey="true">
-          <ClientRectangle>15.8,7.4,0.0254,0.8</ClientRectangle>
+          <ClientRectangle>15.8,7.4,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <EndCap Ref="192" type="Cap" isKey="true">
             <Color>Black</Color>
@@ -1827,10 +1828,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>11/26/2022 10:17:52 AM</ReportChanged>
+  <ReportChanged>11/26/2022 6:30:38 PM</ReportChanged>
   <ReportCreated>9/21/2022 10:07:28 AM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\BatchSalesOutListReport.mrt</ReportFile>
-  <ReportGuid>4251391706b547d3918a2305ea745264</ReportGuid>
+  <ReportGuid>7964f205f4c1435db1bb386ffee69423</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Data;
-using System.Globalization;
 using System.Windows.Forms;
 using CustomerStatementReportTool.DB;
 using Stimulsoft.Report;
-using Stimulsoft.Report.Chart;
 
 namespace CustomerStatementReportTool.Task
 {
@@ -396,7 +394,7 @@ namespace CustomerStatementReportTool.Task
         {
             //定义循环值,fsortid使用
             var id = 0;
-            //定义STI使用的排序ID;
+            //定义STI使用的排序ID; --STI表头排序ID;注:以A开始,若ID值小于10 即加0,如:A01
             var fsortid = "A00";
             //记录开始执行时间
             var stime = string.Empty;
@@ -462,7 +460,7 @@ namespace CustomerStatementReportTool.Task
                     //若tempdt返回行数不为0,才插入
                     if (tempdt.Rows.Count > 0) { fincalresultdt.Merge(tempdt);}
 
-                    /////////////////////////////////////////////////////////////////////////////////////////////
+                    /////////////////////////////////////////////执行'销售出库清单'////////////////////////////////////////////////////
 
                     //'销售出库清单'使用,匹配条件:Fcustid 
                     var tempdt1 = salesOutresultdt.Clone();
@@ -470,7 +468,7 @@ namespace CustomerStatementReportTool.Task
                     stime = DateTime.Now.ToString();
 
                     tempdt1 = GenerateSalesoutlistDtRecord(tempdt1, salesoutK3Record, salesoutprintpagenum, Convert.ToInt32(rows[0]),
-                                                           sdt, edt, Convert.ToString(rows[2]), fsortid).Copy();
+                                                           sdt, edt, Convert.ToString(rows[2])).Copy();
                     //延时6秒
                     System.Threading.Thread.Sleep(600);
                     //获取结束时间
@@ -648,7 +646,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="printpagenum">'对账单'打印次数</param>
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
-        /// <param name="fsortid">STI排序ID</param>
+        /// <param name="fsortid">STI表头排序ID;注:以A开始,若ID值小于10 即加0,如:A01</param>
         /// <returns></returns>
         private DataTable GenerateFincalDtRecord(DataTable resultdt,DataTable k3Record,string customername,int printpagenum,string sdt,string edt,string fsortid)
         {
@@ -886,7 +884,7 @@ namespace CustomerStatementReportTool.Task
             newrow[11] = month;                            //月份
             newrow[12] = remark == "本期合计" ? "" : dt;    //单据日期-用于显示
             newrow[13] = fRowId;                           //对相同客户的区分显示(当要针对相同客户打印多次时)
-            newrow[14] = fsortid;                          //STI排序ID
+            newrow[14] = fsortid;                          //STI排序ID;注:以A开始,若ID值小于10 即加0,如:A01
             newrow[15] = dtlid;                            //用于STI报表明细行排序
             tempdt.Rows.Add(newrow);
             return tempdt;
@@ -903,10 +901,9 @@ namespace CustomerStatementReportTool.Task
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
         /// <param name="customername">客户名称</param>
-        /// <param name="fsortid">STI排序ID</param>
         /// <returns>STI排序ID</returns>
         private DataTable GenerateSalesoutlistDtRecord(DataTable resultdt, DataTable salesoutK3Record
-                                                        ,int salesoutprintpagenum,int fcustid,string sdt,string edt,string customername, string fsortid)
+                                                        ,int salesoutprintpagenum,int fcustid,string sdt,string edt,string customername)
         {
             try
             {
@@ -948,8 +945,7 @@ namespace CustomerStatementReportTool.Task
                         newrow[18] = Convert.ToString(dtlrows[j][19]);  //备注
                         newrow[19] = Convert.ToString(dtlrows[j][20]);  //促销备注
                         newrow[20] = Convert.ToString(dtlrows[j][21]);  //开票人
-                        newrow[21] = i;                                 //作用:对相同客户的区分显示(当要针对相同客户打印多次时)
-                        newrow[22] = fsortid;                           //STI排序ID
+                        newrow[21] = i;                                 //作用:对相同客户的区分显示(当要针对相同客户打印多次时) FRowId
                         resultdt.Rows.Add(newrow);
                     }
                 }

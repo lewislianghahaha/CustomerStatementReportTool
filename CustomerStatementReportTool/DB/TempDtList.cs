@@ -501,16 +501,18 @@ namespace CustomerStatementReportTool.DB
                         dc.ColumnName = "FDATE1";
                         dc.DataType = Type.GetType("System.String");
                         break;
-                    //作用:对相同客户的区分显示(当要针对相同客户打印多次时)
+                    //作用:对相同客户的区分显示(作用:针对相同客户打印多次时)
                     case 13:
                         dc.ColumnName = "FRowId";
                         dc.DataType = Type.GetType("System.String"); 
                         break;
-                    case 14://作用:批量打印时,作用:显示出来的打印排列顺序要与前面导入的DT一致
+                    //作用:批量打印时,作用:显示出来的打印排列顺序要与前面导入的DT一致 STI表头排序ID;注:以A开始,若ID值小于10 即加0,如:A01(用于代替‘客户名称’放到报表里进行分组排序)
+                    case 14:
                         dc.ColumnName = "FSortId";
                         dc.DataType = Type.GetType("System.String");
                         break;
-                    case 15://用于STI报表明细行排序(自定义批量导出功能使用)
+                    //用于STI报表明细行排序(自定义批量导出功能使用)
+                    case 15:
                         dc.ColumnName = "FDtlId";
                         dc.DataType = Type.GetType("System.Int32");
                         break;
@@ -527,7 +529,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable BatchMakeSalesOutListDtTemp()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 23; i++)
+            for (var i = 0; i < 22; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -616,12 +618,8 @@ namespace CustomerStatementReportTool.DB
                         dc.ColumnName = "FCeateName";
                         dc.DataType = Type.GetType("System.String");
                         break;
-                    case 21://作用:对相同客户的区分显示(当要针对相同客户打印多次时)
+                    case 21://作用:对相同客户的区分显示(作用:针对相同客户打印多次时)
                         dc.ColumnName = "FRowId";
-                        dc.DataType = Type.GetType("System.String");
-                        break;
-                    case 22://作用:批量打印时,作用:显示出来的打印排列顺序要与前面导入的DT一致
-                        dc.ColumnName = "FSortId";
                         dc.DataType = Type.GetType("System.String");
                         break;
                 }
