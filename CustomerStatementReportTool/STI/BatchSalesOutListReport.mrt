@@ -28,8 +28,8 @@
           <value>FNote,System.String</value>
           <value>FSalesNote,System.String</value>
           <value>FCeateName,System.String</value>
-          <value>FRowId,System.String</value>
-          <value>FSortId,System.String</value>
+          <value>FRowId,System.Int32</value>
+          <value>FSortId,System.Int32</value>
         </Columns>
         <Dictionary isRef="1" />
         <Name>SalesOutList</Name>
@@ -1827,10 +1827,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>11/25/2022 3:41:22 PM</ReportChanged>
+  <ReportChanged>11/26/2022 10:17:52 AM</ReportChanged>
   <ReportCreated>9/21/2022 10:07:28 AM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\BatchSalesOutListReport.mrt</ReportFile>
-  <ReportGuid>c4496d44cc15422095d69ae85108758c</ReportGuid>
+  <ReportGuid>4251391706b547d3918a2305ea745264</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>

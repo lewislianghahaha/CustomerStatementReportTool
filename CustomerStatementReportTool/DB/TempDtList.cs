@@ -84,7 +84,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable GetSearchTempDt()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 11; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -131,6 +131,11 @@ namespace CustomerStatementReportTool.DB
                     case 9:
                         dc.ColumnName = "Month";
                         dc.DataType = Type.GetType("System.String");
+                        break;
+                    //用于STI报表排序(自定义批量导出功能使用)
+                    case 10:
+                        dc.ColumnName = "FDtlId";
+                        dc.DataType = Type.GetType("System.Int32"); 
                         break;
                 }
                 dt.Columns.Add(dc);
@@ -438,7 +443,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable BatchMakeExportDtTemp()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 15; i++)
+            for (var i = 0; i < 16; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -499,11 +504,15 @@ namespace CustomerStatementReportTool.DB
                     //作用:对相同客户的区分显示(当要针对相同客户打印多次时)
                     case 13:
                         dc.ColumnName = "FRowId";
-                        dc.DataType = Type.GetType("System.String");
+                        dc.DataType = Type.GetType("System.String"); 
                         break;
                     case 14://作用:批量打印时,作用:显示出来的打印排列顺序要与前面导入的DT一致
                         dc.ColumnName = "FSortId";
                         dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 15://用于STI报表明细行排序(自定义批量导出功能使用)
+                        dc.ColumnName = "FDtlId";
+                        dc.DataType = Type.GetType("System.Int32");
                         break;
                 }
                 dt.Columns.Add(dc);
