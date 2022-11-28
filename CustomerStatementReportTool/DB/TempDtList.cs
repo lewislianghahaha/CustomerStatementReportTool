@@ -438,6 +438,8 @@ namespace CustomerStatementReportTool.DB
 
         /// <summary>
         /// 保存最终运算结果-自定义批量导出-'对账单'使用
+        /// 注:1) STI报表排序方式=>Frowid与Fsortid结合在表头分组使用，而FDtlid在对明细行排序使用
+        ///    2) Frowid记录需要打印多少份，从0开始
         /// </summary>
         /// <returns></returns>
         public DataTable BatchMakeExportDtTemp()
@@ -524,6 +526,7 @@ namespace CustomerStatementReportTool.DB
 
         /// <summary>
         /// 保存最终运算结果-自定义批量导出-'销售发货清单'使用
+        /// 注:STI报表排序方式=>用FID,frowid分组
         /// </summary>
         /// <returns></returns>
         public DataTable BatchMakeSalesOutListDtTemp()

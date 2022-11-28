@@ -34,7 +34,6 @@ namespace CustomerStatementReportTool.BatchExport
         {
             InitializeComponent();
             OnRegisterEvents();
-            //OnShow();
         }
 
         private void OnRegisterEvents()

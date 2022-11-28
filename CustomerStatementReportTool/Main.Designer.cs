@@ -503,6 +503,7 @@
             this.ClientSize = new System.Drawing.Size(889, 610);
             this.ControlBox = false;
             this.Controls.Add(this.panel2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Main";
             this.Text = "K3客户对账单批量生成工具";
             this.panel1.ResumeLayout(false);

@@ -1066,7 +1066,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
               <ReferenceToGuid>2521cfc8419b4b268dca01501989f9fa</ReferenceToGuid>
             </EndPointPrimitive21>
           </Components>
-          <Condition>{SalesOutList.FCUSTID}{SalesOutList.FRowId}</Condition>
+          <Condition>{SalesOutList.FID}{SalesOutList.FRowId}</Condition>
           <Conditions isList="true" count="0" />
           <Name>GroupHeaderBand1</Name>
           <NewPageBefore>True</NewPageBefore>
@@ -1077,6 +1077,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
         <DataBand1 Ref="95" type="DataBand" isKey="true">
           <Border>All;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,9.2,19,1</ClientRectangle>
           <Components isList="true" count="19">
             <Text33 Ref="96" type="Text" isKey="true">
@@ -1828,10 +1829,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>11/26/2022 6:30:38 PM</ReportChanged>
+  <ReportChanged>11/28/2022 4:35:42 PM</ReportChanged>
   <ReportCreated>9/21/2022 10:07:28 AM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\BatchSalesOutListReport.mrt</ReportFile>
-  <ReportGuid>7964f205f4c1435db1bb386ffee69423</ReportGuid>
+  <ReportGuid>9427dd82ecef4edbaad00114ea5b515f</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>

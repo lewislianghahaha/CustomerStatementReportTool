@@ -106,7 +106,7 @@ namespace CustomerStatementReportTool.BatchExport
         {
             try
             {
-                var clickMessage = $"准备执行,请注意:执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,请先关闭下载文件夹(并在执行过程中不要打开)再继续,\n是否继续执行?";
+                var clickMessage = $"准备执行,\n请注意:\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
                 var customerlist = string.Empty;
                 var temp = string.Empty;
 
@@ -118,7 +118,7 @@ namespace CustomerStatementReportTool.BatchExport
                 //判断若gvdtl没有记录,不能进行运算
                 if (gvdtl.RowCount == 0) throw new Exception($"请添加记录后再进行运算");
                 //若结束日期小于开始日期,报异常提示
-                if (DateTime.Compare(Convert.ToDateTime(sdt), Convert.ToDateTime(edt)) > 0) throw new Exception($"异常:结束日期不能小于开始日期,请重新选择日期并进行运算");
+                if (DateTime.Compare(Convert.ToDateTime(sdt), Convert.ToDateTime(edt)) > 0) throw new Exception($"结束日期不能小于开始日期,请重新选择日期并进行运算");
 
                 //开始执行
                 if (MessageBox.Show(clickMessage, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
@@ -131,12 +131,10 @@ namespace CustomerStatementReportTool.BatchExport
                     txtdiuprintpage.Enabled = false;
                     txtsalesprintpage.Enabled = false;
 
-
-                    //对已添加的‘客户列表’整合,合拼为一行并以,分隔
-
-                    var a2 = _dtl.Copy();
+                    //var a2 = _dtl.Copy();
 
                     var customerdt = _dtl.Copy(); //(DataTable)gvdtl.DataSource;
+                    //对已添加的‘客户列表’整合,合拼为一行并以,分隔
                     //通过循环将选中行的客户编码进行收集(注:去除重复的选项,只保留不重复的主键记录)
                     foreach (DataRow rows in customerdt.Rows)
                     {
@@ -187,6 +185,15 @@ namespace CustomerStatementReportTool.BatchExport
                     //弹出信息窗体
                     messageFrm.StartPosition = FormStartPosition.CenterParent;
                     messageFrm.ShowDialog();
+
+                    //当messageFrm退出后,将‘导出地址’文本框 以及GVDTL内容清空 将‘导出份数
+                    txtadd.Text = "";
+                    txtdiuprintpage.Text = "1";
+                    txtsalesprintpage.Text = "1";
+                    var dt = (DataTable) gvdtl.DataSource;
+                    dt.Rows.Clear();
+                    dt.Columns.Clear();
+                    gvdtl.DataSource = dt;
                 }
             }
             catch (Exception ex)

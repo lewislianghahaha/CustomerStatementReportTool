@@ -487,7 +487,6 @@ namespace CustomerStatementReportTool.Task
                 }
 
                 var avc = resultdt.Copy();
-
                 var b = fincalresultdt.Copy();
                 var c = salesOutresultdt.Copy();
 
@@ -630,7 +629,6 @@ namespace CustomerStatementReportTool.Task
                 newrow[19] = Convert.ToString(dtlrows[i][19]);                 //促销备注
                 newrow[20] = Convert.ToString(dtlrows[i][20]);                 //开票人
                 newrow[21] = Convert.ToString(dtlrows[i][21]);                 //作用:对相同客户的区分显示(当要针对相同客户打印多次时)
-                newrow[22] = Convert.ToString(dtlrows[i][22]);                 //STI排序ID
                 resultdt.Rows.Add(newrow);
             }
             return resultdt;
