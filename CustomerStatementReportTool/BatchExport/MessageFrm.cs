@@ -98,8 +98,8 @@ namespace CustomerStatementReportTool.BatchExport
             }
             else
             {
-                gvdtl.DataSource = _resultdt.Copy();
-                gvdtl1.DataSource = _resultdt.Copy();
+                gvdtl.DataSource = _resultdt.Clone();
+                gvdtl1.DataSource = _resultdt.Clone();
             }
         }
 
