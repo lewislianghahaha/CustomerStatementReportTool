@@ -51,14 +51,16 @@ namespace CustomerStatementReportTool.Task
                     var newrow = custdt.NewRow();
                     if (custdt.Rows.Count == 0)
                     {
-                        newrow[0] = Convert.ToString(rows[0]);
+                        newrow[0] = Convert.ToString(rows[0]);   //客户名称
+                        newrow[1] = Convert.ToString(rows[11]);  //客户编码
                     }
                     else
                     {
                         //判断若custdt.select()=0 才插入记录;
-                        var dtlrows = custdt.Select("客户名称='" + rows[0] + "'").Length;
+                        var dtlrows = custdt.Select("客户编码='" + rows[11] + "'").Length;
                         if (dtlrows > 0) continue;
-                        newrow[0] = Convert.ToString(rows[0]);
+                        newrow[0] = Convert.ToString(rows[0]);   //客户名称
+                        newrow[1] = Convert.ToString(rows[11]);  //客户编码
                     }
                     custdt.Rows.Add(newrow);
                 }
@@ -71,7 +73,7 @@ namespace CustomerStatementReportTool.Task
                     //循环处理(重) 期末余额=期未余额+本期应收-本期实收-本期冲销额 
                     foreach (DataRow row in custdt.Rows)
                     {
-                        tempdt.Merge(GenerateReportDtlTemp(Convert.ToString(row[0]), sqldt, tempdt));
+                        tempdt.Merge(GenerateReportDtlTemp(Convert.ToString(row[0]), sqldt, tempdt,Convert.ToString(row[1])));
                     }
                 }
 
@@ -81,25 +83,26 @@ namespace CustomerStatementReportTool.Task
                 foreach (DataRow custrow in custdt.Rows)
                 {
                     //若在检测sqldt到只有1行,即插入至结果临时表
-                    var sdtlrows = sqldt.Select("往来单位名称='" + Convert.ToString(custrow[0]) + "'");
+                    //change date:修改,不用‘往来单位名称作’为条件,使用‘往来单位编码’
+                    var sdtlrows = sqldt.Select("往来单位编码='" + Convert.ToString(custrow[1]) + "'");
                     if (sdtlrows.Length == 1)
                     {
                         result.Merge(GetResultDt(result,sdt,edt, Convert.ToString(custrow[0]),"",Convert.ToString(sdtlrows[0][2]),
                                                 0,0, Convert.ToDecimal(sdtlrows[0][3]),remark1,null, 
-                                                Convert.ToDecimal(sdtlrows[0][3]),null));
+                                                Convert.ToDecimal(sdtlrows[0][3]),null,0,Convert.ToString(custrow[1])));
                     }
                     //当为多行时,才获取tempdt计算的数据
                     else
                     {
                         //根据customername,查询明细记录
-                        var dtlrows = tempdt.Select("往来单位名称='" + Convert.ToString(custrow[0]) + "'");
+                        var dtlrows = tempdt.Select("往来单位编码='" + Convert.ToString(custrow[1]) + "'");
 
                         for (var i = 0; i < dtlrows.Length; i++)
                         {
                             result.Merge(GetResultDt(result, sdt, edt, Convert.ToString(dtlrows[i][0]), Convert.ToString(dtlrows[i][1]),
                                                 Convert.ToString(dtlrows[i][2]), Convert.ToDecimal(dtlrows[i][4]), Convert.ToDecimal(dtlrows[i][5]),
                                                 Convert.ToDecimal(dtlrows[i][3]), remark1, Convert.ToString(dtlrows[i][7]), Convert.ToDecimal(dtlrows[i][8]),
-                                                Convert.ToString(dtlrows[i][9])));
+                                                Convert.ToString(dtlrows[i][9]),Convert.ToInt32(dtlrows[i][10]),Convert.ToString(custrow[1])));
                         }
                     }
                 }
@@ -129,10 +132,12 @@ namespace CustomerStatementReportTool.Task
         /// <param name="lastEndBalance">记录最后一行‘期末余额’</param>
         /// <param name="month">月份</param>
         /// <param name="remark1">记录结束日期备注</param>
+        /// <param name="dtlid">用于表体排序</param>
+        /// <param name="fcustomercode">用于表头分组</param>
         /// <returns></returns>
         private DataTable GetResultDt(DataTable tempdt, string sdt,string edt,string customerName, string dt, string remark
                                       ,decimal yibalance, decimal xibalance, decimal endbalance,string remark1,string fbillno
-                                      ,decimal lastEndBalance, string month)
+                                      ,decimal lastEndBalance, string month,int dtlid,string fcustomercode)
         {
             var newrow = tempdt.NewRow();
             newrow[0] = sdt;                               //开始日期
@@ -148,6 +153,8 @@ namespace CustomerStatementReportTool.Task
             newrow[10] = Decimal.Round(lastEndBalance,2);  //记录最后一行‘期末余额’
             newrow[11] = month;                            //月份
             newrow[12] = remark == "本期合计" ? "" : dt;    //单据日期-用于显示
+            newrow[13] = dtlid;                            //FDtlId
+            newrow[14] = fcustomercode;                    //fcustomercode
             tempdt.Rows.Add(newrow);
             return tempdt;
         }
@@ -159,8 +166,9 @@ namespace CustomerStatementReportTool.Task
         /// <param name="customername">客户名称</param>
         /// <param name="sourcedt">K3SQL数据源</param>
         /// <param name="tempdt">临时表</param>
+        /// <param name="customercode">客户编码</param>
         /// <returns></returns>
-        private DataTable GenerateReportDtlTemp(string customername,DataTable sourcedt,DataTable tempdt)
+        private DataTable GenerateReportDtlTemp(string customername,DataTable sourcedt,DataTable tempdt, string customercode)
         {
             //'期末余额'中转值
             decimal balancetemp=0;
@@ -174,7 +182,8 @@ namespace CustomerStatementReportTool.Task
             var dt = string.Empty;
 
             //根据customername,查询明细记录
-            var dtlrows = sourcedt.Select("往来单位名称='"+customername+"'");
+            //change date:修改,不用‘往来单位名称作’为条件,使用‘往来单位编码’
+            var dtlrows = sourcedt.Select("往来单位编码='" + customercode + "'");
 
             //change date:20221124 当dtlrows返回>0时,才继续执行以下语句
             if (dtlrows.Length > 0)
@@ -193,7 +202,7 @@ namespace CustomerStatementReportTool.Task
                             Convert.ToString(dtlrows[i][1]),
                             Convert.ToString(dtlrows[i][2]), balancetemp, Convert.ToDecimal(dtlrows[i][4]),
                             Convert.ToDecimal(dtlrows[i][5]),
-                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9])));
+                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9]), customercode,0));
                     }
                     //反之，先插入，然后根据公式计算出‘期末余额’后,将其值赋值至balancetemp内
                     //change date:20221013 当发现月份与monthtemp不同时,插入“本期合计”行至临时表
@@ -205,7 +214,7 @@ namespace CustomerStatementReportTool.Task
                             tempdt.Merge(InsertRecordToTempdt(tempdt, Convert.ToString(dtlrows[i][0]), Convert.ToString(dtlrows[i][1]),
                             Convert.ToString(dtlrows[i][2]), balancetemp + Convert.ToDecimal(dtlrows[i][4]) - Convert.ToDecimal(dtlrows[i][5]) - Convert.ToDecimal(dtlrows[i][6])
                             , Convert.ToDecimal(dtlrows[i][4]), Convert.ToDecimal(dtlrows[i][5]),
-                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9])));
+                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9]), customercode,0));
 
                             //将当前行计算出来的‘期末余额’赋值给balancetemp,给下一行使用
                             balancetemp += Convert.ToDecimal(dtlrows[i][4]) - Convert.ToDecimal(dtlrows[i][5]) - Convert.ToDecimal(dtlrows[i][6]);
@@ -223,13 +232,14 @@ namespace CustomerStatementReportTool.Task
                         else
                         {
                             //检测是否到不同月份时,1)插入上个月的'本期合计'相关记录 2)将当前行的值插入 3)将monthtemp赋值为当前行的月份 (注:插入后,将yitemp 及 xitemp赋值为当行前对应的值)
-                            tempdt.Merge(InsertRecordToTempdt(tempdt, Convert.ToString(dtlrows[i][0]), dt, "本期合计", balancetemp, yitemp, xitemp, 0, "", 0, monthtemp));
+                            tempdt.Merge(InsertRecordToTempdt(tempdt, Convert.ToString(dtlrows[i][0]), dt, "本期合计", 
+                                                              balancetemp, yitemp, xitemp, 0, "", 0, monthtemp, customercode,1));
 
                             //将对当前行赋值
                             tempdt.Merge(InsertRecordToTempdt(tempdt, Convert.ToString(dtlrows[i][0]), Convert.ToString(dtlrows[i][1]),
                             Convert.ToString(dtlrows[i][2]), balancetemp + Convert.ToDecimal(dtlrows[i][4]) - Convert.ToDecimal(dtlrows[i][5]) - Convert.ToDecimal(dtlrows[i][6])
                             , Convert.ToDecimal(dtlrows[i][4]), Convert.ToDecimal(dtlrows[i][5]),
-                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9])));
+                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9]), customercode,0));
 
                             //1)将yitemp 及 xitemp清空 2) 重新对balancetemp 进行赋值 3)将monthtemp赋值为当前行的月份;将DT赋值为当前行'单据日期'
                             yitemp = Convert.ToDecimal(dtlrows[i][4]);
@@ -241,7 +251,7 @@ namespace CustomerStatementReportTool.Task
                     }
                 }
                 //跳出循环后,插入最后一行值
-                tempdt.Merge(InsertRecordToTempdt(tempdt, customername, dt, "本期合计", balancetemp, yitemp, xitemp, 0, "", balancetemp, monthtemp));
+                tempdt.Merge(InsertRecordToTempdt(tempdt, customername, dt, "本期合计", balancetemp, yitemp, xitemp, 0, "", balancetemp, monthtemp, customercode,1));
             }
 
             return tempdt;
@@ -261,9 +271,12 @@ namespace CustomerStatementReportTool.Task
         /// <param name="fbillno">单据编号</param>
         /// <param name="lastEndBalance">记录最后一行‘期末余额</param>
         /// <param name="month">月份(用于STI报表排序)</param>
+        /// <param name="customercode">客户编码</param>
+        /// <param name="dtlid">(用于STI明细表排序)</param>
         /// <returns></returns>
         private DataTable InsertRecordToTempdt(DataTable tempdt,string customerName,string dt,string remark,decimal endbalance
-                                               ,decimal yibalance,decimal xibalance,decimal yuabalance,string fbillno,decimal lastEndBalance,string month)
+                                               ,decimal yibalance,decimal xibalance,decimal yuabalance
+                                               ,string fbillno,decimal lastEndBalance,string month,string customercode,int dtlid)
         {
             var newrow = tempdt.NewRow();
             newrow[0] = customerName;           //往来单位名称
@@ -276,7 +289,8 @@ namespace CustomerStatementReportTool.Task
             newrow[7] = fbillno;                //单据编号
             newrow[8] = lastEndBalance;         //判断,若不是最后一行时,LastEndBalance为0,反之,将balancetemp赋值给[8]
             newrow[9] = month;                  //月份(用于STI报表排序)
-            newrow[10] = 0;                     //用于STI报表排序(自定义批量导出功能使用)
+            newrow[10] = dtlid;                 //用于STI报表排序(自定义批量导出功能使用)
+            newrow[11] = customercode;          //客户编码
             tempdt.Rows.Add(newrow);
             return tempdt; 
         }
@@ -448,7 +462,7 @@ namespace CustomerStatementReportTool.Task
                     //记录开始执行时间
                     stime = DateTime.Now.ToString();
 
-                    tempdt = GenerateFincalDtRecord(tempdt, fincalK3Record, Convert.ToString(rows[2]), duiprintpagenum, sdt, edt, fsortid).Copy();
+                    tempdt = GenerateFincalDtRecord(tempdt, fincalK3Record, Convert.ToString(rows[2]), duiprintpagenum, sdt, edt, fsortid,Convert.ToString(rows[1])).Copy();
                     //延时6秒
                     System.Threading.Thread.Sleep(600);
                     //获取结束时间
@@ -537,7 +551,7 @@ namespace CustomerStatementReportTool.Task
         /// <summary>
         /// 将计算的DT输出至指定位置的PDF
         /// 注:‘对账单’批量一次性生成PDF  并且文件名为‘对账单’+'生成日期'
-        ///    ‘销售出库清单’是根据‘客户ID’循环生成PDF,并且文件名为‘客户名称’+'生成日期'
+        ///    ‘销售出库清单’是根据‘客户ID’循环生成PDF,并且文件名为‘客户名称’(客户编码)+'生成日期'
         /// </summary>
         /// <param name="typeid">类型ID 0:'对账单' 1:'销售出库清单'</param>
         /// <param name="address">输出地址</param>
@@ -573,7 +587,8 @@ namespace CustomerStatementReportTool.Task
                         //判断若Convert.ToInt32(rows[0])-FCustId没有在result存在,即continue
                         if(resultdt.Select("FCUSTID='" + Convert.ToInt32(rows[0]) + "'").Length==0) continue;
 
-                        var pdfFileAddress = address + "\\" + "销售发货清单_" + Convert.ToString(rows[2]) +"_"+ DateTime.Now.ToShortDateString()+".pdf";
+                        var pdfFileAddress = address + "\\" + "销售发货清单_" + Convert.ToString(rows[2]) +"_"+ "("+Convert.ToString(rows[1])+")_"
+                                                     + DateTime.Now.ToShortDateString()+".pdf";
 
                         //根据Convert.ToInt32(rows[0]) 在resultdt查找,并最后整合记录至dt内
                         var dt = Getreportdt(Convert.ToInt32(rows[0]),resultdt).Copy();
@@ -645,8 +660,10 @@ namespace CustomerStatementReportTool.Task
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
         /// <param name="fsortid">STI表头排序ID;注:以A开始,若ID值小于10 即加0,如:A01</param>
+        /// <param name="customercode">客户编码</param>
         /// <returns></returns>
-        private DataTable GenerateFincalDtRecord(DataTable resultdt,DataTable k3Record,string customername,int printpagenum,string sdt,string edt,string fsortid)
+        private DataTable GenerateFincalDtRecord(DataTable resultdt,DataTable k3Record,string customername,int printpagenum,string sdt,string edt,string fsortid
+                                                ,string customercode)
         {
             try
             {
@@ -666,7 +683,7 @@ namespace CustomerStatementReportTool.Task
                 if (k3Record.Rows.Count > 1)
                 {
                     //期末余额=期未余额+本期应收-本期实收-本期冲销额 
-                    tempdt.Merge(BatchGenerateReportDtlTemp(customername,k3Record,tempdt));
+                    tempdt.Merge(BatchGenerateReportDtlTemp(customername,k3Record,tempdt,customercode));
                 }
 
                 var a = tempdt.Copy();
@@ -675,7 +692,7 @@ namespace CustomerStatementReportTool.Task
                 //处理数据并整理后将数据插入至resultdt内
                 for (var i = 0; i < printpagenum; i++)
                 {
-                    var sdtlows = k3Record.Select("往来单位名称='" + customername + "'");
+                    var sdtlows = k3Record.Select("往来单位编码='" + customercode + "'");
                     //若sdtlows返回值为0,即跳出异常
                     if (sdtlows.Length == 0) throw new Exception("客户:'" + customername + "'在" + "'" + sdt + "'" + "至'" + edt + "'范围内没有对账单记录,故不能生成结果.");
                     //若在检测k3Record到只有1行,即插入至结果临时表
@@ -688,7 +705,7 @@ namespace CustomerStatementReportTool.Task
                     else
                     {
                         //根据customername,查询明细记录
-                        var dtlrows = tempdt.Select("往来单位名称='" + customername + "'");
+                        var dtlrows = tempdt.Select("往来单位编码='" + customercode + "'");
                         for (var j = 0; j < dtlrows.Length; j++)
                         {
                             resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, Convert.ToString(dtlrows[j][0]), Convert.ToString(dtlrows[j][1]),
@@ -714,14 +731,12 @@ namespace CustomerStatementReportTool.Task
         /// 期末余额=期未余额+本期应收-本期实收-本期冲销额 
         /// </summary>
         /// <param name="customername">客户名称</param>
+        /// <param name="customercode">客户编码</param>
         /// <param name="sourcedt">K3SQL数据源</param>
         /// <param name="tempdt">临时表</param>
         /// <returns></returns>
-        private DataTable BatchGenerateReportDtlTemp(string customername, DataTable sourcedt, DataTable tempdt)
+        private DataTable BatchGenerateReportDtlTemp(string customername, DataTable sourcedt, DataTable tempdt,string customercode)
         {
-            //定义‘STI明细行’排序ID
-            var dtlid = 0;
-
             //'期末余额'中转值
             decimal balancetemp = 0;
             //'本期应收'中转值
@@ -734,7 +749,8 @@ namespace CustomerStatementReportTool.Task
             var dt = string.Empty;
 
             //根据customername,查询明细记录
-            var dtlrows = sourcedt.Select("往来单位名称='" + customername + "'");
+            //change date:修改,不用‘往来单位名称作’为条件,使用‘往来单位编码’
+            var dtlrows = sourcedt.Select("往来单位编码='" + customercode + "'");
 
             //change date:20221124 当dtlrows返回>0时,才继续执行以下语句
             if (dtlrows.Length > 0)
@@ -753,7 +769,7 @@ namespace CustomerStatementReportTool.Task
                             Convert.ToString(dtlrows[i][1]),
                             Convert.ToString(dtlrows[i][2]), balancetemp, Convert.ToDecimal(dtlrows[i][4]),
                             Convert.ToDecimal(dtlrows[i][5]),
-                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9]),dtlid));
+                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9]),0, customercode));
                     }
                     //反之，先插入，然后根据公式计算出‘期末余额’后,将其值赋值至balancetemp内
                     //change date:20221013 当发现月份与monthtemp不同时,插入“本期合计”行至临时表
@@ -765,7 +781,7 @@ namespace CustomerStatementReportTool.Task
                             tempdt.Merge(BatchInsertRecordToTempdt(tempdt, Convert.ToString(dtlrows[i][0]), Convert.ToString(dtlrows[i][1]),
                             Convert.ToString(dtlrows[i][2]), balancetemp + Convert.ToDecimal(dtlrows[i][4]) - Convert.ToDecimal(dtlrows[i][5]) - Convert.ToDecimal(dtlrows[i][6])
                             , Convert.ToDecimal(dtlrows[i][4]), Convert.ToDecimal(dtlrows[i][5]),
-                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9]),0));
+                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9]),0, customercode));
 
                             //将当前行计算出来的‘期末余额’赋值给balancetemp,给下一行使用
                             balancetemp += Convert.ToDecimal(dtlrows[i][4]) - Convert.ToDecimal(dtlrows[i][5]) - Convert.ToDecimal(dtlrows[i][6]);
@@ -784,13 +800,14 @@ namespace CustomerStatementReportTool.Task
                         else
                         {
                             //检测是否到不同月份时,1)插入上个月的'本期合计'相关记录 2)将当前行的值插入 3)将monthtemp赋值为当前行的月份 (注:插入后,将yitemp 及 xitemp赋值为当行前对应的值)
-                            tempdt.Merge(BatchInsertRecordToTempdt(tempdt, Convert.ToString(dtlrows[i][0]), dt, "本期合计", balancetemp, yitemp, xitemp, 0, "", 0, monthtemp,1));
+                            tempdt.Merge(BatchInsertRecordToTempdt(tempdt, Convert.ToString(dtlrows[i][0]), dt, "本期合计", 
+                                                                   balancetemp, yitemp, xitemp, 0, "", 0, monthtemp,1, customercode));
 
                             //将对当前行赋值
                             tempdt.Merge(BatchInsertRecordToTempdt(tempdt, Convert.ToString(dtlrows[i][0]), Convert.ToString(dtlrows[i][1]),
                             Convert.ToString(dtlrows[i][2]), balancetemp + Convert.ToDecimal(dtlrows[i][4]) - Convert.ToDecimal(dtlrows[i][5]) - Convert.ToDecimal(dtlrows[i][6])
                             , Convert.ToDecimal(dtlrows[i][4]), Convert.ToDecimal(dtlrows[i][5]),
-                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9]),0));
+                            Convert.ToDecimal(dtlrows[i][6]), Convert.ToString(dtlrows[i][7]), 0, Convert.ToString(dtlrows[i][9]),0, customercode));
 
                             //1)将yitemp 及 xitemp清空 2) 重新对balancetemp 进行赋值 3)将monthtemp赋值为当前行的月份;将DT赋值为当前行'单据日期'
                             yitemp = Convert.ToDecimal(dtlrows[i][4]);
@@ -802,7 +819,7 @@ namespace CustomerStatementReportTool.Task
                     }
                 }
                 //跳出循环后,插入最后一行值
-                tempdt.Merge(BatchInsertRecordToTempdt(tempdt, customername, dt, "本期合计", balancetemp, yitemp, xitemp, 0, "", balancetemp, monthtemp,1));
+                tempdt.Merge(BatchInsertRecordToTempdt(tempdt, customername, dt, "本期合计", balancetemp, yitemp, xitemp, 0, "", balancetemp, monthtemp,1, customercode));
             }
 
             return tempdt;
@@ -823,9 +840,11 @@ namespace CustomerStatementReportTool.Task
         /// <param name="lastEndBalance">记录最后一行‘期末余额</param>
         /// <param name="month">月份(用于STI报表排序)</param>
         /// <param name="dtlid">用于STI报表明细项排序</param>
+        /// <param name="customercode">客户编码</param>
         /// <returns></returns>
         private DataTable BatchInsertRecordToTempdt(DataTable tempdt, string customerName, string dt, string remark, decimal endbalance
-                                               , decimal yibalance, decimal xibalance, decimal yuabalance, string fbillno, decimal lastEndBalance, string month,int dtlid)
+                                               , decimal yibalance, decimal xibalance, decimal yuabalance, string fbillno
+                                               , decimal lastEndBalance, string month,int dtlid,string customercode)
         {
             var newrow = tempdt.NewRow();
             newrow[0] = customerName;           //往来单位名称
@@ -839,6 +858,7 @@ namespace CustomerStatementReportTool.Task
             newrow[8] = lastEndBalance;         //判断,若不是最后一行时,LastEndBalance为0,反之,将balancetemp赋值给[8]
             newrow[9] = month;                  //月份(用于STI报表排序)
             newrow[10] = dtlid;                 //用于STI报表明细项排序
+            newrow[11] = customercode;          //客户编码
             tempdt.Rows.Add(newrow);
             return tempdt;
         }
@@ -878,7 +898,7 @@ namespace CustomerStatementReportTool.Task
             newrow[7] = Convert.ToString(Decimal.Round(endbalance, 2));      //期末余额
             newrow[8] = remark1;                           //记录结束日期备注
             newrow[9] = fbillno;                           //单据编号
-            newrow[10] = Decimal.Round(lastEndBalance, 2);  //记录最后一行‘期末余额’
+            newrow[10] = Decimal.Round(lastEndBalance, 2); //记录最后一行‘期末余额’
             newrow[11] = month;                            //月份
             newrow[12] = remark == "本期合计" ? "" : dt;    //单据日期-用于显示
             newrow[13] = fRowId;                           //对相同客户的区分显示(当要针对相同客户打印多次时)
@@ -899,6 +919,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
         /// <param name="customername">客户名称</param>
+        /// <param name="customercode"></param>
         /// <returns>STI排序ID</returns>
         private DataTable GenerateSalesoutlistDtRecord(DataTable resultdt, DataTable salesoutK3Record
                                                         ,int salesoutprintpagenum,int fcustid,string sdt,string edt,string customername)

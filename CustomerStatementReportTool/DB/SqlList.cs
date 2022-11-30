@@ -123,7 +123,7 @@ namespace CustomerStatementReportTool.DB
                                 SELECT A.往来单位名称,A.单据日期,A.摘要
                                        ,A.原币期未余额 期末余额,A.原币本期应收 本期应收,A.原币本期收款 本期实收,A.原币本期冲销额
                                        ,A.单据编号,0.0 LastEndBalance,CONVERT(VARCHAR(10),DATEPART(MONTH,A.单据日期)) 月份
-                                       ,0 FDtlId
+                                       ,0 FDtlId,A.往来单位编码
                                 FROM #temp_1 A
                                 WHERE (LEN(ISNULL(a.摘要,0))>0 AND A.摘要 <> '本期合计' )
                                 --a.摘要 <> '本期合计' 

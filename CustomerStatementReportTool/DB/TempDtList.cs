@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Data;
 
 namespace CustomerStatementReportTool.DB
@@ -13,7 +14,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable MakeExportDtTemp()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 13; i++)
+            for (var i = 0; i < 15; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -71,6 +72,16 @@ namespace CustomerStatementReportTool.DB
                         dc.ColumnName = "FDATE1";
                         dc.DataType = Type.GetType("System.String");
                         break;
+                    //FDtlId 用于表体排序
+                    case 13:
+                        dc.ColumnName = "FDtlId";
+                        dc.DataType = Type.GetType("System.Int32"); 
+                        break;
+                    //fcustomercode(客户编码) 用于表头分组
+                    case 14:
+                        dc.ColumnName = "fcustomercode";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
                 }
                 dt.Columns.Add(dc);
             }
@@ -84,7 +95,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable GetSearchTempDt()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 11; i++)
+            for (var i = 0; i < 12; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -137,6 +148,11 @@ namespace CustomerStatementReportTool.DB
                         dc.ColumnName = "FDtlId";
                         dc.DataType = Type.GetType("System.Int32"); 
                         break;
+                    //往来单位编码
+                    case 11:
+                        dc.ColumnName = "往来单位编码";
+                        dc.DataType=Type.GetType("System.String");
+                        break;
                 }
                 dt.Columns.Add(dc);
             }
@@ -176,13 +192,17 @@ namespace CustomerStatementReportTool.DB
         public DataTable GetCustomerNameListTempdt()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 1; i++)
+            for (var i = 0; i < 2; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
                 {
                     case 0: //客户名称
                         dc.ColumnName = "客户名称";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 1://客户编码
+                        dc.ColumnName = "客户编码";
                         dc.DataType = Type.GetType("System.String");
                         break;
                 }
