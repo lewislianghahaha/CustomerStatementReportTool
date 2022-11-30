@@ -169,9 +169,18 @@ namespace CustomerStatementReportTool.BatchExport
             }
             else
             {
-                //todo:将原来
-                gvdtl1.DataSource = _duidtl.Copy();
-                
+                //判断若gvdtl1的行数>0，即将gvdtl1的内容清空。再赋空表给它;反之,即直接用_salesoutdtl赋值(因为此时_salesoutdtl也是空表,相当于赋空表至gvdtl内)
+                if (gvdtl?.Rows.Count > 0)
+                {
+                    //清空gvdtl1.datasource
+                    var dt = (DataTable)gvdtl.DataSource;
+                    dt.Rows.Clear();
+                    gvdtl.DataSource = dt;
+                }
+                else
+                {
+                    gvdtl.DataSource = _duidtl.Clone();
+                }
             }
         }
 
@@ -240,11 +249,18 @@ namespace CustomerStatementReportTool.BatchExport
             }
             else
             {
-                //todo:清空gvdtl1.datasource
-                var dt = (DataTable) gvdtl1.DataSource;
-                dt.Rows.Clear();
-                gvdtl1.DataSource = _salesoutdtl.Copy(); //dt.Copy(); //_salesoutdtl.Copy();
-                //gvdtl1.DataBindingComplete
+                //判断若gvdtl1的行数>0，即将gvdtl1的内容清空。再赋空表给它;反之,即直接用_salesoutdtl赋值(因为此时_salesoutdtl也是空表,相当于赋空表至gvdtl内)
+                if (gvdtl1?.Rows.Count > 0)
+                {
+                    //清空gvdtl1.datasource
+                    var dt = (DataTable) gvdtl1.DataSource;
+                    dt.Rows.Clear();
+                    gvdtl1.DataSource = dt;
+                }
+                else
+                {
+                    gvdtl1.DataSource = _salesoutdtl.Clone();
+                }
             }
         }
 

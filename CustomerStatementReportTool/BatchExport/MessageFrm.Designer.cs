@@ -176,7 +176,7 @@
             // 
             // btnsearch
             // 
-            this.btnsearch.Location = new System.Drawing.Point(595, 2);
+            this.btnsearch.Location = new System.Drawing.Point(727, 3);
             this.btnsearch.Name = "btnsearch";
             this.btnsearch.Size = new System.Drawing.Size(75, 23);
             this.btnsearch.TabIndex = 4;
@@ -187,7 +187,7 @@
             // 
             this.txtcustcode.Location = new System.Drawing.Point(73, 3);
             this.txtcustcode.Name = "txtcustcode";
-            this.txtcustcode.Size = new System.Drawing.Size(182, 21);
+            this.txtcustcode.Size = new System.Drawing.Size(292, 21);
             this.txtcustcode.TabIndex = 3;
             // 
             // label2
@@ -201,15 +201,15 @@
             // 
             // txtcustname
             // 
-            this.txtcustname.Location = new System.Drawing.Point(321, 3);
+            this.txtcustname.Location = new System.Drawing.Point(431, 3);
             this.txtcustname.Name = "txtcustname";
-            this.txtcustname.Size = new System.Drawing.Size(236, 21);
+            this.txtcustname.Size = new System.Drawing.Size(290, 21);
             this.txtcustname.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(261, 8);
+            this.label1.Location = new System.Drawing.Point(371, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 12);
             this.label1.TabIndex = 0;
@@ -455,11 +455,11 @@
             // 
             // btnclear
             // 
-            this.btnclear.Location = new System.Drawing.Point(692, 2);
+            this.btnclear.Location = new System.Drawing.Point(812, 3);
             this.btnclear.Name = "btnclear";
-            this.btnclear.Size = new System.Drawing.Size(75, 23);
+            this.btnclear.Size = new System.Drawing.Size(127, 23);
             this.btnclear.TabIndex = 8;
-            this.btnclear.Text = "重置";
+            this.btnclear.Text = "重置编码及名称信息";
             this.btnclear.UseVisualStyleBackColor = true;
             // 
             // panel3
@@ -675,7 +675,7 @@
             this.Controls.Add(this.Menu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MessageFrm";
-            this.Text = "返回结果";
+            this.Text = "返回结果信息";
             this.Menu.ResumeLayout(false);
             this.Menu.PerformLayout();
             this.panel2.ResumeLayout(false);
