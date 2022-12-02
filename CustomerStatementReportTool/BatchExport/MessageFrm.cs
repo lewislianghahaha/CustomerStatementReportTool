@@ -99,7 +99,9 @@ namespace CustomerStatementReportTool.BatchExport
             else
             {
                 gvdtl.DataSource = _resultdt.Clone();
+                lbldui.Text = $"本次进行生成‘对账单’PDF的客户没有生成相关记录,请检查.";
                 gvdtl1.DataSource = _resultdt.Clone();
+                lblsalesout.Text = $"本次进行生成‘销售发货清单’PDF的客户没有生成相关记录,请检查.";
             }
         }
 

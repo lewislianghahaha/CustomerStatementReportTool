@@ -126,6 +126,7 @@
     <Compile Include="DB\ConnString.cs" />
     <Compile Include="DB\SqlList.cs" />
     <Compile Include="DB\TempDtList.cs" />
+    <Compile Include="GlobalClasscs.cs" />
     <Compile Include="Load.cs">
       <SubType>Form</SubType>
     </Compile>

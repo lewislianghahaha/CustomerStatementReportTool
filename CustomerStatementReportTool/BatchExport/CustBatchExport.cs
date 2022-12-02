@@ -171,6 +171,9 @@ namespace CustomerStatementReportTool.BatchExport
                     load.StartPosition = FormStartPosition.CenterScreen;
                     load.ShowDialog();
 
+                    //todo:若检测到GlobalClasscs.Errmessage不为空,即跳转到异常处理
+                    if(!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Errormesage)) throw new Exception($"运行出现异常,原因:{GlobalClasscs.RmMessage.Errormesage}");
+
                     //运算完成后,将原来设置的文本框(按钮)设置为可用
                     tmclose.Enabled = true;
                     tmimport.Enabled = true;
@@ -179,7 +182,7 @@ namespace CustomerStatementReportTool.BatchExport
                     txtdiuprintpage.Enabled = true;
                     txtsalesprintpage.Enabled = true;
 
-                    var a1= taskLogic.ResultMessageDt.Copy();
+                    var a1 = taskLogic.ResultMessageDt.Copy();
 
                     //将返回结果传输至MessageFrm窗体内
                     messageFrm.Resultdt = taskLogic.ResultMessageDt;

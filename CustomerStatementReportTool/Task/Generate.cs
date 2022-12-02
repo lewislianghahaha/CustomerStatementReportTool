@@ -517,7 +517,7 @@ namespace CustomerStatementReportTool.Task
             }
             catch (Exception ex)
             {
-                var a = ex.Message;
+                GlobalClasscs.RmMessage.Errormesage = ex.Message;
                 resultdt.Rows.Clear();
             }
 
