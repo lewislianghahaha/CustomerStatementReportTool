@@ -119,6 +119,8 @@ namespace CustomerStatementReportTool.BatchExport
                 if (gvdtl.RowCount == 0) throw new Exception($"请添加记录后再进行运算");
                 //若结束日期小于开始日期,报异常提示
                 if (DateTime.Compare(Convert.ToDateTime(sdt), Convert.ToDateTime(edt)) > 0) throw new Exception($"结束日期不能小于开始日期,请重新选择日期并进行运算");
+                //
+                if(txtdiuprintpage.Text == "" || txtsalesprintpage.Text == "") throw new Exception("检测到‘对账单’或‘销售发货清单’导出份数没有填写数值,请最小填上0");
 
                 //开始执行
                 if (MessageBox.Show(clickMessage, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
