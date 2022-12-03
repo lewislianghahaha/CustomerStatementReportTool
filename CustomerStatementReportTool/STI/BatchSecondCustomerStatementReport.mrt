@@ -6,7 +6,7 @@
     <DataSources isList="true" count="1">
       <CustomerStatement Ref="2" type="DataTableSource" isKey="true">
         <Alias>CustomerStatement</Alias>
-        <Columns isList="true" count="16">
+        <Columns isList="true" count="17">
           <value>SDT,System.String</value>
           <value>EDT,System.String</value>
           <value>CustomerName,System.String</value>
@@ -23,6 +23,7 @@
           <value>FRowId,System.String</value>
           <value>FSortId,System.String</value>
           <value>FDtlId,System.Int32</value>
+          <value>InvoiceName,System.String</value>
         </Columns>
         <Dictionary isRef="1" />
         <Name>CustomerStatement</Name>
@@ -106,7 +107,7 @@
               <Parent isRef="4" />
               <Text>{CustomerStatement.EDT}</Text>
               <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text4>
             <Text5 Ref="9" type="Text" isKey="true">
@@ -137,7 +138,7 @@
               <Parent isRef="4" />
               <Text>{CustomerStatement.SDT}</Text>
               <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text6>
             <Text3 Ref="11" type="Text" isKey="true">
@@ -270,8 +271,9 @@
               <Name>Text13</Name>
               <Page isRef="3" />
               <Parent isRef="4" />
-              <Text>{CustomerStatement.CustomerName}</Text>
+              <Text>{CustomerStatement.InvoiceName}</Text>
               <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text13>
             <Text15 Ref="19" type="Text" isKey="true">
@@ -416,7 +418,6 @@
         <DataBand1 Ref="36" type="DataBand" isKey="true">
           <Border>All;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
-          <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,5,19,0.8</ClientRectangle>
           <Components isList="true" count="13">
             <Text14 Ref="37" type="Text" isKey="true">
@@ -431,6 +432,7 @@
               <Parent isRef="36" />
               <Text>{CustomerStatement.ReceiveQTY}</Text>
               <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text14>
             <Text16 Ref="38" type="Text" isKey="true">
@@ -445,6 +447,7 @@
               <Parent isRef="36" />
               <Text>{CustomerStatement.EndBalance}</Text>
               <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text16>
             <Text10 Ref="39" type="Text" isKey="true">
@@ -459,6 +462,7 @@
               <Parent isRef="36" />
               <Text>{CustomerStatement.ReceiveCurrentQty}</Text>
               <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text10>
             <Text12 Ref="40" type="Text" isKey="true">
@@ -474,6 +478,7 @@
               <Text>{CustomerStatement.Remark}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text12>
             <Text11 Ref="41" type="Text" isKey="true">
@@ -488,7 +493,7 @@
               <Parent isRef="36" />
               <Text>{CustomerStatement.FDATE1}</Text>
               <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
+              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text11>
             <StartPointPrimitive6 Ref="42" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
@@ -832,10 +837,10 @@
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>12/3/2022 11:26:47 AM</ReportChanged>
+  <ReportChanged>12/3/2022 5:40:58 PM</ReportChanged>
   <ReportCreated>8/23/2022 2:39:50 PM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\BatchSecondCustomerStatementReport.mrt</ReportFile>
-  <ReportGuid>e4b345e9d2714f01ba846660e547e9f9</ReportGuid>
+  <ReportGuid>7ccd653458734945b64e8c23aaf10dc1</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
