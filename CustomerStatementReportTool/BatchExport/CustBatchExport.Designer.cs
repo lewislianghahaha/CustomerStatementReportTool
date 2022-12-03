@@ -69,6 +69,7 @@
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
+            this.cbcheck = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -205,6 +206,7 @@
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.cbcheck);
             this.panel3.Controls.Add(this.txtsalesprintpage);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.txtdiuprintpage);
@@ -445,6 +447,16 @@
             this.gvdtl.Size = new System.Drawing.Size(732, 341);
             this.gvdtl.TabIndex = 0;
             // 
+            // cbcheck
+            // 
+            this.cbcheck.AutoSize = true;
+            this.cbcheck.Location = new System.Drawing.Point(449, 11);
+            this.cbcheck.Name = "cbcheck";
+            this.cbcheck.Size = new System.Drawing.Size(156, 16);
+            this.cbcheck.TabIndex = 8;
+            this.cbcheck.Text = "调用二级客户对账单模板";
+            this.cbcheck.UseVisualStyleBackColor = true;
+            // 
             // CustBatchExport
             // 
             this.AcceptButton = this.btngenerate;
@@ -522,5 +534,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtdiuprintpage;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox cbcheck;
     }
 }

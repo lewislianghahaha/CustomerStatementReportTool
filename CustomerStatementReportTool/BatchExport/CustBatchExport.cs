@@ -106,9 +106,19 @@ namespace CustomerStatementReportTool.BatchExport
         {
             try
             {
-                var clickMessage = $"准备执行,\n请注意:\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
+                var message = string.Empty;
                 var customerlist = string.Empty;
                 var temp = string.Empty;
+
+                GlobalClasscs.RmMessage.Isusesecondcustomer = cbcheck.Checked ? 0 : 1;
+
+                var clickMessage = $"准备执行,\n请注意:\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
+
+                var clickMessage1 = $"准备执行,\n请注意:\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件,"+
+                                       "不然会导致运算失败\n检测到勾选‘调用二级客户对账单模板’选项,\n注:使用后,生成的对账单是使用二级客户对账单模板,\n而不是使用常规对账单模板." +
+                                        "\n是否继续执行?";
+
+                message = GlobalClasscs.RmMessage.Isusesecondcustomer == 0 ? clickMessage1 : clickMessage;
 
                 var sdt = dtStr.Value.ToString("yyyy-MM-dd");
                 var edt = dtEnd.Value.ToString("yyyy-MM-dd");
@@ -123,7 +133,7 @@ namespace CustomerStatementReportTool.BatchExport
                 if(txtdiuprintpage.Text == "" || txtsalesprintpage.Text == "") throw new Exception("检测到‘对账单’或‘销售发货清单’导出份数没有填写数值,请最小填上0");
 
                 //开始执行
-                if (MessageBox.Show(clickMessage, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                if (MessageBox.Show(message, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
                     //将相关按钮设置为不可操作;直至运行完成后才恢复
                     tmclose.Enabled = false;
@@ -178,6 +188,7 @@ namespace CustomerStatementReportTool.BatchExport
                     btnsetadd.Enabled = true;
                     txtdiuprintpage.Enabled = true;
                     txtsalesprintpage.Enabled = true;
+                    cbcheck.Checked = false;
 
                     //若检测到GlobalClasscs.Printerrmessge不为空,即跳转到异常处理
                     if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Printerrmessge)) throw new Exception($"生成PDF出现异常,原因:{GlobalClasscs.RmMessage.Printerrmessge}");

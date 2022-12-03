@@ -417,8 +417,6 @@ namespace CustomerStatementReportTool.Task
 
             //定义生成PDF返回是否成功标记
             var resultbool = true;
-            //定义STI文件名称
-            var stifilename = string.Empty;
 
             //定义‘对账单’收集SQL返回记录临时表
             var fincalK3Record = tempDt.GetSearchTempDt();
@@ -508,9 +506,8 @@ namespace CustomerStatementReportTool.Task
                 //注:‘对账单’批量一次性生成PDF  ‘销售出库清单’是根据‘客户ID’循环生成PDF,并且文件名为‘客户名称’+'生成日期'
                 for (var i = 0; i < 2; i++)
                 {
-                    stifilename = i == 0 ? "BatchCustomerStatementReport.mrt" : "BatchSalesOutListReport.mrt";
                     var dt = i == 0 ? fincalresultdt.Copy() : salesOutresultdt.Copy();
-                    resultbool = ExportDtToPdf(i, exportaddress, stifilename, customerk3Dt, dt);
+                    resultbool = ExportDtToPdf(i, exportaddress, customerk3Dt, dt);
                 }
                 //检测若resultbool最后的结果为false,即跳出异常
                 if(!resultbool) throw new Exception("导出PDF产生异常");
@@ -555,15 +552,22 @@ namespace CustomerStatementReportTool.Task
         /// </summary>
         /// <param name="typeid">类型ID 0:'对账单' 1:'销售出库清单'</param>
         /// <param name="address">输出地址</param>
-        /// <param name="filename">STI文件名</param>
         /// <param name="custdt">客户DT</param>
         /// <param name="resultdt">运行结果集DT</param>
         /// <returns></returns>
-        private bool ExportDtToPdf(int typeid,string address,string filename,DataTable custdt,DataTable resultdt)
+        private bool ExportDtToPdf(int typeid,string address,DataTable custdt,DataTable resultdt)
         {
             var result = true;
             var stiReport = new StiReport();
-            var filepath = Application.StartupPath + "/Report/" + filename;
+            string pdfFileAddress;
+
+            //typeid =>0对账单 1=>销售发货清单
+            //判断若GlobalClasscs.RmMessage.Isusesecondcustomer为0即调用‘BatchSecondCustomerStatementReport.mrt’模板
+            var stifilename = typeid == 0
+                ? (GlobalClasscs.RmMessage.Isusesecondcustomer == 0 ? "BatchSecondCustomerStatementReport.mrt" : "BatchCustomerStatementReport.mrt")
+                : "BatchSalesOutListReport.mrt";
+
+            var filepath = Application.StartupPath + "/Report/" + stifilename;
             var date = DateTime.Now.ToString("yyyy-MM-dd");
 
             try
@@ -572,7 +576,9 @@ namespace CustomerStatementReportTool.Task
                 //构建输出文件名为“对账单”+'生成日期'
                 if (typeid == 0)
                 {
-                    var pdfFileAddress = address + "\\" + "对账单_" + date + ".pdf";
+                    pdfFileAddress = GlobalClasscs.RmMessage.Isusesecondcustomer == 0
+                        ? address + "\\" + "二级客户对账单_" + date + ".pdf"
+                        : address + "\\" + "对账单_" + date + ".pdf";
 
                     stiReport.Load(filepath);
                     stiReport.RegData("CustomerStatement", resultdt);
@@ -588,7 +594,7 @@ namespace CustomerStatementReportTool.Task
                         //判断若Convert.ToInt32(rows[0])-FCustId没有在result存在,即continue
                         if(resultdt.Select("FCUSTID='" + Convert.ToInt32(rows[0]) + "'").Length==0) continue;
 
-                        var pdfFileAddress = address + "\\" + "销售发货清单_" + Convert.ToString(rows[2]) +"_"+ "("+Convert.ToString(rows[1])+")_"
+                        pdfFileAddress = address + "\\" + "销售发货清单_" + Convert.ToString(rows[2]) +"_"+ "("+Convert.ToString(rows[1])+")_"
                                                      + date + ".pdf";
 
                         //根据Convert.ToInt32(rows[0]) 在resultdt查找,并最后整合记录至dt内
@@ -920,7 +926,6 @@ namespace CustomerStatementReportTool.Task
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
         /// <param name="customername">客户名称</param>
-        /// <param name="customercode"></param>
         /// <returns>STI排序ID</returns>
         private DataTable GenerateSalesoutlistDtRecord(DataTable resultdt, DataTable salesoutK3Record
                                                         ,int salesoutprintpagenum,int fcustid,string sdt,string edt,string customername)
