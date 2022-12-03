@@ -460,7 +460,8 @@ namespace CustomerStatementReportTool.Task
                     //记录开始执行时间
                     stime = DateTime.Now.ToString();
 
-                    tempdt = GenerateFincalDtRecord(tempdt, fincalK3Record, Convert.ToString(rows[2]), duiprintpagenum, sdt, edt, fsortid,Convert.ToString(rows[1])).Copy();
+                    tempdt = GenerateFincalDtRecord(tempdt, fincalK3Record, Convert.ToString(rows[2]), duiprintpagenum, sdt, edt
+                                                    , fsortid,Convert.ToString(rows[1]),Convert.ToString(rows[3])).Copy();
                     //延时6秒
                     System.Threading.Thread.Sleep(600);
                     //获取结束时间
@@ -539,6 +540,7 @@ namespace CustomerStatementReportTool.Task
                 newrow[0] = Convert.ToInt32(searchDt.GetSearchCustomerList(Convert.ToString(rows[0])).Rows[0][0]);  //FCUSTID
                 newrow[1] = Convert.ToString(rows[0]);  //客户编码
                 newrow[2] = Convert.ToString(rows[1]);  //客户名称
+                newrow[3] = Convert.ToString(searchDt.GetSearchCustomerList(Convert.ToString(rows[0])).Rows[0][3]);  //客户开票名称
                 resultdt.Rows.Add(newrow);              
             }
 
@@ -668,9 +670,10 @@ namespace CustomerStatementReportTool.Task
         /// <param name="edt">结束日期</param>
         /// <param name="fsortid">STI表头排序ID;注:以A开始,若ID值小于10 即加0,如:A01</param>
         /// <param name="customercode">客户编码</param>
+        /// <param name="invoicename">客户开票名称-二级客户对账单.核算项目名称使用</param>
         /// <returns></returns>
         private DataTable GenerateFincalDtRecord(DataTable resultdt,DataTable k3Record,string customername,int printpagenum,string sdt,string edt,string fsortid
-                                                ,string customercode)
+                                                ,string customercode,string invoicename)
         {
             try
             {
@@ -707,7 +710,7 @@ namespace CustomerStatementReportTool.Task
                     {
                         resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, customername, "", Convert.ToString(sdtlows[0][2]),
                                                 0, 0, Convert.ToDecimal(sdtlows[0][3]), remark1, null,
-                                                Convert.ToDecimal(sdtlows[0][3]), null,Convert.ToString(i),fsortid,0));
+                                                Convert.ToDecimal(sdtlows[0][3]), null,Convert.ToString(i),fsortid,0, invoicename));
                     }
                     else
                     {
@@ -718,7 +721,7 @@ namespace CustomerStatementReportTool.Task
                             resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, Convert.ToString(dtlrows[j][0]), Convert.ToString(dtlrows[j][1]),
                                                 Convert.ToString(dtlrows[j][2]), Convert.ToDecimal(dtlrows[j][4]), Convert.ToDecimal(dtlrows[j][5]),
                                                 Convert.ToDecimal(dtlrows[j][3]), remark1, Convert.ToString(dtlrows[j][7]), Convert.ToDecimal(dtlrows[j][8]),
-                                                Convert.ToString(dtlrows[j][9]),Convert.ToString(i), fsortid,Convert.ToInt32(dtlrows[j][10])));
+                                                Convert.ToString(dtlrows[j][9]),Convert.ToString(i), fsortid,Convert.ToInt32(dtlrows[j][10]), invoicename));
                         }
                     }
                 }
@@ -889,10 +892,11 @@ namespace CustomerStatementReportTool.Task
         /// <param name="fRowId">对相同客户的区分显示(当要针对相同客户打印多次时)</param>
         /// <param name="fsortid">STI表头排序ID;注:以A开始,若ID值小于10 即加0,如:A01</param>
         /// <param name="dtlid">用于STI报表明细行排序</param>
+        /// <param name="invoicename">客户开票名称-'二级客户对账单'使用</param>
         /// <returns></returns>
         private DataTable GetBatchResultDt(DataTable tempdt, string sdt, string edt, string customerName, string dt, string remark
                               , decimal yibalance, decimal xibalance, decimal endbalance, string remark1, string fbillno
-                              , decimal lastEndBalance, string month,string fRowId,string fsortid,int dtlid)
+                              , decimal lastEndBalance, string month,string fRowId,string fsortid,int dtlid,string invoicename)
         {
             var newrow = tempdt.NewRow();
             newrow[0] = sdt;                               //开始日期
@@ -911,6 +915,7 @@ namespace CustomerStatementReportTool.Task
             newrow[13] = fRowId;                           //对相同客户的区分显示(当要针对相同客户打印多次时)
             newrow[14] = fsortid;                          //STI排序ID;注:以A开始,若ID值小于10 即加0,如:A01
             newrow[15] = dtlid;                            //用于STI报表明细行排序
+            newrow[16] = invoicename;                      //客户开票名称-二级客户对账单.核算项目名称使用
             tempdt.Rows.Add(newrow);
             return tempdt;
         }
