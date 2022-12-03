@@ -564,6 +564,7 @@ namespace CustomerStatementReportTool.Task
             var result = true;
             var stiReport = new StiReport();
             var filepath = Application.StartupPath + "/Report/" + filename;
+            var date = DateTime.Now.ToString("yyyy-MM-dd");
 
             try
             {
@@ -571,7 +572,7 @@ namespace CustomerStatementReportTool.Task
                 //构建输出文件名为“对账单”+'生成日期'
                 if (typeid == 0)
                 {
-                    var pdfFileAddress = address + "\\" + "对账单_" + DateTime.Now.ToShortDateString() + ".pdf";
+                    var pdfFileAddress = address + "\\" + "对账单_" + date + ".pdf";
 
                     stiReport.Load(filepath);
                     stiReport.RegData("CustomerStatement", resultdt);
@@ -588,7 +589,7 @@ namespace CustomerStatementReportTool.Task
                         if(resultdt.Select("FCUSTID='" + Convert.ToInt32(rows[0]) + "'").Length==0) continue;
 
                         var pdfFileAddress = address + "\\" + "销售发货清单_" + Convert.ToString(rows[2]) +"_"+ "("+Convert.ToString(rows[1])+")_"
-                                                     + DateTime.Now.ToShortDateString()+".pdf";
+                                                     + date + ".pdf";
 
                         //根据Convert.ToInt32(rows[0]) 在resultdt查找,并最后整合记录至dt内
                         var dt = Getreportdt(Convert.ToInt32(rows[0]),resultdt).Copy();
@@ -601,7 +602,7 @@ namespace CustomerStatementReportTool.Task
             }
             catch (Exception ex)
             {
-                var a = ex.Message;
+                GlobalClasscs.RmMessage.Printerrmessge = ex.Message;
                 result = false;
             }
             return result;
