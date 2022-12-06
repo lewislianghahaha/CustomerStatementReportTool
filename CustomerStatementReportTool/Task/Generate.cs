@@ -590,7 +590,7 @@ namespace CustomerStatementReportTool.Task
                             if (resultdt.Select("customercode='"+Convert.ToString(rows[1])+"'").Length==0) continue;
 
                             pdfFileAddress = address + "\\" + "("+id+")"+"二级客户对账单_" + Convert.ToString(rows[2]) + "_" + "(" + Convert.ToString(rows[1]) + ")_"
-                             + date + ".pdf";
+                                             + date + ".pdf";
 
                             //根据Convert.ToInt32(rows[1]) 在resultdt查找,并最后整合记录至dt内
                             var dt = GetSecondcustomerreportdt(Convert.ToString(rows[1]), resultdt).Copy();
