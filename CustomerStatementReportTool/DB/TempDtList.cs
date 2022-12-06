@@ -465,7 +465,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable BatchMakeExportDtTemp()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 17; i++)
+            for (var i = 0; i < 18; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -541,6 +541,11 @@ namespace CustomerStatementReportTool.DB
                     //客户开票名称-二级客户对账单.核算项目名称使用
                     case 16:
                         dc.ColumnName = "InvoiceName";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //客户编码
+                    case 17:
+                        dc.ColumnName = "customercode";
                         dc.DataType = Type.GetType("System.String");
                         break;
                 }
