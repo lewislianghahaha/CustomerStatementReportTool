@@ -6,7 +6,7 @@
     <DataSources isList="true" count="1">
       <CustomerStatement Ref="2" type="DataTableSource" isKey="true">
         <Alias>CustomerStatement</Alias>
-        <Columns isList="true" count="16">
+        <Columns isList="true" count="17">
           <value>SDT,System.String</value>
           <value>EDT,System.String</value>
           <value>CustomerName,System.String</value>
@@ -23,6 +23,7 @@
           <value>FRowId,System.String</value>
           <value>FSortId,System.String</value>
           <value>FDtlId,System.Int32</value>
+          <value>TLastEndBalance,System.String</value>
         </Columns>
         <Dictionary isRef="1" />
         <Name>CustomerStatement</Name>
@@ -549,6 +550,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
         <DataBand1 Ref="38" type="DataBand" isKey="true">
           <Border>All;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,5.4,19,0.8</ClientRectangle>
           <Components isList="true" count="16">
             <Text14 Ref="39" type="Text" isKey="true">
@@ -744,7 +746,7 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Name>Text20</Name>
                   <Page isRef="3" />
                   <Parent isRef="56" />
-                  <Text>截止至{CustomerStatement.Remark1},贵司共欠我司款额 {Sum(CustomerStatement.LastEndBalance)}元</Text>
+                  <Text>截止至{CustomerStatement.Remark1},贵司共欠我司款额 {CustomerStatement.TLastEndBalance}元</Text>
                   <TextBrush>Black</TextBrush>
                   <Type>Expression</Type>
                   <VertAlignment>Center</VertAlignment>
@@ -1034,10 +1036,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>11/30/2022 2:59:01 PM</ReportChanged>
+  <ReportChanged>12/16/2022 9:11:50 AM</ReportChanged>
   <ReportCreated>8/23/2022 2:39:50 PM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\BatchCustomerStatementReport.mrt</ReportFile>
-  <ReportGuid>cd52ff9adb2548ba843eafc8fd022ad3</ReportGuid>
+  <ReportGuid>62caa2dca58f47e68972e42aad6ca36a</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
