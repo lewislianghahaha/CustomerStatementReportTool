@@ -14,7 +14,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable MakeExportDtTemp()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 15; i++)
+            for (var i = 0; i < 16; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -80,6 +80,11 @@ namespace CustomerStatementReportTool.DB
                     //fcustomercode(客户编码) 用于表头分组
                     case 14:
                         dc.ColumnName = "fcustomercode";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //记录‘总期末余额’（以千位符进行分隔,在STI报表显示）
+                    case 15:
+                        dc.ColumnName = "TLastEndBalance";
                         dc.DataType = Type.GetType("System.String");
                         break;
                 }
@@ -457,7 +462,7 @@ namespace CustomerStatementReportTool.DB
         }
 
         /// <summary>
-        /// 保存最终运算结果-自定义批量导出-'对账单'使用
+        /// 保存最终运算结果-自定义批量导出-'对账单'(二级客户对账单)使用
         /// 注:1) STI报表排序方式=>Frowid与Fsortid结合在表头分组使用，而FDtlid在对明细行排序使用
         ///    2) Frowid记录需要打印多少份，从0开始
         /// </summary>
@@ -465,7 +470,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable BatchMakeExportDtTemp()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 18; i++)
+            for (var i = 0; i < 19; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -546,6 +551,11 @@ namespace CustomerStatementReportTool.DB
                     //客户编码
                     case 17:
                         dc.ColumnName = "customercode";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //记录‘总期末余额’（以千位符进行分隔,在STI报表显示）
+                    case 18:
+                        dc.ColumnName = "TLastEndBalance";
                         dc.DataType = Type.GetType("System.String");
                         break;
                 }

@@ -106,5 +106,16 @@ namespace CustomerStatementReportTool.Task
             return dt;
         }
 
+        /// <summary>
+        /// 根据获取的数值,转换为带'千位符'进行显示(并保留两位小数进行输出)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public DataTable ChangeMoneyValue(decimal value)
+        {
+            var dt = UseSqlSearchIntoDt(sqlList.ChangeMoneyValue(value));
+            return dt;
+        }
+
     }
 }

@@ -302,5 +302,16 @@ namespace CustomerStatementReportTool.DB
 
             return _result;
         }
+
+        /// <summary>
+        /// 根据获取的数值,转换为带'千位符'进行显示(并保留两位小数进行输出)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public string ChangeMoneyValue(decimal value)
+        {
+            _result = $@"select convert(varchar,cast({value} AS MONEY),1) value";
+            return _result;
+        }
     }
 }

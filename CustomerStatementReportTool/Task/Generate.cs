@@ -65,7 +65,7 @@ namespace CustomerStatementReportTool.Task
                     custdt.Rows.Add(newrow);
                 }
 
-                var a1 = custdt.Copy();
+                //var a1 = custdt.Copy();
 
                 //当发现sqldt不只有一行时,才执行
                 if(sqldt.Rows.Count >1)
@@ -77,7 +77,7 @@ namespace CustomerStatementReportTool.Task
                     }
                 }
 
-                var a = tempdt.Copy();
+               // var a = tempdt.Copy();
 
                 //处理数据并整理后将数据插入至result内
                 foreach (DataRow custrow in custdt.Rows)
@@ -145,16 +145,17 @@ namespace CustomerStatementReportTool.Task
             newrow[2] = customerName;                      //往来单位名称
             newrow[3] = dt;                                //单据日期-用于排序
             newrow[4] = remark;                            //摘要
-            newrow[5] = remark == "期初余额" ? "" : Convert.ToString(Decimal.Round(yibalance,2)); //本期应收(当“摘要”为“期初余额”时,"本期应收"项为空显示)                 
-            newrow[6] = remark == "期初余额" ? "" : Convert.ToString(Decimal.Round(xibalance,2)); //本期实收(当“摘要”为“期初余额”时,"本期实收"项为空显示)      
-            newrow[7] = Convert.ToString(Decimal.Round(endbalance, 2));      //期末余额
+            newrow[5] = remark == "期初余额" ? "" : ChangeMoneyValue(Decimal.Round(yibalance,2)); //本期应收(当“摘要”为“期初余额”时,"本期应收"项为空显示)=>以千位符进行分隔            
+            newrow[6] = remark == "期初余额" ? "" : ChangeMoneyValue(Decimal.Round(xibalance,2)); //本期实收(当“摘要”为“期初余额”时,"本期实收"项为空显示)=>以千位符进行分隔  
+            newrow[7] = ChangeMoneyValue(Decimal.Round(endbalance, 2));      //期末余额=>以千位符进行分隔  
             newrow[8] = remark1;                           //记录结束日期备注
             newrow[9] = fbillno;                           //单据编号
             newrow[10] = Decimal.Round(lastEndBalance,2);  //记录最后一行‘期末余额’
             newrow[11] = month;                            //月份
             newrow[12] = remark == "本期合计" ? "" : dt;    //单据日期-用于显示
-            newrow[13] = dtlid;                            //FDtlId
+            newrow[13] = dtlid;                            //FDtlId(用于STI报表明细行排序)
             newrow[14] = fcustomercode;                    //fcustomercode
+            newrow[15] = lastEndBalance == 0 ? "" : ChangeMoneyValue(Decimal.Round(lastEndBalance, 2));//change date:20221216 记录‘总期末余额’（以千位符进行分隔,在STI报表显示）
             tempdt.Rows.Add(newrow);
             return tempdt;
         }
@@ -503,7 +504,7 @@ namespace CustomerStatementReportTool.Task
                 var b = fincalresultdt.Copy();
                 var c = salesOutresultdt.Copy();
 
-                //循环执行顺序:(0)对账单->(1)销售发货清单
+                //循环执行顺序:(0)对账单（包含二级客户对账单）->(1)销售发货清单
                 //注:‘对账单’批量一次性生成PDF  ‘销售出库清单’是根据‘客户ID’循环生成PDF,并且文件名为‘客户名称’+'生成日期'
                 for (var i = 0; i < 2; i++)
                 {
@@ -660,9 +661,9 @@ namespace CustomerStatementReportTool.Task
                 newrow[2] = Convert.ToString(dtlrows[i][2]);   //往来单位名称
                 newrow[3] = Convert.ToString(dtlrows[i][3]);   //单据日期-用于排序
                 newrow[4] = Convert.ToString(dtlrows[i][4]);   //摘要
-                newrow[5] = Convert.ToString(dtlrows[i][5]);   //本期应收(当“摘要”为“期初余额”时,"本期应收"项为空显示)                 
-                newrow[6] = Convert.ToString(dtlrows[i][6]);   //本期实收(当“摘要”为“期初余额”时,"本期实收"项为空显示)      
-                newrow[7] = Convert.ToString(dtlrows[i][7]);   //期末余额
+                newrow[5] = Convert.ToString(dtlrows[i][5]);   //本期应收(当“摘要”为“期初余额”时,"本期应收"项为空显示)=>以千位符进行分隔                     
+                newrow[6] = Convert.ToString(dtlrows[i][6]);   //本期实收(当“摘要”为“期初余额”时,"本期实收"项为空显示)=>以千位符进行分隔          
+                newrow[7] = Convert.ToString(dtlrows[i][7]);   //期末余额=>以千位符进行分隔    
                 newrow[8] = Convert.ToString(dtlrows[i][8]);   //记录结束日期备注
                 newrow[9] = Convert.ToString(dtlrows[i][9]);   //单据编号
                 newrow[10] = Math.Round(Convert.ToDecimal(dtlrows[i][10]),2); //记录最后一行‘期末余额’
@@ -673,6 +674,7 @@ namespace CustomerStatementReportTool.Task
                 newrow[15] = Convert.ToInt32(dtlrows[i][15]);  //用于STI报表明细行排序
                 newrow[16] = Convert.ToString(dtlrows[i][16]); //客户开票名称-二级客户对账单.核算项目名称使用
                 newrow[17] = Convert.ToString(dtlrows[i][17]); //客户编码
+                newrow[18] = Convert.ToString(dtlrows[i][18]); //change date:20221216 记录‘总期末余额’（以千位符进行分隔,在STI报表显示）
                 resultdt.Rows.Add(newrow);
             }
 
@@ -750,7 +752,7 @@ namespace CustomerStatementReportTool.Task
                 //中间表-递归运算时使用(与K3Record的表结构一致)
                 var tempdt = k3Record.Clone();
 
-                var a1 = k3Record.Copy();
+                //var a1 = k3Record.Copy();
 
                 //当发现k3Record不只有一行时才执行;tempdt为运算后的记录集(重)
                 if (k3Record.Rows.Count > 1)
@@ -759,7 +761,7 @@ namespace CustomerStatementReportTool.Task
                     tempdt.Merge(BatchGenerateReportDtlTemp(customername,k3Record,tempdt,customercode));
                 }
 
-                var a = tempdt.Copy();
+                //var a = tempdt.Copy();
 
                 //循环printpagenum(对账单打印次数)，并将记录插入至resultdt内
                 //处理数据并整理后将数据插入至resultdt内
@@ -777,10 +779,12 @@ namespace CustomerStatementReportTool.Task
                     }
                     else
                     {
-                        //根据customername,查询明细记录
+                        //根据customercode,查询明细记录
                         var dtlrows = tempdt.Select("往来单位编码='" + customercode + "'");
                         for (var j = 0; j < dtlrows.Length; j++)
                         {
+
+
                             resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, Convert.ToString(dtlrows[j][0]), Convert.ToString(dtlrows[j][1]),
                                                 Convert.ToString(dtlrows[j][2]), Convert.ToDecimal(dtlrows[j][4]), Convert.ToDecimal(dtlrows[j][5]),
                                                 Convert.ToDecimal(dtlrows[j][3]), remark1, Convert.ToString(dtlrows[j][7]), Convert.ToDecimal(dtlrows[j][8]),
@@ -822,7 +826,7 @@ namespace CustomerStatementReportTool.Task
             var dt = string.Empty;
 
             //根据customername,查询明细记录
-            //change date:修改,不用‘往来单位名称作’为条件,使用‘往来单位编码’
+            //change date:20221130 修改-不用‘往来单位名称’作为条件,而是使用‘往来单位编码’
             var dtlrows = sourcedt.Select("往来单位编码='" + customercode + "'");
 
             //change date:20221124 当dtlrows返回>0时,才继续执行以下语句
@@ -891,7 +895,7 @@ namespace CustomerStatementReportTool.Task
                         }
                     }
                 }
-                //跳出循环后,插入最后一行值
+                //跳出循环后,插入最后一行‘本期合计’值
                 tempdt.Merge(BatchInsertRecordToTempdt(tempdt, customername, dt, "本期合计", balancetemp, yitemp, xitemp, 0, "", balancetemp, monthtemp,1, customercode));
             }
 
@@ -949,7 +953,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="xibalance">本期实收</param>
         /// <param name="endbalance">期末余额</param>
         /// <param name="fbillno">单据编号</param>
-        /// <param name="lastEndBalance">月份</param>
+        /// <param name="lastEndBalance">记录每期‘期末余额’</param>
         /// <param name="month">月份</param>
         /// <param name="remark1">记录结束日期备注</param>
         /// <param name="fRowId">对相同客户的区分显示(当要针对相同客户打印多次时)</param>
@@ -968,9 +972,9 @@ namespace CustomerStatementReportTool.Task
             newrow[2] = customerName;                      //往来单位名称
             newrow[3] = dt;                                //单据日期-用于排序
             newrow[4] = remark;                            //摘要
-            newrow[5] = remark == "期初余额" ? "" : Convert.ToString(Decimal.Round(yibalance, 2)); //本期应收(当“摘要”为“期初余额”时,"本期应收"项为空显示)                 
-            newrow[6] = remark == "期初余额" ? "" : Convert.ToString(Decimal.Round(xibalance, 2)); //本期实收(当“摘要”为“期初余额”时,"本期实收"项为空显示)      
-            newrow[7] = Convert.ToString(Decimal.Round(endbalance, 2));      //期末余额
+            newrow[5] = remark == "期初余额" ? "" : ChangeMoneyValue(Decimal.Round(yibalance, 2)); //本期应收(当“摘要”为“期初余额”时,"本期应收"项为空显示)=>以千位符进行分隔            
+            newrow[6] = remark == "期初余额" ? "" : ChangeMoneyValue(Decimal.Round(xibalance, 2)); //本期实收(当“摘要”为“期初余额”时,"本期实收"项为空显示)=>以千位符进行分隔   
+            newrow[7] = ChangeMoneyValue(Decimal.Round(endbalance, 2));      //期末余额=>以千位符进行分隔    
             newrow[8] = remark1;                           //记录结束日期备注
             newrow[9] = fbillno;                           //单据编号
             newrow[10] = Decimal.Round(lastEndBalance, 2); //记录最后一行‘期末余额’
@@ -981,7 +985,9 @@ namespace CustomerStatementReportTool.Task
             newrow[15] = dtlid;                            //用于STI报表明细行排序
             newrow[16] = invoicename;                      //客户开票名称-二级客户对账单.核算项目名称使用
             newrow[17] = customercode;                     //客户编码
+            newrow[18] = lastEndBalance == 0 ? "" : ChangeMoneyValue(Decimal.Round(lastEndBalance, 2)); //change date:20221216 记录‘总期末余额’（以千位符进行分隔,在STI报表显示）
             tempdt.Rows.Add(newrow);
+
             return tempdt;
         }
 
@@ -1085,5 +1091,15 @@ namespace CustomerStatementReportTool.Task
             return resultdt;
         }
 
+        /// <summary>
+        /// 根据获取的数值,转换为带'千位符'进行显示
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private string ChangeMoneyValue(decimal value)
+        {
+            var result = Convert.ToString(searchDt.ChangeMoneyValue(value).Rows[0][0]);
+            return result;
+        }
     }
 }
