@@ -26,7 +26,7 @@ namespace CustomerStatementReportTool.DB
         }
 
         /// <summary>
-        /// 获取客户应收款明细表相关记录
+        /// 获取客户应收款明细表相关记录（对账单查询使用）
         /// </summary>
         /// <param name="edt">结束日期</param>
         /// <param name="customerlist">客户列表信息</param>
@@ -291,7 +291,8 @@ namespace CustomerStatementReportTool.DB
         public string GetSearchCustomerList(string customer)
         {
             _result = $@"
-                            SELECT A.FCUSTID,A.FNUMBER 客户编码,B.FNAME 客户名称,A.F_YTC_TEXT41 客户开票名称 
+                            SELECT A.FCUSTID,A.FNUMBER 客户编码,B.FNAME 客户名称,A.F_YTC_TEXT41 客户开票名称
+                                  ,CASE LEN(F_YTC_TEXT50) WHEN 0 THEN 'A' ELSE A.F_YTC_TEXT50 END 收货天数 
                             FROM dbo.T_BD_CUSTOMER A
                             INNER JOIN dbo.T_BD_CUSTOMER_L B ON A.FCUSTID=B.FCUSTID AND B.FLOCALEID=2052
                             WHERE a.FDOCUMENTSTATUS='C'

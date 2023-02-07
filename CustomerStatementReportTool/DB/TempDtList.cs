@@ -678,7 +678,7 @@ namespace CustomerStatementReportTool.DB
         public DataTable SearchBatchCustomerDt()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < 5; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -698,6 +698,116 @@ namespace CustomerStatementReportTool.DB
                     case 3: //客户开票名称
                         dc.ColumnName = "客户开票名称";
                         dc.DataType=Type.GetType("System.String");
+                        break;
+                    case 4: //收货天数-‘签收确认单’使用
+                        dc.ColumnName = "收货天数";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                }
+                dt.Columns.Add(dc);
+            }
+            return dt;
+        }
+
+        /// <summary>
+        /// 保存最终运算结果-自定义批量导出-'签收确认单'使用
+        /// </summary>
+        /// <returns></returns>
+        public DataTable BatchMakeConfirmDtTemp()
+        {
+            var dt = new DataTable();
+            for (var i = 0; i < 20; i++)
+            {
+                var dc = new DataColumn();
+                switch (i)
+                {
+                    case 0: //开始日期
+                        dc.ColumnName = "SDT";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 1: //结束日期
+                        dc.ColumnName = "EDT";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 2: //往来单位名称
+                        dc.ColumnName = "CustomerName";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 3: //单据日期
+                        dc.ColumnName = "FDATE";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 4: //摘要
+                        dc.ColumnName = "Remark";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 5: //本期应收
+                        dc.ColumnName = "ReceiveQTY";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 6: //本期收款
+                        dc.ColumnName = "ReceiveCurrentQty";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 7: //期末余额
+                        dc.ColumnName = "EndBalance";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 8: //记录结束日期备注
+                        dc.ColumnName = "REMARK1";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 9://单据编号
+                        dc.ColumnName = "FBILLNO";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    case 10://记录最后一行‘期末余额’
+                        dc.ColumnName = "LastEndBalance";
+                        dc.DataType = Type.GetType("System.Decimal");
+                        break;
+                    case 11://月份
+                        dc.ColumnName = "Month";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //单据日期-用于显示
+                    case 12:
+                        dc.ColumnName = "FDATE1";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //作用:对相同客户的区分显示(作用:针对相同客户打印多次时)
+                    case 13:
+                        dc.ColumnName = "FRowId";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //作用:批量打印时,作用:显示出来的打印排列顺序要与前面导入的DT一致 STI表头排序ID;注:以A开始,若ID值小于10 即加0,如:A01(用于代替‘客户名称’放到报表里进行分组排序)
+                    case 14:
+                        dc.ColumnName = "FSortId";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //用于STI报表明细行排序(自定义批量导出功能使用)
+                    case 15:
+                        dc.ColumnName = "FDtlId";
+                        dc.DataType = Type.GetType("System.Int32");
+                        break;
+                    //客户开票名称-二级客户对账单.核算项目名称使用
+                    case 16:
+                        dc.ColumnName = "InvoiceName";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //客户编码
+                    case 17:
+                        dc.ColumnName = "customercode";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //记录‘总期末余额’（以千位符进行分隔,在STI报表显示）
+                    case 18:
+                        dc.ColumnName = "TLastEndBalance";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //记录'签收日期'
+                    case 19:
+                        dc.ColumnName = "FConfirmDate";
+                        dc.DataType = Type.GetType("System.String");
                         break;
                 }
                 dt.Columns.Add(dc);

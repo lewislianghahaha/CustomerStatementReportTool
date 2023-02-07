@@ -183,6 +183,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="STI\BatchCustomerStatementReport.mrt" />
+    <None Include="STI\BatchSalesOutListReport.mrt" />
+    <None Include="STI\BatchSecondCustomerStatementReport.mrt" />
     <None Include="STI\CustomerStatementReport.mrt" />
     <None Include="STI\ProductCustomerReport.mrt" />
     <None Include="STI\SalesOutListReport.mrt" />

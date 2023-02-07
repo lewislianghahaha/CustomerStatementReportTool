@@ -404,8 +404,10 @@ namespace CustomerStatementReportTool.Task
         /// <param name="custlistdt">接收从前端导入的客户DT,用于在不改变导入顺序的前提下获取对应的FCUSTID,并整合成customerk3Dt</param>
         /// <param name="duiprintpagenum">对账单打印次数</param>
         /// <param name="salesoutprintpagenum">销售发货清单打印次数</param>
+        /// <param name="confirmprintpagenum">签收确认单打印次数</param>
         /// <returns></returns>
-        public DataTable GenerateBatchexport(string sdt, string edt, string exportaddress, string customerlist,DataTable custlistdt,int duiprintpagenum, int salesoutprintpagenum)
+        public DataTable GenerateBatchexport(string sdt, string edt, string exportaddress, string customerlist,DataTable custlistdt
+                                             ,int duiprintpagenum, int salesoutprintpagenum,int confirmprintpagenum)
         {
             //定义循环值,fsortid使用
             var id = 0;
@@ -419,7 +421,7 @@ namespace CustomerStatementReportTool.Task
             //定义生成PDF返回是否成功标记
             var resultbool = true;
 
-            //定义‘对账单’收集SQL返回记录临时表
+            //定义‘对账单’收集SQL语句返回记录临时表
             var fincalK3Record = tempDt.GetSearchTempDt();
             //定义‘销售出库清单’收集SQL返回记录临时表
             var salesoutK3Record = tempDt.MakeSalesOutListDtTemp();
@@ -428,6 +430,10 @@ namespace CustomerStatementReportTool.Task
             var fincalresultdt = tempDt.BatchMakeExportDtTemp();
             //'销售出库清单'输出结果集
             var salesOutresultdt = tempDt.BatchMakeSalesOutListDtTemp();
+            //‘对账单’输出结果集-‘签收确认单’使用 change date:20230207
+            var fincalresultdt1 = tempDt.BatchMakeExportDtTemp();
+            //'签收确认单'输出结果集 change date:20230207
+            var confirmresultdt = tempDt.BatchMakeConfirmDtTemp();
 
             //记录‘自定义批量导出’返回结果-(即记录各个客户执行历史记录)
             var resultdt = tempDt.BatchGenerateResultDt();
@@ -449,20 +455,26 @@ namespace CustomerStatementReportTool.Task
                     salesoutK3Record = searchDt.SearchSalesOutList(sdt, edt, customerlist).Copy();
                 }
 
+                //若‘签收确认单打印次数’>0,先获取fincalK3Record(对账单记录) 注:当碰到‘对账单’没有设置打印次数时才执行; change date:20230207
+                if (confirmprintpagenum > 0 && duiprintpagenum==0)
+                {
+                    fincalK3Record = searchDt.SearchFinialRecord(sdt, edt, customerlist).Copy();
+                }
+
                 //循环customerK3Dt - 分别收集‘对账单’及‘销售发货清单’结果集
                 foreach (DataRow rows in customerk3Dt.Rows)
                 {
                     //延时10秒
                     //System.Threading.Thread.Sleep(1000);
+                    //执行顺序: (0)对账单->(1)销售发货清单->(2)签收确认单,分别收集这两种单据类型的执行结果 注:需要检测到对应的打印变量>0时才执行
 
-                    //执行顺序: (0)对账单->(1)销售发货清单,分别收集这两种单据类型的执行结果
                     //‘对账单’使用,匹配条件:客户名称
                     var tempdt = fincalresultdt.Clone();
                     //记录开始执行时间
                     stime = DateTime.Now.ToString();
 
                     tempdt = GenerateFincalDtRecord(tempdt, fincalK3Record, Convert.ToString(rows[2]), duiprintpagenum, sdt, edt
-                                                    , fsortid,Convert.ToString(rows[1]),Convert.ToString(rows[3])).Copy();
+                                                    , fsortid, Convert.ToString(rows[1]), Convert.ToString(rows[3])).Copy();
                     //延时6秒
                     System.Threading.Thread.Sleep(600);
                     //获取结束时间
@@ -472,9 +484,9 @@ namespace CustomerStatementReportTool.Task
                     resultdt.Merge(InsertHistoryToDt(tempdt, resultdt, Convert.ToString(rows[1]), Convert.ToString(rows[2]), stime, endtime, 0));
 
                     //若tempdt返回行数不为0,才插入
-                    if (tempdt.Rows.Count > 0) { fincalresultdt.Merge(tempdt);}
-
-                    /////////////////////////////////////////////执行'销售出库清单'////////////////////////////////////////////////////
+                    if (tempdt.Rows.Count > 0) { fincalresultdt.Merge(tempdt); }
+                    
+                /////////////////////////////////////////////执行'销售出库清单'////////////////////////////////////////////////////
 
                     //'销售出库清单'使用,匹配条件:Fcustid 
                     var tempdt1 = salesOutresultdt.Clone();
@@ -482,7 +494,7 @@ namespace CustomerStatementReportTool.Task
                     stime = DateTime.Now.ToString();
 
                     tempdt1 = GenerateSalesoutlistDtRecord(tempdt1, salesoutK3Record, salesoutprintpagenum, Convert.ToInt32(rows[0]),
-                                                           sdt, edt, Convert.ToString(rows[2])).Copy();
+                                                            sdt, edt, Convert.ToString(rows[2])).Copy();
                     //延时6秒
                     System.Threading.Thread.Sleep(600);
                     //获取结束时间
@@ -492,7 +504,28 @@ namespace CustomerStatementReportTool.Task
                     resultdt.Merge(InsertHistoryToDt(tempdt1, resultdt, Convert.ToString(rows[1]), Convert.ToString(rows[2]), stime, endtime, 1));
 
                     //若tempdt返回行数不为0,才插入
-                    if (tempdt1.Rows.Count > 0) { salesOutresultdt.Merge(tempdt1);}
+                    if (tempdt1.Rows.Count > 0) { salesOutresultdt.Merge(tempdt1); }
+                    
+                /////////////////////////////////////////////执行'签收确认单'////////////////////////////////////////////////////
+
+                    //‘签收确认单’使用,匹配条件:客户名称
+                    var tempdt2 = fincalresultdt1.Clone();
+                    //记录开始执行时间
+                    stime = DateTime.Now.ToString();
+
+                    tempdt = GenerateFincalDtRecord(tempdt2, fincalK3Record, Convert.ToString(rows[2]), confirmprintpagenum, sdt, edt
+                                                    , fsortid, Convert.ToString(rows[1]), Convert.ToString(rows[3])).Copy();
+                    //延时6秒
+                    System.Threading.Thread.Sleep(600);
+                    //获取结束时间
+                    endtime = DateTime.Now.ToString();
+
+                    //执行插入历史记录临时表
+                    resultdt.Merge(InsertHistoryToDt(tempdt2, resultdt, Convert.ToString(rows[1]), Convert.ToString(rows[2]), stime, endtime, 0));
+
+                    //若tempdt返回行数不为0,才插入
+                    if (tempdt.Rows.Count > 0) { fincalresultdt1.Merge(tempdt2); }
+                    
 
                     //每循环一次将fsortid自增1
                     id++;
@@ -500,15 +533,40 @@ namespace CustomerStatementReportTool.Task
                     fsortid = id < 10 ? "A" + "0" + id : "A" + id;
                 }
 
-                var avc = resultdt.Copy();
-                var b = fincalresultdt.Copy();
-                var c = salesOutresultdt.Copy();
+                //var avc = resultdt.Copy();
+                //var b = fincalresultdt.Copy();
+                //var c = salesOutresultdt.Copy();
+                //var d = fincalresultdt1.Copy();
 
-                //循环执行顺序:(0)对账单（包含二级客户对账单）->(1)销售发货清单
-                //注:‘对账单’批量一次性生成PDF  ‘销售出库清单’是根据‘客户ID’循环生成PDF,并且文件名为‘客户名称’+'生成日期'
-                for (var i = 0; i < 2; i++)
+                //若confirmprintpagenum>0,将fincalresultdt（对账单得出结果）进行数据处理,得出相关结果并赋值到confirmresultdt内,供‘签收确认单’打印模板使用 change date:20230207
+                if (confirmprintpagenum > 0)
                 {
-                    var dt = i == 0 ? fincalresultdt.Copy() : salesOutresultdt.Copy();
+                    confirmresultdt = GetConfirmReportDt(confirmresultdt, fincalresultdt1, customerk3Dt).Copy();
+                }
+
+               // var a = confirmresultdt.Copy();
+
+                //循环执行顺序:(0)对账单（包含二级客户对账单）->(1)销售发货清单 (2)->签收确认单
+                //注:‘对账单’批量一次性生成PDF  ‘销售出库清单’是根据‘客户ID’循环生成PDF,并且文件名为‘客户名称’+'生成日期'
+                for (var i = 0; i < 3; i++)
+                {
+                    //var dt = i == 0 ? fincalresultdt.Copy() : salesOutresultdt.Copy();
+
+                    var dt = new DataTable();
+
+                    switch (i)
+                    {
+                        case 0:
+                            dt = fincalresultdt.Copy();
+                            break;
+                        case 1:
+                            dt = salesOutresultdt.Copy();
+                            break;
+                        case 2:
+                            dt = confirmresultdt.Copy();
+                            break;
+                    }
+
                     resultbool = ExportDtToPdf(i, exportaddress, customerk3Dt, dt);
                 }
                 //检测若resultbool最后的结果为false,即跳出异常
@@ -521,6 +579,65 @@ namespace CustomerStatementReportTool.Task
             }
 
             return resultdt;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="resutldt">输出结果表</param>
+        /// <param name="sourcedt">对账单生成结果集</param>
+        /// <param name="customerk3Dt">根据前端导入的客户DT整理的相关客户DT信息</param>
+        /// <returns></returns>
+        private DataTable GetConfirmReportDt(DataTable resutldt, DataTable sourcedt,DataTable customerk3Dt)
+        {
+            //循环对账单数据源,主要完成两项处理=>1.摘要为“期初余额”的跳过不进行插入 2.获取customerk3Dt的‘收货天数’为计算条件,得出签收时间=业务日期+收货天数
+            foreach (DataRow row in sourcedt.Rows)
+            {
+                if(Convert.ToString(row[4])== "期初余额" /*|| Convert.ToString(row[9]).Substring(0,1) !="AR"*/) continue;
+
+                var newrow = resutldt.NewRow();
+                newrow[0] = Convert.ToString(row[0]); //开始日期
+                newrow[1] = Convert.ToString(row[1]); //结束日期
+                newrow[2] = Convert.ToString(row[2]); //往来单位名称
+                newrow[3] = Convert.ToString(row[3]); //单据日期
+                newrow[4] = Convert.ToString(row[4]); //摘要
+                newrow[5] = Convert.ToString(row[5]); //本期应收
+                newrow[6] = Convert.ToString(row[6]); //本期收款
+                newrow[7] = Convert.ToString(row[7]); //期末余额
+                newrow[8] = Convert.ToString(row[8]); //记录结束日期备注
+                newrow[9] = Convert.ToString(row[9]); //单据编号
+                newrow[10] = Convert.ToString(row[10]);//记录最后一行‘期末余额’
+                newrow[11] = Convert.ToString(row[11]);//月份
+                newrow[12] = Convert.ToString(row[12]);//单据日期-用于显示
+                newrow[13] = Convert.ToString(row[13]);//对相同客户的区分显示(作用:针对相同客户打印多次时)
+                newrow[14] = Convert.ToString(row[14]);//STI排序ID;注:以A开始,若ID值小于10 即加0,如:A01
+                newrow[15] = Convert.ToString(row[15]);//用于STI报表明细行排序
+                newrow[16] = Convert.ToString(row[16]);//客户开票名称-二级客户对账单.核算项目名称使用
+                newrow[17] = Convert.ToString(row[17]);//客户编码
+                newrow[18] = Convert.ToString(row[18]);//记录‘总期末余额’（以千位符进行分隔,在STI报表显示）
+
+                newrow[19] = Convert.ToString(row[4]) == "本期合计"
+                    ? "" : Convert.ToDateTime(row[12])
+                        .AddDays(GetConfirmDay(customerk3Dt, Convert.ToString(row[17]))).ToString("yyyy-MM-dd");   //记录'签收日期'
+
+                resutldt.Rows.Add(newrow);
+            }
+
+            return resutldt;
+        }
+
+        /// <summary>
+        /// 根据‘客户编码’记录获取‘收货天数’
+        /// </summary>
+        /// <param name="customerk3Dt">K3客户记录</param>
+        /// <param name="custcode">客户编码</param>
+        /// <returns></returns>
+        private int GetConfirmDay(DataTable customerk3Dt,string custcode)
+        {
+            //根据‘客户编码'获取‘收货天数,若为空,显示为3天
+            var dtlrow = customerk3Dt.Select("客户编码='"+ custcode + "'");
+            var num = Convert.ToString(dtlrow[0][4]) == "A" ? 3 : Convert.ToInt32(dtlrow[0][4]);
+            return num;
         }
 
         /// <summary>
@@ -542,6 +659,7 @@ namespace CustomerStatementReportTool.Task
                 newrow[1] = Convert.ToString(rows[0]);  //客户编码
                 newrow[2] = Convert.ToString(rows[1]);  //客户名称
                 newrow[3] = Convert.ToString(searchDt.GetSearchCustomerList(Convert.ToString(rows[0])).Rows[0][3]);  //客户开票名称
+                newrow[4] = Convert.ToString(searchDt.GetSearchCustomerList(Convert.ToString(rows[0])).Rows[0][4]);  //签收时间
                 resultdt.Rows.Add(newrow);              
             }
 
@@ -553,7 +671,7 @@ namespace CustomerStatementReportTool.Task
         /// 注:‘对账单’批量一次性生成PDF  并且文件名为‘对账单’+'生成日期'
         ///    ‘销售出库清单’是根据‘客户ID’循环生成PDF,并且文件名为‘客户名称’(客户编码)+'生成日期'
         /// </summary>
-        /// <param name="typeid">类型ID 0:'对账单' 1:'销售出库清单'</param>
+        /// <param name="typeid">类型ID 0:'对账单' 1:'销售出库清单' 2：‘签收确认单’</param>
         /// <param name="address">输出地址</param>
         /// <param name="custdt">客户DT</param>
         /// <param name="resultdt">运行结果集DT</param>
@@ -565,71 +683,99 @@ namespace CustomerStatementReportTool.Task
             var stiReport = new StiReport();
             string pdfFileAddress;
 
-            //typeid =>0对账单 1=>销售发货清单
+            //typeid =>0对账单 1=>销售发货清单 2=>签收确认单
             //判断若GlobalClasscs.RmMessage.Isusesecondcustomer为0即调用‘BatchSecondCustomerStatementReport.mrt’模板
 
-            var stifilename = typeid == 0
-                ? (GlobalClasscs.RmMessage.Isusesecondcustomer == 0 ? "BatchSecondCustomerStatementReport.mrt" : "BatchCustomerStatementReport.mrt")
-                : "BatchSalesOutListReport.mrt";
+            //var stifilename = typeid == 0
+            //    ? (GlobalClasscs.RmMessage.Isusesecondcustomer == 0 ? "BatchSecondCustomerStatementReport.mrt" : "BatchCustomerStatementReport.mrt")
+            //    : "BatchSalesOutListReport.mrt";
+
+            var stifilename = string.Empty;
+
+            switch (typeid)
+            {
+                case 0:
+                    stifilename = GlobalClasscs.RmMessage.Isusesecondcustomer == 0 ? "BatchSecondCustomerStatementReport.mrt" : "BatchCustomerStatementReport.mrt";
+                    break;
+                case 1:
+                    stifilename = "BatchSalesOutListReport.mrt";
+                    break;
+                case 2:
+                    stifilename = "BatchConfirmReport.mrt";
+                    break;
+            }
 
             var filepath = Application.StartupPath + "/Report/" + stifilename;
             var date = DateTime.Now.ToString("yyyy-MM-dd");
 
             try
             {
-                //执行‘对账单’输出设置  STI文件里的DB名称:CustomerStatement
-                //构建输出文件名为“对账单”+'生成日期'
-                if (typeid == 0)
+                if (resultdt.Rows.Count > 0)
                 {
-                    //判断若勾选了‘二级客户对项单’选项,就需要以customercode进行拆分输出;反之,保留之前的整体输出效果
-                    if (GlobalClasscs.RmMessage.Isusesecondcustomer == 0)
+                    //执行‘对账单’输出设置  STI文件里的DB名称:CustomerStatement
+                    //构建输出文件名为“对账单”+'生成日期'
+                    if (typeid == 0)
                     {
-                        //循环custdt，并用resultdt.customercode与之对比,并拆分输出
+                        //判断若勾选了‘二级客户对项单’选项,就需要以customercode进行拆分输出;反之,保留之前的整体输出效果
+                        if (GlobalClasscs.RmMessage.Isusesecondcustomer == 0)
+                        {
+                            //循环custdt，并用resultdt.customercode与之对比,并拆分输出
+                            foreach (DataRow rows in custdt.Rows)
+                            {
+                                //判断若Convert.ToInt32(rows[1])-customercode没有在result存在,即continue
+                                if (resultdt.Select("customercode='" + Convert.ToString(rows[1]) + "'").Length == 0) continue;
+
+                                pdfFileAddress = address + "\\" + "(" + id + ")" + "二级客户对账单_" + Convert.ToString(rows[2]) + "_" + "(" + Convert.ToString(rows[1]) + ")_"
+                                                 + date + ".pdf";
+
+                                //根据Convert.ToInt32(rows[1]) 在resultdt查找,并最后整合记录至dt内
+                                var dt = GetSecondcustomerreportdt(Convert.ToString(rows[1]), resultdt).Copy();
+                                stiReport.Load(filepath);
+                                stiReport.RegData("CustomerStatement", dt);
+                                stiReport.Render(false);  //重点-没有这个生成的文件会提示“文件已损坏”
+                                stiReport.ExportDocument(StiExportFormat.Pdf, pdfFileAddress); //生成指定格式文件
+                                id++;
+                            }
+                        }
+                        else
+                        {
+                            pdfFileAddress = address + "\\" + "对账单_" + date + ".pdf";
+                            stiReport.Load(filepath);
+                            stiReport.RegData("CustomerStatement", resultdt);
+                            stiReport.Render(false);  //重点-没有这个生成的文件会提示“文件已损坏”
+                            stiReport.ExportDocument(StiExportFormat.Pdf, pdfFileAddress); //生成指定格式文件
+                        }
+                    }
+                    //执行‘销售发货清单’输出 STI文件里的DB名称:SalesOutList
+                    //根据custdt循环输出;构建输出文件名为“销售发货清单”+‘客户名称’+'生成日期'
+                    else if (typeid == 1)
+                    {
                         foreach (DataRow rows in custdt.Rows)
                         {
-                            //判断若Convert.ToInt32(rows[1])-customercode没有在result存在,即continue
-                            if (resultdt.Select("customercode='"+Convert.ToString(rows[1])+"'").Length==0) continue;
+                            //判断若Convert.ToInt32(rows[0])-FCustId没有在result存在,即continue
+                            if (resultdt.Select("FCUSTID='" + Convert.ToInt32(rows[0]) + "'").Length == 0) continue;
 
-                            pdfFileAddress = address + "\\" + "("+id+")"+"二级客户对账单_" + Convert.ToString(rows[2]) + "_" + "(" + Convert.ToString(rows[1]) + ")_"
+                            pdfFileAddress = address + "\\" + "(" + id + ")" + "销售发货清单_" + Convert.ToString(rows[2]) + "_" +
+                                             "(" + Convert.ToString(rows[1]) + ")_"
                                              + date + ".pdf";
 
-                            //根据Convert.ToInt32(rows[1]) 在resultdt查找,并最后整合记录至dt内
-                            var dt = GetSecondcustomerreportdt(Convert.ToString(rows[1]), resultdt).Copy();
+                            //根据Convert.ToInt32(rows[0]) 在resultdt查找,并最后整合记录至dt内
+                            var dt = Getreportdt(Convert.ToInt32(rows[0]), resultdt).Copy();
                             stiReport.Load(filepath);
-                            stiReport.RegData("CustomerStatement", dt);
-                            stiReport.Render(false);  //重点-没有这个生成的文件会提示“文件已损坏”
+                            stiReport.RegData("SalesOutList", dt);
+                            stiReport.Render(false); //重点-没有这个生成的文件会提示“文件已损坏”
                             stiReport.ExportDocument(StiExportFormat.Pdf, pdfFileAddress); //生成指定格式文件
                             id++;
                         }
                     }
+                    //签收确认单
                     else
                     {
-                        pdfFileAddress = address + "\\" + "对账单_" + date + ".pdf";
+                        pdfFileAddress = address + "\\" + "签收确认单_" + date + ".pdf";
                         stiReport.Load(filepath);
                         stiReport.RegData("CustomerStatement", resultdt);
                         stiReport.Render(false);  //重点-没有这个生成的文件会提示“文件已损坏”
-                        stiReport.ExportDocument(StiExportFormat.Pdf, pdfFileAddress); //生成指定格式文件
-                    }
-                }
-                //执行‘销售发货清单’输出 STI文件里的DB名称:SalesOutList
-                //根据custdt循环输出;构建输出文件名为“销售发货清单”+‘客户名称’+'生成日期'
-                else
-                {
-                    foreach (DataRow rows in custdt.Rows)
-                    {
-                        //判断若Convert.ToInt32(rows[0])-FCustId没有在result存在,即continue
-                        if(resultdt.Select("FCUSTID='" + Convert.ToInt32(rows[0]) + "'").Length==0) continue;
-
-                        pdfFileAddress = address + "\\" + "("+id+")"+"销售发货清单_" + Convert.ToString(rows[2]) +"_"+ "("+Convert.ToString(rows[1])+")_"
-                                                     + date + ".pdf";
-
-                        //根据Convert.ToInt32(rows[0]) 在resultdt查找,并最后整合记录至dt内
-                        var dt = Getreportdt(Convert.ToInt32(rows[0]),resultdt).Copy();
-                        stiReport.Load(filepath);
-                        stiReport.RegData("SalesOutList", dt);
-                        stiReport.Render(false);  //重点-没有这个生成的文件会提示“文件已损坏”
-                        stiReport.ExportDocument(StiExportFormat.Pdf, pdfFileAddress); //生成指定格式文件
-                        id++;
+                        stiReport.ExportDocument(StiExportFormat.Pdf, pdfFileAddress); //生成指定格式文件7
                     }
                 }
             }
@@ -724,7 +870,7 @@ namespace CustomerStatementReportTool.Task
         }
 
         /// <summary>
-        /// '对账单'所表所需数据生成
+        /// '对账单'(二级对账单 签收确认单)表所需数据生成
         /// 运算核心:针对同一个客户,只运算一次将结果保存至tempdt内,然后通过printpaagenum ('对账单'打印次数) 进行循环插入至resultdt
         /// </summary>
         /// <param name="resultdt">结果集临时表（作用:STI对账单报表使用）</param>
@@ -783,8 +929,6 @@ namespace CustomerStatementReportTool.Task
                         var dtlrows = tempdt.Select("往来单位编码='" + customercode + "'");
                         for (var j = 0; j < dtlrows.Length; j++)
                         {
-
-
                             resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, Convert.ToString(dtlrows[j][0]), Convert.ToString(dtlrows[j][1]),
                                                 Convert.ToString(dtlrows[j][2]), Convert.ToDecimal(dtlrows[j][4]), Convert.ToDecimal(dtlrows[j][5]),
                                                 Convert.ToDecimal(dtlrows[j][3]), remark1, Convert.ToString(dtlrows[j][7]), Convert.ToDecimal(dtlrows[j][8]),

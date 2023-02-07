@@ -142,6 +142,7 @@ namespace CustomerStatementReportTool.BatchExport
                     btnsetadd.Enabled = false;
                     txtdiuprintpage.Enabled = false;
                     txtsalesprintpage.Enabled = false;
+                    txtconfirm.Enabled = false;
 
                     //var a2 = _dtl.Copy();
 
@@ -173,6 +174,7 @@ namespace CustomerStatementReportTool.BatchExport
                     taskLogic.Customerlist = customerlist;
                     taskLogic.Duiprintpagenumber = Convert.ToInt32(txtdiuprintpage.Text);
                     taskLogic.Salesoutprintpagenumber = Convert.ToInt32(txtsalesprintpage.Text);
+                    taskLogic.Confirmprintpagenum = Convert.ToInt32(txtconfirm.Text);
                     taskLogic.FileAddress = txtadd.Text;
                     taskLogic.Custdtlist = _dtl;
 
@@ -189,6 +191,7 @@ namespace CustomerStatementReportTool.BatchExport
                     txtdiuprintpage.Enabled = true;
                     txtsalesprintpage.Enabled = true;
                     cbcheck.Checked = false;
+                    txtconfirm.Enabled = true;
 
                     //若检测到GlobalClasscs.Printerrmessge不为空,即跳转到异常处理
                     if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Printerrmessge)) throw new Exception($"生成PDF出现异常,原因:{GlobalClasscs.RmMessage.Printerrmessge}");

@@ -44,6 +44,7 @@
             this.txtadd = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.cbcheck = new System.Windows.Forms.CheckBox();
             this.txtsalesprintpage = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtdiuprintpage = new System.Windows.Forms.TextBox();
@@ -69,7 +70,8 @@
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
-            this.cbcheck = new System.Windows.Forms.CheckBox();
+            this.txtconfirm = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -206,6 +208,8 @@
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.txtconfirm);
+            this.panel3.Controls.Add(this.label7);
             this.panel3.Controls.Add(this.cbcheck);
             this.panel3.Controls.Add(this.txtsalesprintpage);
             this.panel3.Controls.Add(this.label6);
@@ -218,12 +222,22 @@
             this.panel3.Size = new System.Drawing.Size(734, 38);
             this.panel3.TabIndex = 6;
             // 
+            // cbcheck
+            // 
+            this.cbcheck.AutoSize = true;
+            this.cbcheck.Location = new System.Drawing.Point(570, 11);
+            this.cbcheck.Name = "cbcheck";
+            this.cbcheck.Size = new System.Drawing.Size(156, 16);
+            this.cbcheck.TabIndex = 8;
+            this.cbcheck.Text = "调用二级客户对账单模板";
+            this.cbcheck.UseVisualStyleBackColor = true;
+            // 
             // txtsalesprintpage
             // 
-            this.txtsalesprintpage.Location = new System.Drawing.Point(332, 7);
+            this.txtsalesprintpage.Location = new System.Drawing.Point(296, 7);
             this.txtsalesprintpage.Name = "txtsalesprintpage";
             this.txtsalesprintpage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtsalesprintpage.Size = new System.Drawing.Size(57, 21);
+            this.txtsalesprintpage.Size = new System.Drawing.Size(42, 21);
             this.txtsalesprintpage.TabIndex = 7;
             this.txtsalesprintpage.Text = "1";
             this.txtsalesprintpage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -231,7 +245,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(237, 12);
+            this.label6.Location = new System.Drawing.Point(201, 12);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(89, 12);
             this.label6.TabIndex = 6;
@@ -241,7 +255,7 @@
             // 
             this.txtdiuprintpage.Location = new System.Drawing.Point(151, 7);
             this.txtdiuprintpage.Name = "txtdiuprintpage";
-            this.txtdiuprintpage.Size = new System.Drawing.Size(57, 21);
+            this.txtdiuprintpage.Size = new System.Drawing.Size(42, 21);
             this.txtdiuprintpage.TabIndex = 5;
             this.txtdiuprintpage.Text = "1";
             this.txtdiuprintpage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -447,15 +461,23 @@
             this.gvdtl.Size = new System.Drawing.Size(732, 341);
             this.gvdtl.TabIndex = 0;
             // 
-            // cbcheck
+            // txtconfirm
             // 
-            this.cbcheck.AutoSize = true;
-            this.cbcheck.Location = new System.Drawing.Point(449, 11);
-            this.cbcheck.Name = "cbcheck";
-            this.cbcheck.Size = new System.Drawing.Size(156, 16);
-            this.cbcheck.TabIndex = 8;
-            this.cbcheck.Text = "调用二级客户对账单模板";
-            this.cbcheck.UseVisualStyleBackColor = true;
+            this.txtconfirm.Location = new System.Drawing.Point(429, 8);
+            this.txtconfirm.Name = "txtconfirm";
+            this.txtconfirm.Size = new System.Drawing.Size(42, 21);
+            this.txtconfirm.TabIndex = 10;
+            this.txtconfirm.Text = "1";
+            this.txtconfirm.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(351, 13);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(77, 12);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "签收确认单->";
             // 
             // CustBatchExport
             // 
@@ -535,5 +557,7 @@
         private System.Windows.Forms.TextBox txtdiuprintpage;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox cbcheck;
+        private System.Windows.Forms.TextBox txtconfirm;
+        private System.Windows.Forms.Label label7;
     }
 }

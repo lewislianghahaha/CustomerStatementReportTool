@@ -20,6 +20,7 @@ namespace CustomerStatementReportTool.Task
         private string _fileAddress;   //文件地址('自定义批量导出'-导入EXCEL 及 导出地址收集使用)
         private int _duiprintpagenumber;       //对账单打印次数
         private int _salesoutprintpagenumber;  //销售出库清单打印次数
+        private int _confirmprintpagenum; //签收确认单打印次数
 
         private bool _resultmark;                   //返回是否成功标记
         private DataTable _resultTable;             //返回DT(客户列表初始化获取记录时使用)
@@ -79,6 +80,11 @@ namespace CustomerStatementReportTool.Task
         /// </summary>
         public int Salesoutprintpagenumber { set { _salesoutprintpagenumber = value; } }
 
+        /// <summary>
+        /// 签收确认单打印次数
+        /// </summary>
+        public int Confirmprintpagenum { set { _confirmprintpagenum = value; } }
+        
         /// <summary>
         /// 获取前端的客户列表DT(自定义批量导出功能使用)
         /// </summary>
@@ -157,7 +163,7 @@ namespace CustomerStatementReportTool.Task
                     break;
                 //‘自定义批量功能’-运算
                 case 6:
-                    GenerateBatchexport(_sdt, _edt, _fileAddress,_customerlist,_duiprintpagenumber,_salesoutprintpagenumber, _custdtlist);
+                    GenerateBatchexport(_sdt, _edt, _fileAddress,_customerlist,_duiprintpagenumber,_salesoutprintpagenumber, _confirmprintpagenum, _custdtlist);
                     break;
             }
         }
@@ -229,12 +235,13 @@ namespace CustomerStatementReportTool.Task
         /// <param name="customerlist">客户列表信息</param>
         /// <param name="duiprintpagenum">对账单打印次数</param>
         /// <param name="salesoutprintpagenum">销售发货清单打印次数</param>
+        /// <param name="confirmprintpagenum">签收确认单打印次数</param>
         /// <param name="custdtlist">接收前端客户DT</param>
         private void GenerateBatchexport(string sdt,string edt,string exportaddress,string customerlist,
-                                        int duiprintpagenum,int salesoutprintpagenum,DataTable custdtlist)
+                                        int duiprintpagenum,int salesoutprintpagenum,int confirmprintpagenum,DataTable custdtlist)
         {
             _resultMessageDt = generate.GenerateBatchexport(sdt,edt, exportaddress,customerlist, custdtlist,
-                                        duiprintpagenum,salesoutprintpagenum).Copy();
+                                        duiprintpagenum,salesoutprintpagenum, confirmprintpagenum).Copy();
         }
     }
 }
