@@ -702,8 +702,8 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
                   <Name>Text46</Name>
                   <Page isRef="3" />
                   <Parent isRef="52" />
-                  <Text> 请贵司予以确认:                                      
- 签收时间无误:                                                  
+                  <Text> 请贵司予以确认,签收时间无误:                                      
+                                                  
 													   
 
 
@@ -916,10 +916,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>2/8/2023 7:47:15 AM</ReportChanged>
+  <ReportChanged>2/8/2023 5:46:32 PM</ReportChanged>
   <ReportCreated>8/23/2022 2:39:50 PM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\BatchConfirmReport.mrt</ReportFile>
-  <ReportGuid>5894cfe270514e86bea0d0100e5ef0b1</ReportGuid>
+  <ReportGuid>709ecced22c141d78c9f7c60a0f5b787</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
