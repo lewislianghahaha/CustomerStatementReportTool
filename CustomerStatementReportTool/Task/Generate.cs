@@ -593,7 +593,10 @@ namespace CustomerStatementReportTool.Task
             //循环对账单数据源,主要完成两项处理=>1.摘要为“期初余额”的跳过不进行插入 2.获取customerk3Dt的‘收货天数’为计算条件,得出签收时间=业务日期+收货天数
             foreach (DataRow row in sourcedt.Rows)
             {
-                if(Convert.ToString(row[4])== "期初余额" /*|| Convert.ToString(row[9]).Substring(0,1) !="AR"*/) continue;
+                //todo:期初余额 以及 本期合计不要
+                if(Convert.ToString(row[4])== "期初余额" || Convert.ToString(row[4]) == "本期合计") continue;
+                //todo:将单据编号不是AR（应收单）的排除
+                if(Convert.ToString(row[9]).Substring(0,2)!="AR") continue;
 
                 var newrow = resutldt.NewRow();
                 newrow[0] = Convert.ToString(row[0]); //开始日期
