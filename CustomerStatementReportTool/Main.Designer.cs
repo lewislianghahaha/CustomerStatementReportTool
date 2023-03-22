@@ -73,6 +73,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tmclose = new System.Windows.Forms.ToolStripMenuItem();
             this.tmbatchexport = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmQuartOutPut = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmYearOutput = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -476,7 +478,9 @@
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tmclose,
-            this.tmbatchexport});
+            this.tmbatchexport,
+            this.tmQuartOutPut,
+            this.tmYearOutput});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(889, 25);
@@ -494,6 +498,18 @@
             this.tmbatchexport.Name = "tmbatchexport";
             this.tmbatchexport.Size = new System.Drawing.Size(104, 21);
             this.tmbatchexport.Text = "自定义批量导出";
+            // 
+            // tmQuartOutPut
+            // 
+            this.tmQuartOutPut.Name = "tmQuartOutPut";
+            this.tmQuartOutPut.Size = new System.Drawing.Size(80, 21);
+            this.tmQuartOutPut.Text = "按季度导出";
+            // 
+            // tmYearOutput
+            // 
+            this.tmYearOutput.Name = "tmYearOutput";
+            this.tmYearOutput.Size = new System.Drawing.Size(80, 21);
+            this.tmYearOutput.Text = "按年份导出";
             // 
             // Main
             // 
@@ -573,6 +589,8 @@
         private System.Windows.Forms.DataGridView gvdtl;
         private System.Windows.Forms.Button btnsalesoutlist;
         private System.Windows.Forms.ToolStripMenuItem tmbatchexport;
+        private System.Windows.Forms.ToolStripMenuItem tmQuartOutPut;
+        private System.Windows.Forms.ToolStripMenuItem tmYearOutput;
     }
 }
 
