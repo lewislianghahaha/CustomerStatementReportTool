@@ -38,10 +38,10 @@
             this.txtadd = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnGenerate = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.cbMix = new System.Windows.Forms.CheckBox();
+            this.btnGenerate = new System.Windows.Forms.Button();
+            this.cmchooseyear = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.bngat = new System.Windows.Forms.BindingNavigator(this.components);
             this.bnCountItem = new System.Windows.Forms.ToolStripLabel();
@@ -141,50 +141,13 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.cbMix);
             this.panel2.Controls.Add(this.btnGenerate);
-            this.panel2.Controls.Add(this.comboBox1);
+            this.panel2.Controls.Add(this.cmchooseyear);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 60);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(734, 35);
             this.panel2.TabIndex = 6;
-            // 
-            // btnGenerate
-            // 
-            this.btnGenerate.Location = new System.Drawing.Point(650, 5);
-            this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(75, 23);
-            this.btnGenerate.TabIndex = 5;
-            this.btnGenerate.Text = "运算";
-            this.btnGenerate.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "2022",
-            "2023",
-            "2024",
-            "2025",
-            "2026",
-            "2027",
-            "2028",
-            "2029",
-            "2030"});
-            this.comboBox1.Location = new System.Drawing.Point(91, 6);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 20);
-            this.comboBox1.TabIndex = 4;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 12);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "年份选择:";
             // 
             // cbMix
             // 
@@ -195,6 +158,43 @@
             this.cbMix.TabIndex = 6;
             this.cbMix.Text = "是否拆分导出;注:若不勾选将执行合拼导出";
             this.cbMix.UseVisualStyleBackColor = true;
+            // 
+            // btnGenerate
+            // 
+            this.btnGenerate.Location = new System.Drawing.Point(650, 5);
+            this.btnGenerate.Name = "btnGenerate";
+            this.btnGenerate.Size = new System.Drawing.Size(75, 23);
+            this.btnGenerate.TabIndex = 5;
+            this.btnGenerate.Text = "运算";
+            this.btnGenerate.UseVisualStyleBackColor = true;
+            // 
+            // cmchooseyear
+            // 
+            this.cmchooseyear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmchooseyear.FormattingEnabled = true;
+            this.cmchooseyear.Items.AddRange(new object[] {
+            "2022",
+            "2023",
+            "2024",
+            "2025",
+            "2026",
+            "2027",
+            "2028",
+            "2029",
+            "2030"});
+            this.cmchooseyear.Location = new System.Drawing.Point(91, 6);
+            this.cmchooseyear.Name = "cmchooseyear";
+            this.cmchooseyear.Size = new System.Drawing.Size(121, 20);
+            this.cmchooseyear.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(27, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 12);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "年份选择:";
             // 
             // panel4
             // 
@@ -422,7 +422,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnGenerate;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmchooseyear;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbMix;
         private System.Windows.Forms.Panel panel4;

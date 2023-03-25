@@ -38,6 +38,9 @@
             this.txtadd = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnGenerate = new System.Windows.Forms.Button();
+            this.cmchoose = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.bngat = new System.Windows.Forms.BindingNavigator(this.components);
             this.bnCountItem = new System.Windows.Forms.ToolStripLabel();
@@ -56,11 +59,8 @@
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnGenerate = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
@@ -142,13 +142,45 @@
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.btnGenerate);
-            this.panel2.Controls.Add(this.comboBox1);
+            this.panel2.Controls.Add(this.cmchoose);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 60);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(734, 35);
             this.panel2.TabIndex = 6;
+            // 
+            // btnGenerate
+            // 
+            this.btnGenerate.Location = new System.Drawing.Point(239, 5);
+            this.btnGenerate.Name = "btnGenerate";
+            this.btnGenerate.Size = new System.Drawing.Size(75, 23);
+            this.btnGenerate.TabIndex = 2;
+            this.btnGenerate.Text = "运算";
+            this.btnGenerate.UseVisualStyleBackColor = true;
+            // 
+            // cmchoose
+            // 
+            this.cmchoose.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmchoose.FormattingEnabled = true;
+            this.cmchoose.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4"});
+            this.cmchoose.Location = new System.Drawing.Point(92, 6);
+            this.cmchoose.Name = "cmchoose";
+            this.cmchoose.Size = new System.Drawing.Size(121, 20);
+            this.cmchoose.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(27, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "季度选择:";
             // 
             // panel3
             // 
@@ -185,14 +217,14 @@
             this.toolStripLabel5,
             this.tstotalrow});
             this.bngat.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.bngat.Location = new System.Drawing.Point(246, 0);
+            this.bngat.Location = new System.Drawing.Point(215, 0);
             this.bngat.MoveFirstItem = this.bnMoveFirstItem;
             this.bngat.MoveLastItem = this.bnMoveLastItem;
             this.bngat.MoveNextItem = this.bnMoveNextItem;
             this.bngat.MovePreviousItem = this.bnMovePreviousItem;
             this.bngat.Name = "bngat";
             this.bngat.PositionItem = this.bnPositionItem;
-            this.bngat.Size = new System.Drawing.Size(486, 24);
+            this.bngat.Size = new System.Drawing.Size(517, 24);
             this.bngat.TabIndex = 1;
             this.bngat.Text = "bindingNavigator1";
             // 
@@ -310,29 +342,6 @@
             this.tstotalrow.Size = new System.Drawing.Size(55, 21);
             this.tstotalrow.Text = "共 {0} 行";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "季度选择:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4"});
-            this.comboBox1.Location = new System.Drawing.Point(92, 6);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 20);
-            this.comboBox1.TabIndex = 1;
-            // 
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.SystemColors.ActiveCaption;
@@ -353,15 +362,6 @@
             this.label2.Size = new System.Drawing.Size(413, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "注:运算方式:以当前年份及所选择的\'季度\'为查询条件;季度为1,表示1~3月份";
-            // 
-            // btnGenerate
-            // 
-            this.btnGenerate.Location = new System.Drawing.Point(239, 5);
-            this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(75, 23);
-            this.btnGenerate.TabIndex = 2;
-            this.btnGenerate.Text = "运算";
-            this.btnGenerate.UseVisualStyleBackColor = true;
             // 
             // panel4
             // 
@@ -449,7 +449,7 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
         private System.Windows.Forms.ToolStripLabel toolStripLabel5;
         private System.Windows.Forms.ToolStripLabel tstotalrow;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmchoose;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.Panel panel5;
