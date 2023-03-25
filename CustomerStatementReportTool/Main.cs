@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using CustomerStatementReportTool.BatchExport;
 using CustomerStatementReportTool.DB;
+using CustomerStatementReportTool.MixOutPut;
 using CustomerStatementReportTool.Task;
 using Stimulsoft.Report;
 
@@ -16,6 +17,8 @@ namespace CustomerStatementReportTool
         TaskLogic taskLogic=new TaskLogic();
         TempDtList tempDt=new TempDtList();
         CustBatchExport custBatchExport=new CustBatchExport();
+        QuartOutPutFrm quartOutPut=new QuartOutPutFrm();
+        YearOutPutFrm yearOutPut = new YearOutPutFrm();
 
         #region 变量参数
         //保存GridView内需要进行添加的临时表
@@ -61,6 +64,11 @@ namespace CustomerStatementReportTool
             comtype.SelectedIndexChanged += Comtype_SelectedIndexChanged;
 
             tmbatchexport.Click += Tmbatchexport_Click;
+
+            ///////////////////change date:20230322  新功能/////////////////////////
+            tmQuartOutPut.Click += TmQuartOutPut_Click;
+            tmYearOutput.Click += TmYearOutput_Click;
+
         }
 
         /// <summary>
@@ -483,6 +491,44 @@ namespace CustomerStatementReportTool
                 //调用‘自定义批量导出’窗体
                 custBatchExport.StartPosition = FormStartPosition.CenterParent;
                 custBatchExport.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, $"错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// 按季度导出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TmQuartOutPut_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //调用‘按季度导出’窗体
+                quartOutPut.StartPosition = FormStartPosition.CenterParent;
+                quartOutPut.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, $"错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// 按年份导出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TmYearOutput_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //调用‘按年份导出’窗体
+                yearOutPut.StartPosition = FormStartPosition.CenterParent;
+                yearOutPut.ShowDialog();
             }
             catch (Exception ex)
             {

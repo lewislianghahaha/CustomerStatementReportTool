@@ -44,6 +44,8 @@ namespace CustomerStatementReportTool.BatchExport
             bnPositionItem.Leave += BnPositionItem_Leave;
             tmshowrows.DropDownClosed += Tmshowrows_DropDownClosed;
             panel4.Visible = false;
+
+
         }
 
         /// <summary>
