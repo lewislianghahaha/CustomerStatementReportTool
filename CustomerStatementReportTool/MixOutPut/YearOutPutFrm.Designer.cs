@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YearOutPutFrm));
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.Menu = new System.Windows.Forms.MenuStrip();
             this.tmclose = new System.Windows.Forms.ToolStripMenuItem();
             this.tmimport = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -40,7 +40,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.cbMix = new System.Windows.Forms.CheckBox();
             this.btnGenerate = new System.Windows.Forms.Button();
-            this.cmchooseyear = new System.Windows.Forms.ComboBox();
+            this.comtype = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.bngat = new System.Windows.Forms.BindingNavigator(this.components);
@@ -62,7 +62,7 @@
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
-            this.menuStrip1.SuspendLayout();
+            this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -72,17 +72,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvdtl)).BeginInit();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // Menu
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tmclose,
             this.tmimport});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(734, 25);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
+            this.Menu.Location = new System.Drawing.Point(0, 0);
+            this.Menu.Name = "Menu";
+            this.Menu.Size = new System.Drawing.Size(734, 25);
+            this.Menu.TabIndex = 4;
+            this.Menu.Text = "menuStrip1";
             // 
             // tmclose
             // 
@@ -141,7 +141,7 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.cbMix);
             this.panel2.Controls.Add(this.btnGenerate);
-            this.panel2.Controls.Add(this.cmchooseyear);
+            this.panel2.Controls.Add(this.comtype);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 60);
@@ -168,24 +168,14 @@
             this.btnGenerate.Text = "运算";
             this.btnGenerate.UseVisualStyleBackColor = true;
             // 
-            // cmchooseyear
+            // comtype
             // 
-            this.cmchooseyear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmchooseyear.FormattingEnabled = true;
-            this.cmchooseyear.Items.AddRange(new object[] {
-            "2022",
-            "2023",
-            "2024",
-            "2025",
-            "2026",
-            "2027",
-            "2028",
-            "2029",
-            "2030"});
-            this.cmchooseyear.Location = new System.Drawing.Point(91, 6);
-            this.cmchooseyear.Name = "cmchooseyear";
-            this.cmchooseyear.Size = new System.Drawing.Size(121, 20);
-            this.cmchooseyear.TabIndex = 4;
+            this.comtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comtype.FormattingEnabled = true;
+            this.comtype.Location = new System.Drawing.Point(91, 6);
+            this.comtype.Name = "comtype";
+            this.comtype.Size = new System.Drawing.Size(121, 20);
+            this.comtype.TabIndex = 4;
             // 
             // label1
             // 
@@ -390,11 +380,11 @@
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.Menu);
             this.Name = "YearOutPutFrm";
             this.Text = "按年份导出";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.Menu.ResumeLayout(false);
+            this.Menu.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -413,7 +403,7 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip Menu;
         private System.Windows.Forms.ToolStripMenuItem tmclose;
         private System.Windows.Forms.ToolStripMenuItem tmimport;
         private System.Windows.Forms.Panel panel1;
@@ -422,7 +412,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnGenerate;
-        private System.Windows.Forms.ComboBox cmchooseyear;
+        private System.Windows.Forms.ComboBox comtype;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbMix;
         private System.Windows.Forms.Panel panel4;

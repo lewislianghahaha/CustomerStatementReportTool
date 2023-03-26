@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QuartOutPutFrm));
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.Menu = new System.Windows.Forms.MenuStrip();
             this.tmclose = new System.Windows.Forms.ToolStripMenuItem();
             this.tmimport = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -39,7 +39,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnGenerate = new System.Windows.Forms.Button();
-            this.cmchoose = new System.Windows.Forms.ComboBox();
+            this.comtype = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.bngat = new System.Windows.Forms.BindingNavigator(this.components);
@@ -59,32 +59,29 @@
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
-            this.menuStrip1.SuspendLayout();
+            this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bngat)).BeginInit();
             this.bngat.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvdtl)).BeginInit();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // Menu
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tmclose,
             this.tmimport});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(734, 25);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
+            this.Menu.Location = new System.Drawing.Point(0, 0);
+            this.Menu.Name = "Menu";
+            this.Menu.Size = new System.Drawing.Size(734, 25);
+            this.Menu.TabIndex = 4;
+            this.Menu.Text = "menuStrip1";
             // 
             // tmclose
             // 
@@ -142,7 +139,7 @@
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.btnGenerate);
-            this.panel2.Controls.Add(this.cmchoose);
+            this.panel2.Controls.Add(this.comtype);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 60);
@@ -159,19 +156,14 @@
             this.btnGenerate.Text = "运算";
             this.btnGenerate.UseVisualStyleBackColor = true;
             // 
-            // cmchoose
+            // comtype
             // 
-            this.cmchoose.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmchoose.FormattingEnabled = true;
-            this.cmchoose.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4"});
-            this.cmchoose.Location = new System.Drawing.Point(92, 6);
-            this.cmchoose.Name = "cmchoose";
-            this.cmchoose.Size = new System.Drawing.Size(121, 20);
-            this.cmchoose.TabIndex = 1;
+            this.comtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comtype.FormattingEnabled = true;
+            this.comtype.Location = new System.Drawing.Point(92, 6);
+            this.comtype.Name = "comtype";
+            this.comtype.Size = new System.Drawing.Size(121, 20);
+            this.comtype.TabIndex = 1;
             // 
             // label1
             // 
@@ -217,14 +209,14 @@
             this.toolStripLabel5,
             this.tstotalrow});
             this.bngat.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.bngat.Location = new System.Drawing.Point(215, 0);
+            this.bngat.Location = new System.Drawing.Point(246, 0);
             this.bngat.MoveFirstItem = this.bnMoveFirstItem;
             this.bngat.MoveLastItem = this.bnMoveLastItem;
             this.bngat.MoveNextItem = this.bnMoveNextItem;
             this.bngat.MovePreviousItem = this.bnMovePreviousItem;
             this.bngat.Name = "bngat";
             this.bngat.PositionItem = this.bnPositionItem;
-            this.bngat.Size = new System.Drawing.Size(517, 24);
+            this.bngat.Size = new System.Drawing.Size(486, 24);
             this.bngat.TabIndex = 1;
             this.bngat.Text = "bindingNavigator1";
             // 
@@ -342,35 +334,14 @@
             this.tstotalrow.Size = new System.Drawing.Size(55, 21);
             this.tstotalrow.Text = "共 {0} 行";
             // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.label2);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(0, 95);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(734, 28);
-            this.panel5.TabIndex = 9;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.DarkRed;
-            this.label2.Location = new System.Drawing.Point(11, 7);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(413, 12);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "注:运算方式:以当前年份及所选择的\'季度\'为查询条件;季度为1,表示1~3月份";
-            // 
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.gvdtl);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(0, 123);
+            this.panel4.Location = new System.Drawing.Point(0, 95);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(734, 359);
+            this.panel4.Size = new System.Drawing.Size(734, 387);
             this.panel4.TabIndex = 10;
             // 
             // gvdtl
@@ -383,7 +354,7 @@
             this.gvdtl.Name = "gvdtl";
             this.gvdtl.ReadOnly = true;
             this.gvdtl.RowTemplate.Height = 23;
-            this.gvdtl.Size = new System.Drawing.Size(732, 357);
+            this.gvdtl.Size = new System.Drawing.Size(732, 385);
             this.gvdtl.TabIndex = 0;
             // 
             // QuartOutPutFrm
@@ -394,15 +365,14 @@
             this.ClientSize = new System.Drawing.Size(734, 508);
             this.ControlBox = false;
             this.Controls.Add(this.panel4);
-            this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.Menu);
             this.Name = "QuartOutPutFrm";
             this.Text = "按季度导出";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.Menu.ResumeLayout(false);
+            this.Menu.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -412,8 +382,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.bngat)).EndInit();
             this.bngat.ResumeLayout(false);
             this.bngat.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gvdtl)).EndInit();
             this.ResumeLayout(false);
@@ -423,7 +391,7 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip Menu;
         private System.Windows.Forms.ToolStripMenuItem tmclose;
         private System.Windows.Forms.ToolStripMenuItem tmimport;
         private System.Windows.Forms.Panel panel1;
@@ -449,11 +417,9 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
         private System.Windows.Forms.ToolStripLabel toolStripLabel5;
         private System.Windows.Forms.ToolStripLabel tstotalrow;
-        private System.Windows.Forms.ComboBox cmchoose;
+        private System.Windows.Forms.ComboBox comtype;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnGenerate;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.DataGridView gvdtl;
     }
