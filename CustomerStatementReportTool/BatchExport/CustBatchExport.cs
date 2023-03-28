@@ -111,6 +111,7 @@ namespace CustomerStatementReportTool.BatchExport
                 var temp = string.Empty;
 
                 GlobalClasscs.RmMessage.Isusesecondcustomer = cbcheck.Checked ? 0 : 1;
+                GlobalClasscs.RmMessage.IsuseMixExport = cbMix.Checked;
 
                 var clickMessage = $"准备执行,\n请注意:\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
 
@@ -166,8 +167,6 @@ namespace CustomerStatementReportTool.BatchExport
                         }
                     }
 
-                    //var a = customerdt;
-
                     taskLogic.TaskId = 6;
                     taskLogic.Sdt = sdt;
                     taskLogic.Edt = edt;
@@ -177,7 +176,7 @@ namespace CustomerStatementReportTool.BatchExport
                     taskLogic.Confirmprintpagenum = Convert.ToInt32(txtconfirm.Text);
                     taskLogic.FileAddress = txtadd.Text;
                     taskLogic.Custdtlist = _dtl;
-
+                   
                     //使用子线程工作(作用:通过调用子线程进行控制Load窗体的关闭情况)
                     new Thread(Start).Start();
                     load.StartPosition = FormStartPosition.CenterScreen;
@@ -198,7 +197,7 @@ namespace CustomerStatementReportTool.BatchExport
                     //若检测到GlobalClasscs.Errmessage不为空,即跳转到异常处理
                     if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Errormesage)) throw new Exception($"运行出现异常,原因:{GlobalClasscs.RmMessage.Errormesage}");
 
-                    var a1 = taskLogic.ResultMessageDt.Copy();
+                   // var a1 = taskLogic.ResultMessageDt.Copy();
 
                     //将返回结果传输至MessageFrm窗体内
                     messageFrm.Resultdt = taskLogic.ResultMessageDt;

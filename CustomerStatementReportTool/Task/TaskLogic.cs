@@ -8,6 +8,7 @@ namespace CustomerStatementReportTool.Task
         SearchDt serchDt = new SearchDt();
         Generate generate=new Generate();
         ImportDt importDt=new ImportDt();
+        MixGenerate mixGenerate=new MixGenerate();
 
         #region 变量参数
 
@@ -20,7 +21,8 @@ namespace CustomerStatementReportTool.Task
         private string _fileAddress;   //文件地址('自定义批量导出'-导入EXCEL 及 导出地址收集使用)
         private int _duiprintpagenumber;       //对账单打印次数
         private int _salesoutprintpagenumber;  //销售出库清单打印次数
-        private int _confirmprintpagenum; //签收确认单打印次数
+        private int _confirmprintpagenum;      //签收确认单打印次数
+        private int _genid;                    //运算类别:0=>按‘季度’导出使用 1=>按‘年度’导出使用
 
         private bool _resultmark;                   //返回是否成功标记
         private DataTable _resultTable;             //返回DT(客户列表初始化获取记录时使用)
@@ -89,6 +91,11 @@ namespace CustomerStatementReportTool.Task
         /// 获取前端的客户列表DT(自定义批量导出功能使用)
         /// </summary>
         public DataTable Custdtlist { set { _custdtlist = value; } }
+
+        /// <summary>
+        /// /运算类别:0=>按‘季度’导出使用 1=>按‘年度’导出使用
+        /// </summary>
+        public int Genid { set { _genid = value; } }
         #endregion
 
         #region Get
@@ -165,8 +172,11 @@ namespace CustomerStatementReportTool.Task
                 case 6:
                     GenerateBatchexport(_sdt, _edt, _fileAddress,_customerlist,_duiprintpagenumber,_salesoutprintpagenumber, _confirmprintpagenum, _custdtlist);
                     break;
-                //
-
+                /////////////////以下为合拼打印相关////////////////////////
+                //按‘季度’导出 按‘年份’导出
+                case 7:
+                    GenerateMixExport(_genid,_sdt, _edt, _fileAddress, _customerlist, _custdtlist);
+                    break;
             }
         }
 
@@ -245,5 +255,20 @@ namespace CustomerStatementReportTool.Task
             _resultMessageDt = generate.GenerateBatchexport(sdt,edt, exportaddress,customerlist, custdtlist,
                                         duiprintpagenum,salesoutprintpagenum, confirmprintpagenum).Copy();
         }
+
+        /// <summary>
+        /// 按‘季度’导出 及 按’年份‘导出使用
+        /// </summary>
+        /// <param name="genid">运算类别:0=>按‘季度’导出使用 1=>按‘年度’导出使用</param>
+        /// <param name="sdt">开始日期</param>
+        /// <param name="edt">结束日期</param>
+        /// <param name="exportaddress">输出地址</param>
+        /// <param name="customerlist">客户列表信息</param>
+        /// <param name="custdtlist">接收前端客户DT</param>
+        private void GenerateMixExport(int genid,string sdt, string edt, string exportaddress, string customerlist,DataTable custdtlist)
+        {
+            mixGenerate.GenerateMixExport(genid,sdt, edt,exportaddress,customerlist,custdtlist);
+        }
+
     }
 }

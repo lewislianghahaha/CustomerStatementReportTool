@@ -52,7 +52,7 @@ namespace CustomerStatementReportTool.MixOutPut
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Tmimport_Click(object sender, System.EventArgs e)
+        private void Tmimport_Click(object sender, EventArgs e)
         {
             try
             {
@@ -99,19 +99,121 @@ namespace CustomerStatementReportTool.MixOutPut
         }
 
         /// <summary>
-        /// 运算
+        /// 运算-注意要点:
+        /// 1.'按季度导出'主要针对'签收确定单'及'销售发货清单'进行‘合拼’导出
+        /// 2.导出顺序 >签收确定单 >销售发货清单
+        /// 3.导出方式,以'客户'为循环条件,对‘签收确定单’以及‘销售发货清单’进行分组导出;如:客户A=>‘签收确定单’ ‘销售发货清单’ 然后到客户B=>‘签收确定单’ ‘销售发货清单’ 这种方式显示
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BtnGenerate_Click(object sender, System.EventArgs e)
+        private void BtnGenerate_Click(object sender, EventArgs e)
         {
             try
             {
-                //获取下拉列表所选值
+                var chooseValue = string.Empty;
+                var temp = string.Empty;
+                var sdt = string.Empty;
+                var edt = string.Empty;
+                var dt = new DateTime();
+
+                var message = string.Empty;
+                var customerlist = string.Empty;
+
+                //获取‘季度选择’下拉列表所选值
                 var dvordertylelist = (DataRowView)comtype.Items[comtype.SelectedIndex];
+                //检查‘输出地址’是否有填
+                if (txtadd.Text == "") throw new Exception($"请设置导出地址.");
+                //判断若gvdtl没有记录,不能进行运算
+                if (gvdtl.RowCount == 0) throw new Exception($"请添加记录后再进行运算");
 
+                //根据选择的‘季度’显示对应的描述
+                switch (Convert.ToInt32(dvordertylelist["Id"]))
+                {
+                    case 0:
+                        chooseValue = "第一季度";
+                        dt = DateTime.Parse($"{DateTime.Now.Year},1, 01");
+                        break;
+                    case 1:
+                        chooseValue = "第二季度";
+                        dt = DateTime.Parse($"{DateTime.Now.Year},4, 01");
+                        break;
+                    case 2:
+                        chooseValue = "第三季度";
+                        dt = DateTime.Parse($"{DateTime.Now.Year},7, 01");
+                        break;
+                    case 3:
+                        chooseValue = "第四季度";
+                        dt = DateTime.Parse($"{DateTime.Now.Year},10, 01");
+                        break;
+                }
 
+                //根据所选择的‘季度’生成对应的‘开始’及‘结束’日期
+                sdt = dt.AddMonths(0 - (dt.Month - 1) % 3).AddDays(1 - dt.Day).ToString("yyyy-MM-dd");  //获取本季度第一天
 
+                edt = dt.AddMonths(0 - (dt.Month - 1) % 3).AddDays(1 - dt.Day).AddMonths(3).AddDays(-1).ToString("yyyy-MM-dd");//获取本季度最后一天 
+
+                message = $"准备执行,\n请注意:" +
+                          $"\n1.季度选择:'{chooseValue}',执行日期从'{sdt}'开始 至 '{edt}'结束" +
+                          $"\n2.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
+                          "\n3.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
+
+                //开始执行
+                if (MessageBox.Show(message, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    //将相关按钮设置为不可操作;直至运行完成后才恢复
+                    tmclose.Enabled = false;
+                    tmimport.Enabled = false;
+                    btnGenerate.Enabled = false;
+                    btnsetadd.Enabled = false;
+
+                    var customerdt = _dtl.Copy(); //(DataTable)gvdtl.DataSource;
+                    //对已添加的‘客户列表’整合,合拼为一行并以,分隔
+                    //通过循环将选中行的客户编码进行收集(注:去除重复的选项,只保留不重复的主键记录)
+                    foreach (DataRow rows in customerdt.Rows)
+                    {
+                        if (string.IsNullOrEmpty(customerlist))
+                        {
+                            customerlist = "'" + Convert.ToString(rows[0]) + "'";
+                            temp = Convert.ToString(rows[0]);
+                        }
+                        else
+                        {
+                            if (temp != Convert.ToString(rows[0]))
+                            {
+                                customerlist += "," + "'" + Convert.ToString(rows[0]) + "'";
+                                temp = Convert.ToString(rows[0]);
+                            }
+                        }
+                    }
+
+                    taskLogic.TaskId = 7;
+                    taskLogic.Sdt = sdt;
+                    taskLogic.Edt = edt;
+                    taskLogic.Customerlist = customerlist;
+                    taskLogic.FileAddress = txtadd.Text;
+                    taskLogic.Custdtlist = _dtl;
+                    taskLogic.Genid = 0;  //运算类别:0=>按‘季度’导出使用 1=>按‘年度’导出使用
+
+                    //使用子线程工作(作用:通过调用子线程进行控制Load窗体的关闭情况)
+                    new Thread(Start).Start();
+                    load.StartPosition = FormStartPosition.CenterScreen;
+                    load.ShowDialog();
+
+                    //若检测到GlobalClasscs.Printerrmessge不为空,即跳转到异常处理
+                    if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Printerrmessge)) throw new Exception($"生成PDF出现异常,原因:{GlobalClasscs.RmMessage.Printerrmessge}");
+                    //若检测到GlobalClasscs.Errmessage不为空,即跳转到异常处理
+                    if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Errormesage)) throw new Exception($"运行出现异常,原因:{GlobalClasscs.RmMessage.Errormesage}");
+
+                    if (string.IsNullOrEmpty(GlobalClasscs.RmMessage.Printerrmessge) && string.IsNullOrEmpty(GlobalClasscs.RmMessage.Errormesage))
+                    {
+                        MessageBox.Show($"执行成功,请到设置的下载地址进行查阅", $"通知", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //运算完成后,将原来设置的文本框(按钮)设置为可用
+                        tmclose.Enabled = true;
+                        tmimport.Enabled = true;
+                        btnGenerate.Enabled = true;
+                        btnsetadd.Enabled = true;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -124,7 +226,7 @@ namespace CustomerStatementReportTool.MixOutPut
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Btnsetadd_Click(object sender, System.EventArgs e)
+        private void Btnsetadd_Click(object sender, EventArgs e)
         {
             try
             {
@@ -147,7 +249,7 @@ namespace CustomerStatementReportTool.MixOutPut
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Tmclose_Click(object sender, System.EventArgs e)
+        private void Tmclose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -220,6 +322,8 @@ namespace CustomerStatementReportTool.MixOutPut
             comtype.DisplayMember = "Name"; //设置显示值
             comtype.ValueMember = "Id";    //设置默认值内码
         }
+
+
 
         #region 控制GridView单元格显示
 

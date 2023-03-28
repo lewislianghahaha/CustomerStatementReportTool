@@ -11,6 +11,7 @@ namespace CustomerStatementReportTool.Task
     {
         SearchDt searchDt=new SearchDt();
         TempDtList tempDt=new TempDtList();
+        MixGenerate mixGenerate=new MixGenerate();
 
         #region 参数
         //记录出现异常的提示
@@ -395,7 +396,7 @@ namespace CustomerStatementReportTool.Task
 
         /// <summary>
         /// '自定义批量导出'-运算执行
-        /// 执行顺序:1)对账单  2)销售发货清单 
+        /// 执行顺序:0)对账单  1)销售发货清单  2)签收确定单
         /// </summary>
         /// <param name="sdt">开始日期</param>
         /// <param name="edt">结束日期</param>
@@ -430,7 +431,8 @@ namespace CustomerStatementReportTool.Task
             var fincalresultdt = tempDt.BatchMakeExportDtTemp();
             //'销售出库清单'输出结果集
             var salesOutresultdt = tempDt.BatchMakeSalesOutListDtTemp();
-            //‘对账单’输出结果集-‘签收确认单’使用 change date:20230207
+
+            //‘签收确认单’中转使用 change date:20230207
             var fincalresultdt1 = tempDt.BatchMakeExportDtTemp();
             //'签收确认单'输出结果集 change date:20230207
             var confirmresultdt = tempDt.BatchMakeConfirmDtTemp();
@@ -468,7 +470,7 @@ namespace CustomerStatementReportTool.Task
                     //System.Threading.Thread.Sleep(1000);
                     //执行顺序: (0)对账单->(1)销售发货清单->(2)签收确认单,分别收集这两种单据类型的执行结果 注:需要检测到对应的打印变量>0时才执行
 
-                    //‘对账单’使用,匹配条件:客户名称
+                    //‘对账单’使用,匹配条件:客户编码
                     var tempdt = fincalresultdt.Clone();
                     //记录开始执行时间
                     stime = DateTime.Now.ToString();
@@ -503,17 +505,17 @@ namespace CustomerStatementReportTool.Task
                     //执行插入历史记录临时表
                     resultdt.Merge(InsertHistoryToDt(tempdt1, resultdt, Convert.ToString(rows[1]), Convert.ToString(rows[2]), stime, endtime, 1));
 
-                    //若tempdt返回行数不为0,才插入
+                    //若tempdt1返回行数不为0,才插入
                     if (tempdt1.Rows.Count > 0) { salesOutresultdt.Merge(tempdt1); }
                     
                 /////////////////////////////////////////////执行'签收确认单'////////////////////////////////////////////////////
 
-                    //‘签收确认单’使用,匹配条件:客户名称
+                    //‘签收确认单’使用,匹配条件:客户编码
                     var tempdt2 = fincalresultdt1.Clone();
                     //记录开始执行时间
                     stime = DateTime.Now.ToString();
 
-                    tempdt = GenerateFincalDtRecord(tempdt2, fincalK3Record, Convert.ToString(rows[2]), confirmprintpagenum, sdt, edt
+                    tempdt2 = GenerateFincalDtRecord(tempdt2, fincalK3Record, Convert.ToString(rows[2]), confirmprintpagenum, sdt, edt
                                                     , fsortid, Convert.ToString(rows[1]), Convert.ToString(rows[3])).Copy();
                     //延时6秒
                     System.Threading.Thread.Sleep(600);
@@ -523,8 +525,8 @@ namespace CustomerStatementReportTool.Task
                     //执行插入历史记录临时表
                     resultdt.Merge(InsertHistoryToDt(tempdt2, resultdt, Convert.ToString(rows[1]), Convert.ToString(rows[2]), stime, endtime, 0));
 
-                    //若tempdt返回行数不为0,才插入
-                    if (tempdt.Rows.Count > 0) { fincalresultdt1.Merge(tempdt2); }
+                    //若tempdt2返回行数不为0,才插入
+                    if (tempdt2.Rows.Count > 0) { fincalresultdt1.Merge(tempdt2); }
                     
 
                     //每循环一次将fsortid自增1
@@ -539,36 +541,45 @@ namespace CustomerStatementReportTool.Task
                 //var d = fincalresultdt1.Copy();
 
                 //若confirmprintpagenum>0,将fincalresultdt（对账单得出结果）进行数据处理,得出相关结果并赋值到confirmresultdt内,供‘签收确认单’打印模板使用 change date:20230207
-                if (confirmprintpagenum > 0)
+                if (confirmprintpagenum > 0 && fincalresultdt1.Rows.Count>0)
                 {
                     confirmresultdt = GetConfirmReportDt(confirmresultdt, fincalresultdt1, customerk3Dt).Copy();
                 }
 
-               // var a = confirmresultdt.Copy();
+                // var a = confirmresultdt.Copy();
 
                 //循环执行顺序:(0)对账单（包含二级客户对账单）->(1)销售发货清单 (2)->签收确认单
                 //注:‘对账单’批量一次性生成PDF  ‘销售出库清单’是根据‘客户ID’循环生成PDF,并且文件名为‘客户名称’+'生成日期'
-                for (var i = 0; i < 3; i++)
+                //change date:20230328 添加是否合拼输出功能
+                if (GlobalClasscs.RmMessage.IsuseMixExport)
                 {
-                    //var dt = i == 0 ? fincalresultdt.Copy() : salesOutresultdt.Copy();
-
-                    var dt = new DataTable();
-
-                    switch (i)
-                    {
-                        case 0:
-                            dt = fincalresultdt.Copy();
-                            break;
-                        case 1:
-                            dt = salesOutresultdt.Copy();
-                            break;
-                        case 2:
-                            dt = confirmresultdt.Copy();
-                            break;
-                    }
-
-                    resultbool = ExportDtToPdf(i, exportaddress, customerk3Dt, dt);
+                    resultbool = mixGenerate.ExportDtToMixPdf(exportaddress, customerk3Dt, fincalresultdt, confirmresultdt, salesOutresultdt);
                 }
+                else
+                {
+                    for (var i = 0; i < 3; i++)
+                    {
+                        //var dt = i == 0 ? fincalresultdt.Copy() : salesOutresultdt.Copy();
+
+                        var dt = new DataTable();
+
+                        switch (i)
+                        {
+                            case 0:
+                                dt = fincalresultdt.Copy();
+                                break;
+                            case 1:
+                                dt = salesOutresultdt.Copy();
+                                break;
+                            case 2:
+                                dt = confirmresultdt.Copy();
+                                break;
+                        }
+
+                        resultbool = ExportDtToPdf(i, exportaddress, customerk3Dt, dt);
+                    }
+                }
+
                 //检测若resultbool最后的结果为false,即跳出异常
                 if(!resultbool) throw new Exception("导出PDF产生异常");
             }
@@ -582,13 +593,13 @@ namespace CustomerStatementReportTool.Task
         }
 
         /// <summary>
-        /// 
+        /// '签收确定单'数据收集
         /// </summary>
         /// <param name="resutldt">输出结果表</param>
         /// <param name="sourcedt">对账单生成结果集</param>
         /// <param name="customerk3Dt">根据前端导入的客户DT整理的相关客户DT信息</param>
         /// <returns></returns>
-        private DataTable GetConfirmReportDt(DataTable resutldt, DataTable sourcedt,DataTable customerk3Dt)
+        public DataTable GetConfirmReportDt(DataTable resutldt, DataTable sourcedt,DataTable customerk3Dt)
         {
             //循环对账单数据源,主要完成两项处理=>1.摘要为“期初余额”的跳过不进行插入 2.获取customerk3Dt的‘收货天数’为计算条件,得出签收时间=业务日期+收货天数
             foreach (DataRow row in sourcedt.Rows)
@@ -649,7 +660,7 @@ namespace CustomerStatementReportTool.Task
         /// </summary>
         /// <param name="custsourcedt"></param>
         /// <returns></returns>
-        private DataTable GetSearchCustomerList(DataTable custsourcedt)
+        public DataTable GetSearchCustomerList(DataTable custsourcedt)
         {
             //获取输出临时表
             var resultdt = tempDt.SearchBatchCustomerDt();
@@ -796,7 +807,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="customercode"></param>
         /// <param name="sourcedt"></param>
         /// <returns></returns>
-        private DataTable GetSecondcustomerreportdt(string customercode,DataTable sourcedt)
+        public DataTable GetSecondcustomerreportdt(string customercode,DataTable sourcedt)
         {
             var resultdt = sourcedt.Clone();
 
@@ -836,7 +847,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="fcustid">客户ID</param>
         /// <param name="sourcedt">结果集DT</param>
         /// <returns></returns>
-        private DataTable Getreportdt(int fcustid,DataTable sourcedt)
+        public DataTable Getreportdt(int fcustid,DataTable sourcedt)
         {
             var resultdt = sourcedt.Clone();
 
@@ -886,7 +897,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="customercode">客户编码</param>
         /// <param name="invoicename">客户开票名称-二级客户对账单.核算项目名称使用</param>
         /// <returns></returns>
-        private DataTable GenerateFincalDtRecord(DataTable resultdt,DataTable k3Record,string customername,int printpagenum,string sdt,string edt,string fsortid
+        public DataTable GenerateFincalDtRecord(DataTable resultdt,DataTable k3Record,string customername,int printpagenum,string sdt,string edt,string fsortid
                                                 ,string customercode,string invoicename)
         {
             try
@@ -1150,7 +1161,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="edt">结束日期</param>
         /// <param name="customername">客户名称</param>
         /// <returns>STI排序ID</returns>
-        private DataTable GenerateSalesoutlistDtRecord(DataTable resultdt, DataTable salesoutK3Record
+        public DataTable GenerateSalesoutlistDtRecord(DataTable resultdt, DataTable salesoutK3Record
                                                         ,int salesoutprintpagenum,int fcustid,string sdt,string edt,string customername)
         {
             try

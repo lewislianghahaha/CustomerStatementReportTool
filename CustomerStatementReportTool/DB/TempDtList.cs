@@ -462,7 +462,7 @@ namespace CustomerStatementReportTool.DB
         }
 
         /// <summary>
-        /// 保存最终运算结果-自定义批量导出-'对账单'(二级客户对账单)使用
+        /// 保存最终运算结果-自定义批量导出-'对账单'(二级客户对账单) 以及 ‘签收确定单’(中转)使用
         /// 注:1) STI报表排序方式=>Frowid与Fsortid结合在表头分组使用，而FDtlid在对明细行排序使用
         ///    2) Frowid记录需要打印多少份，从0开始
         /// </summary>
@@ -515,11 +515,11 @@ namespace CustomerStatementReportTool.DB
                         dc.ColumnName = "FBILLNO";
                         dc.DataType = Type.GetType("System.String");
                         break;
-                    case 10:
+                    case 10://记录最后一行‘期末余额’
                         dc.ColumnName = "LastEndBalance";
                         dc.DataType = Type.GetType("System.Decimal");
                         break;
-                    case 11:
+                    case 11://月份
                         dc.ColumnName = "Month";
                         dc.DataType = Type.GetType("System.String");
                         break;

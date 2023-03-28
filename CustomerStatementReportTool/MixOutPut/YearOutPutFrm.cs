@@ -106,12 +106,89 @@ namespace CustomerStatementReportTool.MixOutPut
         {
             try
             {
+                var temp = string.Empty;
+                var sdt = string.Empty;
+                var edt = string.Empty;
+
+                var message = string.Empty;
+                var customerlist = string.Empty;
+
                 //获取下拉列表所选值
                 var dvordertylelist = (DataRowView)comtype.Items[comtype.SelectedIndex];
+                //检查‘输出地址’是否有填
+                if (txtadd.Text == "") throw new Exception($"请设置导出地址.");
+                //判断若gvdtl没有记录,不能进行运算
+                if (gvdtl.RowCount == 0) throw new Exception($"请添加记录后再进行运算");
+
                 //获取勾选‘是否拆分’按钮
-                var cbmix = cbMix.Checked;
+                GlobalClasscs.RmMessage.IsuseYearMixExport = cbMix.Checked;
 
+                //根据选择的‘年份’显示对应的描述
+                sdt = Convert.ToString(dvordertylelist["Name"])+"-01-01";
+                edt = Convert.ToString(dvordertylelist["Name"])+"-12-31";
 
+                message = $"准备执行,\n请注意:" +
+                          $"\n1.年度选择:'{Convert.ToString(dvordertylelist["Name"])}年',执行日期从'{sdt}'开始 至 '{edt}'结束" +
+                          $"\n2.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
+                          "\n3.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
+
+                //开始执行
+                if (MessageBox.Show(message, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    //将相关按钮设置为不可操作;直至运行完成后才恢复
+                    tmclose.Enabled = false;
+                    tmimport.Enabled = false;
+                    btnGenerate.Enabled = false;
+                    btnsetadd.Enabled = false;
+
+                    var customerdt = _dtl.Copy(); //(DataTable)gvdtl.DataSource;
+                    //对已添加的‘客户列表’整合,合拼为一行并以,分隔
+                    //通过循环将选中行的客户编码进行收集(注:去除重复的选项,只保留不重复的主键记录)
+                    foreach (DataRow rows in customerdt.Rows)
+                    {
+                        if (string.IsNullOrEmpty(customerlist))
+                        {
+                            customerlist = "'" + Convert.ToString(rows[0]) + "'";
+                            temp = Convert.ToString(rows[0]);
+                        }
+                        else
+                        {
+                            if (temp != Convert.ToString(rows[0]))
+                            {
+                                customerlist += "," + "'" + Convert.ToString(rows[0]) + "'";
+                                temp = Convert.ToString(rows[0]);
+                            }
+                        }
+                    }
+
+                    taskLogic.TaskId = 7;
+                    taskLogic.Sdt = sdt;
+                    taskLogic.Edt = edt;
+                    taskLogic.Customerlist = customerlist;
+                    taskLogic.FileAddress = txtadd.Text;
+                    taskLogic.Custdtlist = _dtl;
+                    taskLogic.Genid = 1;  //运算类别:0=>按‘季度’导出使用 1=>按‘年度’导出使用
+
+                    //使用子线程工作(作用:通过调用子线程进行控制Load窗体的关闭情况)
+                    new Thread(Start).Start();
+                    load.StartPosition = FormStartPosition.CenterScreen;
+                    load.ShowDialog();
+
+                    //若检测到GlobalClasscs.Printerrmessge不为空,即跳转到异常处理
+                    if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Printerrmessge)) throw new Exception($"生成PDF出现异常,原因:{GlobalClasscs.RmMessage.Printerrmessge}");
+                    //若检测到GlobalClasscs.Errmessage不为空,即跳转到异常处理
+                    if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Errormesage)) throw new Exception($"运行出现异常,原因:{GlobalClasscs.RmMessage.Errormesage}");
+
+                    if (string.IsNullOrEmpty(GlobalClasscs.RmMessage.Printerrmessge) && string.IsNullOrEmpty(GlobalClasscs.RmMessage.Errormesage))
+                    {
+                        MessageBox.Show($"执行成功,请到设置的下载地址进行查阅", $"通知", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //运算完成后,将原来设置的文本框(按钮)设置为可用
+                        tmclose.Enabled = true;
+                        tmimport.Enabled = true;
+                        btnGenerate.Enabled = true;
+                        btnsetadd.Enabled = true;
+                    }
+                }
             }
             catch (Exception ex)
             {

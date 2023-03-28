@@ -71,9 +71,9 @@
             this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.cbMix = new System.Windows.Forms.CheckBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
-            this.cbMix = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -470,6 +470,16 @@
             this.panel6.Size = new System.Drawing.Size(734, 38);
             this.panel6.TabIndex = 9;
             // 
+            // cbMix
+            // 
+            this.cbMix.AutoSize = true;
+            this.cbMix.Location = new System.Drawing.Point(11, 11);
+            this.cbMix.Name = "cbMix";
+            this.cbMix.Size = new System.Drawing.Size(552, 16);
+            this.cbMix.TabIndex = 5;
+            this.cbMix.Text = "是否合拼导出? 注:若不勾选,即以对账单 签收确定单分别合拼导出,而销售发货清单按客户拆分导出";
+            this.cbMix.UseVisualStyleBackColor = true;
+            // 
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -492,16 +502,6 @@
             this.gvdtl.RowTemplate.Height = 23;
             this.gvdtl.Size = new System.Drawing.Size(732, 303);
             this.gvdtl.TabIndex = 0;
-            // 
-            // cbMix
-            // 
-            this.cbMix.AutoSize = true;
-            this.cbMix.Location = new System.Drawing.Point(11, 11);
-            this.cbMix.Name = "cbMix";
-            this.cbMix.Size = new System.Drawing.Size(252, 16);
-            this.cbMix.TabIndex = 5;
-            this.cbMix.Text = "是否拆分导出;注:若不勾选将执行合拼导出";
-            this.cbMix.UseVisualStyleBackColor = true;
             // 
             // CustBatchExport
             // 
