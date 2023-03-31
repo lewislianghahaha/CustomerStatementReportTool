@@ -36,6 +36,7 @@ namespace CustomerStatementReportTool.BatchExport
             tmclose.Click += Tmclose_Click;
             btngenerate.Click += Btngenerate_Click;
             btnsetadd.Click += Btnsetadd_Click;
+            cbcheck.Click += Cbcheck_Click;
 
             bnMoveFirstItem.Click += BnMoveFirstItem_Click;
             bnMovePreviousItem.Click += BnMovePreviousItem_Click;
@@ -98,6 +99,16 @@ namespace CustomerStatementReportTool.BatchExport
         }
 
         /// <summary>
+        /// '调用二级客户对账单模板'
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cbcheck_Click(object sender, EventArgs e)
+        {
+            cbMix.Enabled = !cbcheck.Checked;
+        }
+
+        /// <summary>
         /// 运算
         /// </summary>
         /// <param name="sender"></param>
@@ -107,15 +118,25 @@ namespace CustomerStatementReportTool.BatchExport
             try
             {
                 var message = string.Empty;
+                var clickMessage1 = string.Empty;
                 var customerlist = string.Empty;
                 var temp = string.Empty;
+                var clickMessage = string.Empty;
 
                 GlobalClasscs.RmMessage.Isusesecondcustomer = cbcheck.Checked ? 0 : 1;
+
                 GlobalClasscs.RmMessage.IsuseMixExport = cbMix.Checked;
 
-                var clickMessage = $"准备执行,\n请注意:\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
+                clickMessage = cbMix.Checked
+                    ? $"准备执行,\n请注意:" +
+                      $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
+                      "\n2.是否合拼导出:'是'" + "\n3.执行过程中不要关闭软件,不然会导致运算失败" + "\n是否继续执行?"
+                    : $"准备执行,\n请注意:" +
+                      $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
+                      "\n2.是否合拼导出:'否'" + "\n3.执行过程中不要关闭软件,不然会导致运算失败" + "\n是否继续执行?";
 
-                var clickMessage1 = $"准备执行,\n请注意:\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件,"+
+                clickMessage1 = $"准备执行,\n请注意:" +
+                                    $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件,"+
                                        "不然会导致运算失败\n检测到勾选‘调用二级客户对账单模板’选项,\n注:使用后,生成的对账单是使用二级客户对账单模板,\n而不是使用常规对账单模板." +
                                         "\n是否继续执行?";
 
@@ -223,10 +244,13 @@ namespace CustomerStatementReportTool.BatchExport
                 txtadd.Text = "";
                 txtdiuprintpage.Text = "1";
                 txtsalesprintpage.Text = "1";
-                var dt = (DataTable)gvdtl.DataSource;
-                dt.Rows.Clear();
-                dt.Columns.Clear();
-                gvdtl.DataSource = dt;
+                if (gvdtl?.Rows.Count>0)
+                {
+                    var dt = (DataTable)gvdtl?.DataSource;
+                    dt.Rows.Clear();
+                    dt.Columns.Clear();
+                    gvdtl.DataSource = dt;
+                }
             }
         }
 

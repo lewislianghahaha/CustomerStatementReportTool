@@ -231,10 +231,13 @@ namespace CustomerStatementReportTool.MixOutPut
                 btnsetadd.Enabled = true;
 
                 txtadd.Text = "";
-                var gvdt = (DataTable)gvdtl.DataSource;
-                gvdt.Rows.Clear();
-                gvdt.Columns.Clear();
-                gvdtl.DataSource = gvdt;
+                if (gvdtl?.Rows.Count > 0)
+                {
+                    var gvdt = (DataTable)gvdtl.DataSource;
+                    gvdt.Rows.Clear();
+                    gvdt.Columns.Clear();
+                    gvdtl.DataSource = gvdt;
+                }
             }
         }
 

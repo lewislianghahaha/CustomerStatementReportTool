@@ -475,9 +475,9 @@
             this.cbMix.AutoSize = true;
             this.cbMix.Location = new System.Drawing.Point(11, 11);
             this.cbMix.Name = "cbMix";
-            this.cbMix.Size = new System.Drawing.Size(552, 16);
+            this.cbMix.Size = new System.Drawing.Size(444, 16);
             this.cbMix.TabIndex = 5;
-            this.cbMix.Text = "是否合拼导出? 注:若不勾选,即以对账单 签收确定单分别合拼导出,而销售发货清单按客户拆分导出";
+            this.cbMix.Text = "是否合拼导出? 注意:当勾选\'调用二级客户对账单模单\'时,就不能执行合拼导出";
             this.cbMix.UseVisualStyleBackColor = true;
             // 
             // panel5
