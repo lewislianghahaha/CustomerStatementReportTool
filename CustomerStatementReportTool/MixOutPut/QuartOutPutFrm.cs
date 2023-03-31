@@ -207,17 +207,34 @@ namespace CustomerStatementReportTool.MixOutPut
                     if (string.IsNullOrEmpty(GlobalClasscs.RmMessage.Printerrmessge) && string.IsNullOrEmpty(GlobalClasscs.RmMessage.Errormesage))
                     {
                         MessageBox.Show($"执行成功,请到设置的下载地址进行查阅", $"通知", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //运算完成后,将原来设置的文本框(按钮)设置为可用
+                        //运算完成后,将原来设置的文本框(按钮)设置为可用（且将记录清空）
                         tmclose.Enabled = true;
                         tmimport.Enabled = true;
                         btnGenerate.Enabled = true;
                         btnsetadd.Enabled = true;
+
+                        txtadd.Text = "";
+                        var gvdt = (DataTable)gvdtl.DataSource;
+                        gvdt.Rows.Clear();
+                        gvdt.Columns.Clear();
+                        gvdtl.DataSource = gvdt;
                     }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, $"错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //当出现异常后，也将所有项清空
+                tmclose.Enabled = true;
+                tmimport.Enabled = true;
+                btnGenerate.Enabled = true;
+                btnsetadd.Enabled = true;
+
+                txtadd.Text = "";
+                var gvdt = (DataTable)gvdtl.DataSource;
+                gvdt.Rows.Clear();
+                gvdt.Columns.Clear();
+                gvdtl.DataSource = gvdt;
             }
         }
 

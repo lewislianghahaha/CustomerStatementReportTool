@@ -154,9 +154,9 @@
             this.cbMix.AutoSize = true;
             this.cbMix.Location = new System.Drawing.Point(235, 10);
             this.cbMix.Name = "cbMix";
-            this.cbMix.Size = new System.Drawing.Size(252, 16);
+            this.cbMix.Size = new System.Drawing.Size(270, 16);
             this.cbMix.TabIndex = 6;
-            this.cbMix.Text = "是否拆分导出;注:若不勾选将执行合拼导出";
+            this.cbMix.Text = "是否合拼导出? 注意:若不勾选将执行拆分导出";
             this.cbMix.UseVisualStyleBackColor = true;
             // 
             // btnGenerate
@@ -184,7 +184,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 12);
             this.label1.TabIndex = 3;
-            this.label1.Text = "年份选择:";
+            this.label1.Text = "年度选择:";
             // 
             // panel4
             // 
@@ -382,7 +382,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.Menu);
             this.Name = "YearOutPutFrm";
-            this.Text = "按年份导出";
+            this.Text = "按年度导出";
             this.Menu.ResumeLayout(false);
             this.Menu.PerformLayout();
             this.panel1.ResumeLayout(false);

@@ -553,7 +553,7 @@ namespace CustomerStatementReportTool.Task
                 //change date:20230328 添加是否合拼输出功能
                 if (GlobalClasscs.RmMessage.IsuseMixExport)
                 {
-                    resultbool = mixDtToPdf.ExportDtToMixPdf(exportaddress, customerk3Dt, fincalresultdt, confirmresultdt, salesOutresultdt);
+                    resultbool = mixDtToPdf.ExportDtToMixPdf(0,exportaddress, customerk3Dt, fincalresultdt, confirmresultdt, salesOutresultdt);
                 }
                 else
                 {

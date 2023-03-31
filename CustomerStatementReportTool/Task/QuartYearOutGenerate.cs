@@ -103,21 +103,21 @@ namespace CustomerStatementReportTool.Task
                 //合拼输出
                 if (genid == 0)
                 {
-                    mixDtToPdf.ExportDtToMixPdf(exportaddress, customerk3Dt, fincalresultdt.Clone(), confirmresultdt, salesOutresultdt);
+                    mixDtToPdf.ExportDtToMixPdf(1,exportaddress, customerk3Dt, fincalresultdt.Clone(), confirmresultdt, salesOutresultdt);
                 }
                 //按‘年度’导出使用-主要使用单据->‘签收确定单’
                 //有合拼 及 拆分输出
                 else
                 {
-                    //拆分输出
-                    if (!GlobalClasscs.RmMessage.IsuseYearMixExport)
-                    {
-                        ExportDtToSplitPdf(exportaddress, confirmresultdt, customerk3Dt);
-                    }
                     //合拼输出
+                    if (GlobalClasscs.RmMessage.IsuseYearMixExport)
+                    {
+                        mixDtToPdf.ExportDtToMixPdf(2,exportaddress, customerk3Dt, fincalresultdt.Clone(), confirmresultdt, salesOutresultdt.Clone());
+                    }
+                    //拆分输出
                     else
                     {
-                        mixDtToPdf.ExportDtToMixPdf(exportaddress,customerk3Dt, fincalresultdt.Clone(), confirmresultdt,salesOutresultdt.Clone());
+                        ExportDtToSplitPdf(exportaddress, confirmresultdt, customerk3Dt);
                     }
                 }
             }
@@ -149,7 +149,7 @@ namespace CustomerStatementReportTool.Task
                     {
                         if(confirmresultdt.Select("customercode='"+ Convert.ToString(rows[1])+"' and Month='"+Convert.ToString(i)+"'").Length==0)continue;
                         
-                        var pdfFileAddress = exportaddress + "\\" + $"签收确定单_客户("+ Convert.ToString(rows[2]) +$")_第{i}月份记录.pdf";
+                        var pdfFileAddress = exportaddress + "\\" + $"签收确定单_{i}_客户("+ Convert.ToString(rows[2]) +$")_第{i}月份记录.pdf";
                         var dt = mixDtToPdf.GetConfirmCustomerReportDt(1,Convert.ToString(i),Convert.ToString(rows[1]), confirmresultdt).Copy();
 
                         if (dt.Rows.Count > 0)

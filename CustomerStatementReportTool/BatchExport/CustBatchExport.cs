@@ -219,6 +219,14 @@ namespace CustomerStatementReportTool.BatchExport
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, $"错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //当出现异常后，也将所有项清空
+                txtadd.Text = "";
+                txtdiuprintpage.Text = "1";
+                txtsalesprintpage.Text = "1";
+                var dt = (DataTable)gvdtl.DataSource;
+                dt.Rows.Clear();
+                dt.Columns.Clear();
+                gvdtl.DataSource = dt;
             }
         }
 

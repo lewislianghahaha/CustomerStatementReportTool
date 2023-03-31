@@ -11,15 +11,16 @@ namespace CustomerStatementReportTool.Task
         /// <summary>
         /// 合并生成PDF代码 Mix (重)
         /// </summary>
+        /// <param name="genid">生成类型=>0:自定义批量导出 1:按季度 2:按年度</param>
         /// <param name="exportaddress">导出地址</param>
         /// <param name="customerk3Dt">K3客户DT</param>
         /// <param name="fincalresultdt">对账单结果集</param>
         /// <param name="confirmresultdt">签收确定单结果集</param>
         /// <param name="salesOutresultdt">销售出库清单结果集</param>
-        public bool ExportDtToMixPdf(String exportaddress, DataTable customerk3Dt, DataTable fincalresultdt, DataTable confirmresultdt, DataTable salesOutresultdt)
+        public bool ExportDtToMixPdf(int genid,String exportaddress, DataTable customerk3Dt, DataTable fincalresultdt, DataTable confirmresultdt, DataTable salesOutresultdt)
         {
             var result = true;
-
+            var pdffilename = "";
             var pdfFileAddress = "";
             var stiname = "";
             var mrtfilename = "";
@@ -69,8 +70,22 @@ namespace CustomerStatementReportTool.Task
                     //渲染报表添加;循环完一个客户后,将stireport添加至stiFinalreport内
                     stiFinalreport.SubReports.Add(stireport);
                 }
+
                 //输出
-                pdfFileAddress = exportaddress + "\\" + "合拼输出记录_(" + date + ").pdf";
+                switch (genid)
+                {
+                    case 0:
+                        pdffilename = "合拼输出记录_自定义批量导出_(" + date + ").pdf";
+                        break;
+                    case 1:
+                        pdffilename = "合拼输出记录_按季度_(" + date + ").pdf";
+                        break;
+                    case 2:
+                        pdffilename = "合拼输出记录_按年度_(" + date + ").pdf";
+                        break;
+                }
+
+                pdfFileAddress = exportaddress + "\\" + pdffilename;
                 stiFinalreport.Render(false);
                 stiFinalreport.ExportDocument(StiExportFormat.Pdf, pdfFileAddress);
             }

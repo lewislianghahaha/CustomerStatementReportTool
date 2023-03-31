@@ -509,7 +509,7 @@
             // 
             this.tmYearOutput.Name = "tmYearOutput";
             this.tmYearOutput.Size = new System.Drawing.Size(80, 21);
-            this.tmYearOutput.Text = "按年份导出";
+            this.tmYearOutput.Text = "按年度导出";
             // 
             // Main
             // 

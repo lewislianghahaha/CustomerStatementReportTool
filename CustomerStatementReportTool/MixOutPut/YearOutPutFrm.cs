@@ -120,17 +120,29 @@ namespace CustomerStatementReportTool.MixOutPut
                 //判断若gvdtl没有记录,不能进行运算
                 if (gvdtl.RowCount == 0) throw new Exception($"请添加记录后再进行运算");
 
-                //获取勾选‘是否拆分’按钮
+                //获取勾选‘是否合拼’按钮
                 GlobalClasscs.RmMessage.IsuseYearMixExport = cbMix.Checked;
 
                 //根据选择的‘年份’显示对应的描述
                 sdt = Convert.ToString(dvordertylelist["Name"])+"-01-01";
                 edt = Convert.ToString(dvordertylelist["Name"])+"-12-31";
 
-                message = $"准备执行,\n请注意:" +
-                          $"\n1.年度选择:'{Convert.ToString(dvordertylelist["Name"])}年',执行日期从'{sdt}'开始 至 '{edt}'结束" +
-                          $"\n2.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
-                          "\n3.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
+                if (cbMix.Checked)
+                {
+                    message = $"准备执行,\n请注意:" +
+                              $"\n1.年度选择:'{Convert.ToString(dvordertylelist["Name"])}年',执行日期从'{sdt}'开始 至 '{edt}'结束" +
+                              "\n2.是否合拼导出:'是'" +
+                              $"\n3.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内" +
+                              "\n4.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
+                }
+                else
+                {
+                    message = $"准备执行,\n请注意:" +
+                              $"\n1.年度选择:'{Convert.ToString(dvordertylelist["Name"])}年',执行日期从'{sdt}'开始 至 '{edt}'结束" +
+                              "\n2.是否合拼导出:'否'" +
+                              $"\n3.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内" +
+                              "\n4.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
+                }
 
                 //开始执行
                 if (MessageBox.Show(message, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
@@ -182,17 +194,34 @@ namespace CustomerStatementReportTool.MixOutPut
                     if (string.IsNullOrEmpty(GlobalClasscs.RmMessage.Printerrmessge) && string.IsNullOrEmpty(GlobalClasscs.RmMessage.Errormesage))
                     {
                         MessageBox.Show($"执行成功,请到设置的下载地址进行查阅", $"通知", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //运算完成后,将原来设置的文本框(按钮)设置为可用
+                        //运算完成后,将原来设置的文本框(按钮)设置为可用（且将记录清空）
                         tmclose.Enabled = true;
                         tmimport.Enabled = true;
                         btnGenerate.Enabled = true;
                         btnsetadd.Enabled = true;
+
+                        txtadd.Text = "";
+                        var gvdt = (DataTable)gvdtl.DataSource;
+                        gvdt.Rows.Clear();
+                        gvdt.Columns.Clear();
+                        gvdtl.DataSource = gvdt;
                     }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, $"错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //当出现异常后，也将所有项清空
+                tmclose.Enabled = true;
+                tmimport.Enabled = true;
+                btnGenerate.Enabled = true;
+                btnsetadd.Enabled = true;
+
+                txtadd.Text = "";
+                var gvdt = (DataTable)gvdtl.DataSource;
+                gvdt.Rows.Clear();
+                gvdt.Columns.Clear();
+                gvdtl.DataSource = gvdt;
             }
         }
 
