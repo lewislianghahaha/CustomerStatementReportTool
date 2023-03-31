@@ -158,7 +158,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Task\Generate.cs" />
     <Compile Include="Task\ImportDt.cs" />
-    <Compile Include="Task\MixGenerate.cs" />
+    <Compile Include="Task\MixDtToPdf.cs" />
+    <Compile Include="Task\QuartYearOutGenerate.cs" />
     <Compile Include="Task\SearchDt.cs" />
     <Compile Include="Task\TaskLogic.cs" />
     <EmbeddedResource Include="BatchExport\CustBatchExport.resx">

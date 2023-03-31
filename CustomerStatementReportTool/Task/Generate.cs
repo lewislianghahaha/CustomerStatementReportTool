@@ -11,7 +11,7 @@ namespace CustomerStatementReportTool.Task
     {
         SearchDt searchDt=new SearchDt();
         TempDtList tempDt=new TempDtList();
-        MixGenerate mixGenerate=new MixGenerate();
+        MixDtToPdf mixDtToPdf=new MixDtToPdf();
 
         #region 参数
         //记录出现异常的提示
@@ -553,7 +553,7 @@ namespace CustomerStatementReportTool.Task
                 //change date:20230328 添加是否合拼输出功能
                 if (GlobalClasscs.RmMessage.IsuseMixExport)
                 {
-                    resultbool = mixGenerate.ExportDtToMixPdf(exportaddress, customerk3Dt, fincalresultdt, confirmresultdt, salesOutresultdt);
+                    resultbool = mixDtToPdf.ExportDtToMixPdf(exportaddress, customerk3Dt, fincalresultdt, confirmresultdt, salesOutresultdt);
                 }
                 else
                 {

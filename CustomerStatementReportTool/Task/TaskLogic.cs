@@ -8,7 +8,7 @@ namespace CustomerStatementReportTool.Task
         SearchDt serchDt = new SearchDt();
         Generate generate=new Generate();
         ImportDt importDt=new ImportDt();
-        MixGenerate mixGenerate=new MixGenerate();
+        QuartYearOutGenerate mixGenerate=new QuartYearOutGenerate();
 
         #region 变量参数
 
