@@ -203,6 +203,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="STI\BatchConfirmReport.mrt" />
     <None Include="STI\BatchCustomerStatementReport.mrt" />
     <None Include="STI\BatchSalesOutListReport.mrt" />
     <None Include="STI\BatchSecondCustomerStatementReport.mrt" />

@@ -149,7 +149,7 @@ namespace CustomerStatementReportTool.Task
                     {
                         if(confirmresultdt.Select("customercode='"+ Convert.ToString(rows[1])+"' and Month='"+Convert.ToString(i)+"'").Length==0)continue;
                         
-                        var pdfFileAddress = exportaddress + "\\" + $"签收确定单_{i}_客户("+ Convert.ToString(rows[2]) +$")_第{i}月份记录.pdf";
+                        var pdfFileAddress = exportaddress + "\\" + $"客户(" + Convert.ToString(rows[2]) +$")_签收确定单_第{i}月份记录.pdf";
                         var dt = mixDtToPdf.GetConfirmCustomerReportDt(1,Convert.ToString(i),Convert.ToString(rows[1]), confirmresultdt).Copy();
 
                         if (dt.Rows.Count > 0)

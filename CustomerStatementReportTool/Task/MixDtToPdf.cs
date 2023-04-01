@@ -125,14 +125,28 @@ namespace CustomerStatementReportTool.Task
         {
             DataRow[] dtlrows = null;
 
+            var dateTime = new DateTime();
+            var tempmonth = string.Empty;
+            var sdt = string.Empty;
+            var edt = string.Empty;
+
             var resultdt = sourcedt.Clone();
             dtlrows = typeid == 0 ? sourcedt.Select("customercode='" + customercode + "'") : sourcedt.Select("customercode='" + customercode + "' and Month='" + month + "'");
+
+            //当执行拆分时使用,根据指定的‘年份’以及‘月份’获取该月的开始以及结束日期
+            if (typeid == 1)
+            {
+                tempmonth = Convert.ToInt32(month) < 10 ? "0" + Convert.ToInt32(month) : Convert.ToString(month);            
+                dateTime = DateTime.Parse(GlobalClasscs.RmMessage.YearValue + "-" + month + "-01");
+                sdt = GlobalClasscs.RmMessage.YearValue + "-" + tempmonth + "-01";
+                edt = dateTime.AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd");
+            }
 
             for (var i = 0; i < dtlrows.Length; i++)
             {
                 var newrow = resultdt.NewRow();
-                newrow[0] = Convert.ToString(dtlrows[i][0]); //开始日期
-                newrow[1] = Convert.ToString(dtlrows[i][1]); //结束日期
+                newrow[0] = typeid == 0 ? Convert.ToString(dtlrows[i][0]) : sdt; //开始日期
+                newrow[1] = typeid == 0 ? Convert.ToString(dtlrows[i][1]) : edt; //结束日期
                 newrow[2] = Convert.ToString(dtlrows[i][2]); //往来单位名称
                 newrow[3] = Convert.ToString(dtlrows[i][3]); //单据日期
                 newrow[4] = Convert.ToString(dtlrows[i][4]); //摘要

@@ -81,7 +81,7 @@
             </Text24>
             <Text2 Ref="7" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>10.6,2.2,2,0.6</ClientRectangle>
+              <ClientRectangle>10.6,2.2,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Regular,Point,False,134</Font>
               <Guid>80f83d4068eb4274829710062a3934e3</Guid>
@@ -90,14 +90,14 @@
               <Name>Text2</Name>
               <Page isRef="3" />
               <Parent isRef="4" />
-              <Text>对账期间:</Text>
+              <Text>期间:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text2>
             <Text4 Ref="8" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>16.2,2.2,2.8,0.6</ClientRectangle>
+              <ClientRectangle>16,2.2,3,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Regular,Point,False,134</Font>
               <HorAlignment>Center</HorAlignment>
@@ -112,7 +112,7 @@
             </Text4>
             <Text5 Ref="9" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>15.2,2.2,1,0.6</ClientRectangle>
+              <ClientRectangle>15,2.2,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Regular,Point,False,134</Font>
               <Guid>26986a76ca9441ffa7823848a79646c7</Guid>
@@ -128,7 +128,7 @@
             </Text5>
             <Text6 Ref="10" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>12.6,2.2,2.6,0.6</ClientRectangle>
+              <ClientRectangle>12.2,2.2,2.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>宋体,10.5,Regular,Point,False,134</Font>
               <HorAlignment>Center</HorAlignment>
@@ -916,10 +916,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>2/8/2023 5:46:32 PM</ReportChanged>
+  <ReportChanged>4/1/2023 5:40:23 PM</ReportChanged>
   <ReportCreated>8/23/2022 2:39:50 PM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\BatchConfirmReport.mrt</ReportFile>
-  <ReportGuid>709ecced22c141d78c9f7c60a0f5b787</ReportGuid>
+  <ReportGuid>0d69c9fa0d884b90a99fb377c4192164</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>

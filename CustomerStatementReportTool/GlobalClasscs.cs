@@ -9,6 +9,7 @@
             public int Isusesecondcustomer; //记录是否调用二级客户对账单模板(0:是 1:否)
             public bool IsuseMixExport;     //记录是否合拼打印-‘自定义打印’功能使用
             public bool IsuseYearMixExport; //记录是否合拼打印-按‘年份’导出功能使用
+            public int YearValue;           //记录所选择的‘年度’-按‘年份’导出功能使用
         }
 
         public static RestMessage RmMessage;

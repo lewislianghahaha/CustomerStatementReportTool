@@ -120,6 +120,8 @@ namespace CustomerStatementReportTool.MixOutPut
                 //判断若gvdtl没有记录,不能进行运算
                 if (gvdtl.RowCount == 0) throw new Exception($"请添加记录后再进行运算");
 
+                GlobalClasscs.RmMessage.YearValue = Convert.ToInt32(dvordertylelist["Name"]);
+
                 //获取勾选‘是否合拼’按钮
                 GlobalClasscs.RmMessage.IsuseYearMixExport = cbMix.Checked;
 
@@ -299,7 +301,7 @@ namespace CustomerStatementReportTool.MixOutPut
             }
 
             //创建行内容
-            for (var j = 0; j < 9; j++)
+            for (var j = 0; j < 11; j++)
             {
                 var dr = dt.NewRow();
 
@@ -307,38 +309,46 @@ namespace CustomerStatementReportTool.MixOutPut
                 {
                     case 0:
                         dr[0] = "0";
-                        dr[1] = "2022";
+                        dr[1] = "2020";
                         break;
                     case 1:
                         dr[0] = "1";
-                        dr[1] = "2023";
+                        dr[1] = "2021";
                         break;
                     case 2:
                         dr[0] = "2";
-                        dr[1] = "2024";
+                        dr[1] = "2022";
                         break;
                     case 3:
                         dr[0] = "3";
-                        dr[1] = "2025";
+                        dr[1] = "2023";
                         break;
                     case 4:
                         dr[0] = "4";
-                        dr[1] = "2026";
+                        dr[1] = "2024";
                         break;
                     case 5:
                         dr[0] = "5";
-                        dr[1] = "2027";
+                        dr[1] = "2025";
                         break;
                     case 6:
                         dr[0] = "6";
-                        dr[1] = "2028";
+                        dr[1] = "2026";
                         break;
                     case 7:
                         dr[0] = "7";
-                        dr[1] = "2029";
+                        dr[1] = "2027";
                         break;
                     case 8:
                         dr[0] = "8";
+                        dr[1] = "2028";
+                        break;
+                    case 9:
+                        dr[0] = "9";
+                        dr[1] = "2029";
+                        break;
+                    case 10:
+                        dr[0] = "10";
                         dr[1] = "2030";
                         break;
                 }
