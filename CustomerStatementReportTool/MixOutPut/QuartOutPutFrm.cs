@@ -324,7 +324,7 @@ namespace CustomerStatementReportTool.MixOutPut
                         break;
                     case 1:
                         dr[0] = "1";
-                        dr[1] = "第一季度";
+                        dr[1] = "第二季度";
                         break;
                     case 2:
                         dr[0] = "2";
