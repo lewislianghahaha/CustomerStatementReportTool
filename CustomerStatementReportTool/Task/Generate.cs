@@ -608,6 +608,8 @@ namespace CustomerStatementReportTool.Task
                 if(Convert.ToString(row[4])== "期初余额" || Convert.ToString(row[4]) == "本期合计") continue;
                 //todo:将单据编号不是AR（应收单）的排除
                 if(Convert.ToString(row[9]).Substring(0,2)!="AR") continue;
+                //todo:若‘本期应收‘<0的排除
+                if(Convert.ToDecimal(row[5])<0) continue;
 
                 var newrow = resutldt.NewRow();
                 newrow[0] = Convert.ToString(row[0]); //开始日期
