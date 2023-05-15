@@ -592,6 +592,8 @@ namespace CustomerStatementReportTool.Task
             return resultdt;
         }
 
+
+
         /// <summary>
         /// '签收确定单'数据收集
         /// </summary>
@@ -606,8 +608,8 @@ namespace CustomerStatementReportTool.Task
             {
                 //todo:期初余额 以及 本期合计不要
                 if(Convert.ToString(row[4])== "期初余额" || Convert.ToString(row[4]) == "本期合计") continue;
-                //todo:将单据编号不是AR（应收单）的排除
-                if(Convert.ToString(row[9]).Substring(0,2)!="AR") continue;
+                //todo:将单据编号不是AR（应收单）或 QTYSD（其他应收单）的排除
+                if (Convert.ToString(row[9]).Substring(0,2)!="AR" || Convert.ToString(row[9]).Substring(0,4)!= "QTYSD") continue;
                 //todo:若‘本期应收‘<0的排除
                 if(Convert.ToDecimal(row[5])<0) continue;
 
@@ -698,21 +700,16 @@ namespace CustomerStatementReportTool.Task
             var result = true;
             var stiReport = new StiReport();
             string pdfFileAddress;
-
-            //typeid =>0对账单 1=>销售发货清单 2=>签收确认单
-            //判断若GlobalClasscs.RmMessage.Isusesecondcustomer为0即调用‘BatchSecondCustomerStatementReport.mrt’模板
-
-            //var stifilename = typeid == 0
-            //    ? (GlobalClasscs.RmMessage.Isusesecondcustomer == 0 ? "BatchSecondCustomerStatementReport.mrt" : "BatchCustomerStatementReport.mrt")
-            //    : "BatchSalesOutListReport.mrt";
+            string reportmark = "";
 
             var stifilename = string.Empty;
 
             switch (typeid)
             {
                 case 0:
-                    stifilename = GlobalClasscs.RmMessage.Isusesecondcustomer == 0 ? "BatchSecondCustomerStatementReport.mrt" : "BatchCustomerStatementReport.mrt";
+                    stifilename = GlobalClasscs.RmMessage.Isusesecondcustomer ? "BatchSecondCustomerStatementReport.mrt" : "BatchCustomerStatementReport.mrt";
                     break;
+                
                 case 1:
                     stifilename = "BatchSalesOutListReport.mrt";
                     break;
@@ -733,15 +730,25 @@ namespace CustomerStatementReportTool.Task
                     if (typeid == 0)
                     {
                         //判断若勾选了‘二级客户对项单’选项,就需要以customercode进行拆分输出;反之,保留之前的整体输出效果
-                        if (GlobalClasscs.RmMessage.Isusesecondcustomer == 0)
+                        //todo:change date:20230515 按‘客户’进行对对账单拆分导出;注:'对账单'与'二级客户对账单'的DT都是一致
+                        if (GlobalClasscs.RmMessage.Isusesecondcustomer || GlobalClasscs.RmMessage.IsuseSplitdui)
                         {
+                            if (GlobalClasscs.RmMessage.Isusesecondcustomer)
+                            {
+                                reportmark = "二级客户对账单_";
+                            }
+                            else if (GlobalClasscs.RmMessage.IsuseSplitdui)
+                            {
+                                reportmark = "客户对账单_";
+                            }
+
                             //循环custdt，并用resultdt.customercode与之对比,并拆分输出
                             foreach (DataRow rows in custdt.Rows)
                             {
                                 //判断若Convert.ToInt32(rows[1])-customercode没有在result存在,即continue
                                 if (resultdt.Select("customercode='" + Convert.ToString(rows[1]) + "'").Length == 0) continue;
 
-                                pdfFileAddress = address + "\\" + "(" + id + ")" + "二级客户对账单_" + Convert.ToString(rows[2]) + "_" + "(" + Convert.ToString(rows[1]) + ")_"
+                                pdfFileAddress = address + "\\" + "(" + id + ")" + $"{reportmark}" + Convert.ToString(rows[2]) + "_" + "(" + Convert.ToString(rows[1]) + ")_"
                                                  + date + ".pdf";
 
                                 //根据Convert.ToInt32(rows[1]) 在resultdt查找,并最后整合记录至dt内

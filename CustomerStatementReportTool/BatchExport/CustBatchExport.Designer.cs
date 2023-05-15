@@ -46,7 +46,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.txtconfirm = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.cbcheck = new System.Windows.Forms.CheckBox();
             this.txtsalesprintpage = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtdiuprintpage = new System.Windows.Forms.TextBox();
@@ -70,8 +69,6 @@
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.cbMix = new System.Windows.Forms.CheckBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
@@ -81,7 +78,6 @@
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bngat)).BeginInit();
             this.bngat.SuspendLayout();
-            this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvdtl)).BeginInit();
             this.SuspendLayout();
@@ -213,7 +209,6 @@
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.txtconfirm);
             this.panel3.Controls.Add(this.label7);
-            this.panel3.Controls.Add(this.cbcheck);
             this.panel3.Controls.Add(this.txtsalesprintpage);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.txtdiuprintpage);
@@ -242,16 +237,6 @@
             this.label7.Size = new System.Drawing.Size(77, 12);
             this.label7.TabIndex = 9;
             this.label7.Text = "签收确认单->";
-            // 
-            // cbcheck
-            // 
-            this.cbcheck.AutoSize = true;
-            this.cbcheck.Location = new System.Drawing.Point(570, 11);
-            this.cbcheck.Name = "cbcheck";
-            this.cbcheck.Size = new System.Drawing.Size(156, 16);
-            this.cbcheck.TabIndex = 8;
-            this.cbcheck.Text = "调用二级客户对账单模板";
-            this.cbcheck.UseVisualStyleBackColor = true;
             // 
             // txtsalesprintpage
             // 
@@ -459,35 +444,14 @@
             this.tstotalrow.Size = new System.Drawing.Size(55, 21);
             this.tstotalrow.Text = "共 {0} 行";
             // 
-            // panel6
-            // 
-            this.panel6.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel6.Controls.Add(this.cbMix);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel6.Location = new System.Drawing.Point(0, 139);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(734, 38);
-            this.panel6.TabIndex = 9;
-            // 
-            // cbMix
-            // 
-            this.cbMix.AutoSize = true;
-            this.cbMix.Location = new System.Drawing.Point(11, 11);
-            this.cbMix.Name = "cbMix";
-            this.cbMix.Size = new System.Drawing.Size(444, 16);
-            this.cbMix.TabIndex = 5;
-            this.cbMix.Text = "是否合拼导出? 注意:当勾选\'调用二级客户对账单模单\'时,就不能执行合拼导出";
-            this.cbMix.UseVisualStyleBackColor = true;
-            // 
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.gvdtl);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(0, 177);
+            this.panel5.Location = new System.Drawing.Point(0, 139);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(734, 305);
+            this.panel5.Size = new System.Drawing.Size(734, 343);
             this.panel5.TabIndex = 10;
             // 
             // gvdtl
@@ -500,7 +464,7 @@
             this.gvdtl.Name = "gvdtl";
             this.gvdtl.ReadOnly = true;
             this.gvdtl.RowTemplate.Height = 23;
-            this.gvdtl.Size = new System.Drawing.Size(732, 303);
+            this.gvdtl.Size = new System.Drawing.Size(732, 341);
             this.gvdtl.TabIndex = 0;
             // 
             // CustBatchExport
@@ -511,7 +475,6 @@
             this.ClientSize = new System.Drawing.Size(734, 508);
             this.ControlBox = false;
             this.Controls.Add(this.panel5);
-            this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -533,8 +496,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.bngat)).EndInit();
             this.bngat.ResumeLayout(false);
             this.bngat.PerformLayout();
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
             this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gvdtl)).EndInit();
             this.ResumeLayout(false);
@@ -581,12 +542,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtdiuprintpage;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox cbcheck;
         private System.Windows.Forms.TextBox txtconfirm;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.DataGridView gvdtl;
-        private System.Windows.Forms.CheckBox cbMix;
     }
 }

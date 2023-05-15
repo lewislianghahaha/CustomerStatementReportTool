@@ -61,6 +61,7 @@
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
+            this.cbMix = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -138,6 +139,7 @@
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.cbMix);
             this.panel2.Controls.Add(this.btnGenerate);
             this.panel2.Controls.Add(this.comtype);
             this.panel2.Controls.Add(this.label1);
@@ -357,6 +359,16 @@
             this.gvdtl.Size = new System.Drawing.Size(732, 385);
             this.gvdtl.TabIndex = 0;
             // 
+            // cbMix
+            // 
+            this.cbMix.AutoSize = true;
+            this.cbMix.Location = new System.Drawing.Point(345, 10);
+            this.cbMix.Name = "cbMix";
+            this.cbMix.Size = new System.Drawing.Size(270, 16);
+            this.cbMix.TabIndex = 7;
+            this.cbMix.Text = "是否合拼导出? 注意:若不勾选将执行拆分导出";
+            this.cbMix.UseVisualStyleBackColor = true;
+            // 
             // QuartOutPutFrm
             // 
             this.AcceptButton = this.btnGenerate;
@@ -422,5 +434,6 @@
         private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.DataGridView gvdtl;
+        private System.Windows.Forms.CheckBox cbMix;
     }
 }

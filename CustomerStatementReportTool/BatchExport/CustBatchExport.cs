@@ -36,7 +36,7 @@ namespace CustomerStatementReportTool.BatchExport
             tmclose.Click += Tmclose_Click;
             btngenerate.Click += Btngenerate_Click;
             btnsetadd.Click += Btnsetadd_Click;
-            cbcheck.Click += Cbcheck_Click;
+            //cbcheck.Click += Cbcheck_Click;
 
             bnMoveFirstItem.Click += BnMoveFirstItem_Click;
             bnMovePreviousItem.Click += BnMovePreviousItem_Click;
@@ -103,10 +103,10 @@ namespace CustomerStatementReportTool.BatchExport
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Cbcheck_Click(object sender, EventArgs e)
-        {
-            cbMix.Enabled = !cbcheck.Checked;
-        }
+        //private void Cbcheck_Click(object sender, EventArgs e)
+        //{
+        //    cbMix.Enabled = !cbcheck.Checked;
+        //}
 
         /// <summary>
         /// 运算
@@ -118,29 +118,63 @@ namespace CustomerStatementReportTool.BatchExport
             try
             {
                 var message = string.Empty;
-                var clickMessage1 = string.Empty;
+               // var clickMessage1 = string.Empty;
                 var customerlist = string.Empty;
                 var temp = string.Empty;
-                var clickMessage = string.Empty;
+               // var clickMessage = string.Empty;
 
-                GlobalClasscs.RmMessage.Isusesecondcustomer = cbcheck.Checked ? 0 : 1;
+                //调用‘导出设置’窗体--用于设置‘导出方式’
+                var genPdfSet = new GenPdfSet();
+                genPdfSet.StartPosition = FormStartPosition.CenterParent;
+                genPdfSet.ShowDialog();
 
-                GlobalClasscs.RmMessage.IsuseMixExport = cbMix.Checked;
+                #region hide
+                //调用二级客户对账单模板
+                // GlobalClasscs.RmMessage.Isusesecondcustomer = cbcheck.Checked ? 0 : 1;
 
-                clickMessage = cbMix.Checked
-                    ? $"准备执行,\n请注意:" +
+                //合拼导出
+                // GlobalClasscs.RmMessage.IsuseMixExport = cbMix.Checked;
+                #endregion
+
+                //todo:是否合拼打印-‘自定义打印’功能使用
+                if (GlobalClasscs.RmMessage.IsuseMixExport)
+                {
+                    message = $"准备执行,\n请注意:" +
                       $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
-                      "\n2.是否合拼导出:'是'" + "\n3.执行过程中不要关闭软件,不然会导致运算失败" + "\n是否继续执行?"
-                    : $"准备执行,\n请注意:" +
-                      $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
-                      "\n2.是否合拼导出:'否'" + "\n3.执行过程中不要关闭软件,不然会导致运算失败" + "\n是否继续执行?";
-
-                clickMessage1 = $"准备执行,\n请注意:" +
-                                    $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件,"+
+                      "\n2.是否合拼导出:'是'" + "\n3.执行过程中不要关闭软件,不然会导致运算失败" + "\n是否继续执行?";
+                }
+                //todo:是否调用二级客户对账单模板
+                else if (GlobalClasscs.RmMessage.Isusesecondcustomer)
+                {
+                    message = $"准备执行,\n请注意:" +
+                                    $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件," +
                                        "不然会导致运算失败\n检测到勾选‘调用二级客户对账单模板’选项,\n注:使用后,生成的对账单是使用二级客户对账单模板,\n而不是使用常规对账单模板." +
                                         "\n是否继续执行?";
+                }
+                //todo:是否按‘客户’进行拆分导出对账单
+                else if (GlobalClasscs.RmMessage.IsuseSplitdui)
+                {
+                    message = $"准备执行,\n请注意:" +
+                      $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
+                      "\n2.是否按‘客户’进行拆分导出对账单:'是'" + "\n3.执行过程中不要关闭软件,不然会导致运算失败" + "\n是否继续执行?";
+                }
 
-                message = GlobalClasscs.RmMessage.Isusesecondcustomer == 0 ? clickMessage1 : clickMessage;
+                #region hide1
+                //clickMessage = GlobalClasscs.RmMessage.IsuseMixExport
+                //    ? $"准备执行,\n请注意:" +
+                //      $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
+                //      "\n2.是否合拼导出:'是'" + "\n3.执行过程中不要关闭软件,不然会导致运算失败" + "\n是否继续执行?"
+                //    : $"准备执行,\n请注意:" +
+                //      $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
+                //      "\n2.是否合拼导出:'否'" + "\n3.执行过程中不要关闭软件,不然会导致运算失败" + "\n是否继续执行?";
+
+                //clickMessage1 = $"准备执行,\n请注意:" +
+                //                    $"\n1.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内,\n2.执行过程中不要关闭软件,"+
+                //                       "不然会导致运算失败\n检测到勾选‘调用二级客户对账单模板’选项,\n注:使用后,生成的对账单是使用二级客户对账单模板,\n而不是使用常规对账单模板." +
+                //                        "\n是否继续执行?";
+
+                // message = GlobalClasscs.RmMessage.Isusesecondcustomer ? clickMessage1 : clickMessage;
+                #endregion
 
                 var sdt = dtStr.Value.ToString("yyyy-MM-dd");
                 var edt = dtEnd.Value.ToString("yyyy-MM-dd");
@@ -210,7 +244,7 @@ namespace CustomerStatementReportTool.BatchExport
                     btnsetadd.Enabled = true;
                     txtdiuprintpage.Enabled = true;
                     txtsalesprintpage.Enabled = true;
-                    cbcheck.Checked = false;
+                   // cbcheck.Checked = false;
                     txtconfirm.Enabled = true;
 
                     //若检测到GlobalClasscs.Printerrmessge不为空,即跳转到异常处理

@@ -116,6 +116,12 @@
     <Compile Include="BatchExport\CustBatchExport.Designer.cs">
       <DependentUpon>CustBatchExport.cs</DependentUpon>
     </Compile>
+    <Compile Include="BatchExport\GenPdfSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BatchExport\GenPdfSet.Designer.cs">
+      <DependentUpon>GenPdfSet.cs</DependentUpon>
+    </Compile>
     <Compile Include="BatchExport\MessageFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,6 +170,9 @@
     <Compile Include="Task\TaskLogic.cs" />
     <EmbeddedResource Include="BatchExport\CustBatchExport.resx">
       <DependentUpon>CustBatchExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BatchExport\GenPdfSet.resx">
+      <DependentUpon>GenPdfSet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BatchExport\MessageFrm.resx">
       <DependentUpon>MessageFrm.cs</DependentUpon>

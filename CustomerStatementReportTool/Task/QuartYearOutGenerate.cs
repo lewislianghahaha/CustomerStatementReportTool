@@ -94,6 +94,7 @@ namespace CustomerStatementReportTool.Task
                 }
 
                 //当fincalresultdt1行数大于0时,得出相关结果并赋值到confirmresultdt内,供‘签收确认单’打印模板使用
+                //change date:20230515 '签收确认单'添加‘二级客户’字段
                 if (fincalresultdt.Rows.Count > 0)
                 {
                     confirmresultdt = generate.GetConfirmReportDt(confirmresultdt, fincalresultdt, customerk3Dt).Copy();
