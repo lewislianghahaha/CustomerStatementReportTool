@@ -188,87 +188,90 @@ namespace CustomerStatementReportTool.BatchExport
                 //
                 if(txtdiuprintpage.Text == "" || txtsalesprintpage.Text == "") throw new Exception("检测到‘对账单’或‘销售发货清单’导出份数没有填写数值,请最小填上0");
 
-                //开始执行
-                if (MessageBox.Show(message, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                //当message不为空时才开始执行
+                if (!string.IsNullOrEmpty(message))
                 {
-                    //将相关按钮设置为不可操作;直至运行完成后才恢复
-                    tmclose.Enabled = false;
-                    tmimport.Enabled = false;
-                    btngenerate.Enabled = false;
-                    btnsetadd.Enabled = false;
-                    txtdiuprintpage.Enabled = false;
-                    txtsalesprintpage.Enabled = false;
-                    txtconfirm.Enabled = false;
-
-                    //var a2 = _dtl.Copy();
-
-                    var customerdt = _dtl.Copy(); //(DataTable)gvdtl.DataSource;
-                    //对已添加的‘客户列表’整合,合拼为一行并以,分隔
-                    //通过循环将选中行的客户编码进行收集(注:去除重复的选项,只保留不重复的主键记录)
-                    foreach (DataRow rows in customerdt.Rows)
+                    if (MessageBox.Show(message, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     {
-                        if (string.IsNullOrEmpty(customerlist))
+                        //将相关按钮设置为不可操作;直至运行完成后才恢复
+                        tmclose.Enabled = false;
+                        tmimport.Enabled = false;
+                        btngenerate.Enabled = false;
+                        btnsetadd.Enabled = false;
+                        txtdiuprintpage.Enabled = false;
+                        txtsalesprintpage.Enabled = false;
+                        txtconfirm.Enabled = false;
+
+                        //var a2 = _dtl.Copy();
+
+                        var customerdt = _dtl.Copy(); //(DataTable)gvdtl.DataSource;
+                                                      //对已添加的‘客户列表’整合,合拼为一行并以,分隔
+                                                      //通过循环将选中行的客户编码进行收集(注:去除重复的选项,只保留不重复的主键记录)
+                        foreach (DataRow rows in customerdt.Rows)
                         {
-                            customerlist = "'" + Convert.ToString(rows[0]) + "'";
-                            temp = Convert.ToString(rows[0]);
-                        }
-                        else
-                        {
-                            if (temp != Convert.ToString(rows[0]))
+                            if (string.IsNullOrEmpty(customerlist))
                             {
-                                customerlist += "," + "'" + Convert.ToString(rows[0]) + "'";
+                                customerlist = "'" + Convert.ToString(rows[0]) + "'";
                                 temp = Convert.ToString(rows[0]);
                             }
+                            else
+                            {
+                                if (temp != Convert.ToString(rows[0]))
+                                {
+                                    customerlist += "," + "'" + Convert.ToString(rows[0]) + "'";
+                                    temp = Convert.ToString(rows[0]);
+                                }
+                            }
                         }
+
+                        taskLogic.TaskId = 6;
+                        taskLogic.Sdt = sdt;
+                        taskLogic.Edt = edt;
+                        taskLogic.Customerlist = customerlist;
+                        taskLogic.Duiprintpagenumber = Convert.ToInt32(txtdiuprintpage.Text);
+                        taskLogic.Salesoutprintpagenumber = Convert.ToInt32(txtsalesprintpage.Text);
+                        taskLogic.Confirmprintpagenum = Convert.ToInt32(txtconfirm.Text);
+                        taskLogic.FileAddress = txtadd.Text;
+                        taskLogic.Custdtlist = _dtl;
+
+                        //使用子线程工作(作用:通过调用子线程进行控制Load窗体的关闭情况)
+                        new Thread(Start).Start();
+                        load.StartPosition = FormStartPosition.CenterScreen;
+                        load.ShowDialog();
+
+                        //运算完成后,将原来设置的文本框(按钮)设置为可用
+                        tmclose.Enabled = true;
+                        tmimport.Enabled = true;
+                        btngenerate.Enabled = true;
+                        btnsetadd.Enabled = true;
+                        txtdiuprintpage.Enabled = true;
+                        txtsalesprintpage.Enabled = true;
+                        // cbcheck.Checked = false;
+                        txtconfirm.Enabled = true;
+
+                        //若检测到GlobalClasscs.Printerrmessge不为空,即跳转到异常处理
+                        if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Printerrmessge)) throw new Exception($"生成PDF出现异常,原因:{GlobalClasscs.RmMessage.Printerrmessge}");
+                        //若检测到GlobalClasscs.Errmessage不为空,即跳转到异常处理
+                        if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Errormesage)) throw new Exception($"运行出现异常,原因:{GlobalClasscs.RmMessage.Errormesage}");
+
+                        // var a1 = taskLogic.ResultMessageDt.Copy();
+
+                        //将返回结果传输至MessageFrm窗体内
+                        messageFrm.Resultdt = taskLogic.ResultMessageDt;
+                        messageFrm.OnShow();
+                        //弹出信息窗体
+                        messageFrm.StartPosition = FormStartPosition.CenterParent;
+                        messageFrm.ShowDialog();
+
+                        //当messageFrm退出后,将‘导出地址’文本框 以及GVDTL内容清空 将‘导出份数
+                        txtadd.Text = "";
+                        txtdiuprintpage.Text = "1";
+                        txtsalesprintpage.Text = "1";
+                        var dt = (DataTable)gvdtl.DataSource;
+                        dt.Rows.Clear();
+                        dt.Columns.Clear();
+                        gvdtl.DataSource = dt;
                     }
-
-                    taskLogic.TaskId = 6;
-                    taskLogic.Sdt = sdt;
-                    taskLogic.Edt = edt;
-                    taskLogic.Customerlist = customerlist;
-                    taskLogic.Duiprintpagenumber = Convert.ToInt32(txtdiuprintpage.Text);
-                    taskLogic.Salesoutprintpagenumber = Convert.ToInt32(txtsalesprintpage.Text);
-                    taskLogic.Confirmprintpagenum = Convert.ToInt32(txtconfirm.Text);
-                    taskLogic.FileAddress = txtadd.Text;
-                    taskLogic.Custdtlist = _dtl;
-                   
-                    //使用子线程工作(作用:通过调用子线程进行控制Load窗体的关闭情况)
-                    new Thread(Start).Start();
-                    load.StartPosition = FormStartPosition.CenterScreen;
-                    load.ShowDialog();
-
-                    //运算完成后,将原来设置的文本框(按钮)设置为可用
-                    tmclose.Enabled = true;
-                    tmimport.Enabled = true;
-                    btngenerate.Enabled = true;
-                    btnsetadd.Enabled = true;
-                    txtdiuprintpage.Enabled = true;
-                    txtsalesprintpage.Enabled = true;
-                   // cbcheck.Checked = false;
-                    txtconfirm.Enabled = true;
-
-                    //若检测到GlobalClasscs.Printerrmessge不为空,即跳转到异常处理
-                    if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Printerrmessge)) throw new Exception($"生成PDF出现异常,原因:{GlobalClasscs.RmMessage.Printerrmessge}");
-                    //若检测到GlobalClasscs.Errmessage不为空,即跳转到异常处理
-                    if (!string.IsNullOrEmpty(GlobalClasscs.RmMessage.Errormesage)) throw new Exception($"运行出现异常,原因:{GlobalClasscs.RmMessage.Errormesage}");
-
-                   // var a1 = taskLogic.ResultMessageDt.Copy();
-
-                    //将返回结果传输至MessageFrm窗体内
-                    messageFrm.Resultdt = taskLogic.ResultMessageDt;
-                    messageFrm.OnShow();
-                    //弹出信息窗体
-                    messageFrm.StartPosition = FormStartPosition.CenterParent;
-                    messageFrm.ShowDialog();
-
-                    //当messageFrm退出后,将‘导出地址’文本框 以及GVDTL内容清空 将‘导出份数
-                    txtadd.Text = "";
-                    txtdiuprintpage.Text = "1";
-                    txtsalesprintpage.Text = "1";
-                    var dt = (DataTable) gvdtl.DataSource;
-                    dt.Rows.Clear();
-                    dt.Columns.Clear();
-                    gvdtl.DataSource = dt;
                 }
             }
             catch (Exception ex)

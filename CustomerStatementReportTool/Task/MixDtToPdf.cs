@@ -17,7 +17,7 @@ namespace CustomerStatementReportTool.Task
         /// <param name="fincalresultdt">对账单结果集</param>
         /// <param name="confirmresultdt">签收确定单结果集</param>
         /// <param name="salesOutresultdt">销售出库清单结果集</param>
-        public bool ExportDtToMixPdf(int genid,String exportaddress, DataTable customerk3Dt, DataTable fincalresultdt, DataTable confirmresultdt, DataTable salesOutresultdt)
+        public bool ExportDtToMixPdf(int genid,string exportaddress, DataTable customerk3Dt, DataTable fincalresultdt, DataTable confirmresultdt, DataTable salesOutresultdt)
         {
             var result = true;
             var pdffilename = "";
@@ -94,6 +94,75 @@ namespace CustomerStatementReportTool.Task
                 GlobalClasscs.RmMessage.Printerrmessge = ex.Message;
                 result = false;
             }
+            return result;
+        }
+
+        /// <summary>
+        /// 拆分PDF输出-“按季度”功能拆分输出使用
+        /// </summary>
+        /// <param name="exportaddress">导出地址</param>
+        /// <param name="customerk3Dt">K3客户DT</param>
+        /// <param name="confirmresultdt">签收确认单结果集</param>
+        /// <param name="salesOutresultdt">销售出库清单结果集</param>
+        /// <returns></returns>
+        public bool ExportDtToSplitPdf(string exportaddress, DataTable customerk3Dt, DataTable confirmresultdt, DataTable salesOutresultdt)
+        {
+            var result = true;
+            var pdffilename = "";
+            var pdfFileAddress = "";
+            var stiname = "";
+            var mrtfilename = "";
+            var date = DateTime.Now.ToString("yyyy-MM-dd");
+            var dt = new DataTable();
+
+            try
+            {
+                //循环customerk3Dt,并以1.签收确定单 2.销售出库清单 的执行顺序进行导出
+                //其中‘签收确定单’以客户编码(rows[1])为获取数据条件; ‘销售出库清单’以客户ID(rows[0])为获取数据条件;
+                foreach (DataRow rows in customerk3Dt.Rows)
+                {
+                    //定义渲染报表
+                    var stireport = new StiReport();
+
+                    for (var i = 0; i < 2; i++)
+                    {
+                        switch (i)
+                        {
+                            //签收确定单-以客户编码(rows[1])为获取数据条件
+                            case 0:
+                                stiname = "CustomerStatement";
+                                dt = GetConfirmCustomerReportDt(0, "0", Convert.ToString(rows[1]), confirmresultdt).Copy();
+                                mrtfilename = "BatchConfirmReport.mrt";
+                                break;
+                            //销售出库清单-以客户ID(rows[0])为获取数据条件
+                            case 1:
+                                stiname = "SalesOutList";
+                                dt = GetSalesOutdt(Convert.ToInt32(rows[0]), salesOutresultdt).Copy();
+                                mrtfilename = "BatchSalesOutListReport.mrt";
+                                break;
+                        }
+                        //将整理后的STIREPORT添加至stireport内
+                        if (dt.Rows.Count > 0)
+                        {
+                            //渲染报表添加(注:此stireport记录每一个客户的‘签收确定单’ 及 ‘销售出库清单’信息)
+                            stireport.SubReports.Add(GetReport(stiname, dt, mrtfilename));
+                        }
+                    }
+                    //最后,以客户编码 客户名称 二级客户名称为PDF文件名,并整理后输出PDF
+                    pdffilename = $"客户编码({Convert.ToString(rows[1])})_" +
+                                                "客户名称(" + Convert.ToString(rows[2]) + $")_二级客户({Convert.ToString(rows[3])})_按季度拆分导出({date}).pdf";
+
+                    pdfFileAddress = exportaddress + "\\" + pdffilename;
+                    stireport.Render(false);
+                    stireport.ExportDocument(StiExportFormat.Pdf, pdfFileAddress);
+                }
+            }
+            catch (Exception ex)
+            {
+                GlobalClasscs.RmMessage.Printerrmessge = ex.Message;
+                result = false;
+            }
+
             return result;
         }
 

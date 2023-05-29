@@ -152,11 +152,11 @@
             // cbMix
             // 
             this.cbMix.AutoSize = true;
-            this.cbMix.Location = new System.Drawing.Point(235, 10);
+            this.cbMix.Location = new System.Drawing.Point(230, 10);
             this.cbMix.Name = "cbMix";
-            this.cbMix.Size = new System.Drawing.Size(270, 16);
+            this.cbMix.Size = new System.Drawing.Size(402, 16);
             this.cbMix.TabIndex = 6;
-            this.cbMix.Text = "是否合拼导出? 注意:若不勾选将执行拆分导出";
+            this.cbMix.Text = "是否合拼导出? 注意:若不勾选将按照‘客户’及‘月份’进行拆分导出";
             this.cbMix.UseVisualStyleBackColor = true;
             // 
             // btnGenerate

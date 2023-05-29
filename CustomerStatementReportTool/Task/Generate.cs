@@ -555,7 +555,8 @@ namespace CustomerStatementReportTool.Task
                 {
                     resultbool = mixDtToPdf.ExportDtToMixPdf(0,exportaddress, customerk3Dt, fincalresultdt, confirmresultdt, salesOutresultdt);
                 }
-                else
+                //todo:change date:20230516 添加导出‘常规导出’标记
+                else if(GlobalClasscs.RmMessage.IsuseNormual)
                 {
                     for (var i = 0; i < 3; i++)
                     {
@@ -608,37 +609,39 @@ namespace CustomerStatementReportTool.Task
             {
                 //todo:期初余额 以及 本期合计不要
                 if(Convert.ToString(row[4])== "期初余额" || Convert.ToString(row[4]) == "本期合计") continue;
-                //todo:将单据编号不是AR（应收单）或 QTYSD（其他应收单）的排除
-                if (Convert.ToString(row[9]).Substring(0,2)!="AR" || Convert.ToString(row[9]).Substring(0,4)!= "QTYSD") continue;
                 //todo:若‘本期应收‘<0的排除
                 if(Convert.ToDecimal(row[5])<0) continue;
 
-                var newrow = resutldt.NewRow();
-                newrow[0] = Convert.ToString(row[0]); //开始日期
-                newrow[1] = Convert.ToString(row[1]); //结束日期
-                newrow[2] = Convert.ToString(row[2]); //往来单位名称
-                newrow[3] = Convert.ToString(row[3]); //单据日期
-                newrow[4] = Convert.ToString(row[4]); //摘要
-                newrow[5] = Convert.ToString(row[5]); //本期应收
-                newrow[6] = Convert.ToString(row[6]); //本期收款
-                newrow[7] = Convert.ToString(row[7]); //期末余额
-                newrow[8] = Convert.ToString(row[8]); //记录结束日期备注
-                newrow[9] = Convert.ToString(row[9]); //单据编号
-                newrow[10] = Convert.ToString(row[10]);//记录最后一行‘期末余额’
-                newrow[11] = Convert.ToString(row[11]);//月份
-                newrow[12] = Convert.ToString(row[12]);//单据日期-用于显示
-                newrow[13] = Convert.ToString(row[13]);//对相同客户的区分显示(作用:针对相同客户打印多次时)
-                newrow[14] = Convert.ToString(row[14]);//STI排序ID;注:以A开始,若ID值小于10 即加0,如:A01
-                newrow[15] = Convert.ToString(row[15]);//用于STI报表明细行排序
-                newrow[16] = Convert.ToString(row[16]);//客户开票名称-二级客户对账单.核算项目名称使用
-                newrow[17] = Convert.ToString(row[17]);//客户编码
-                newrow[18] = Convert.ToString(row[18]);//记录‘总期末余额’（以千位符进行分隔,在STI报表显示）
+                //TODO:当单据编号为AR（应收单） 或 QTYSD（其他应收单）时才执行插入
+                if (Convert.ToString(row[9]).Substring(0, 2) == "AR" || Convert.ToString(row[9]).Substring(0, 4) == "QTYSD")
+                {
+                    var newrow = resutldt.NewRow();
+                    newrow[0] = Convert.ToString(row[0]); //开始日期
+                    newrow[1] = Convert.ToString(row[1]); //结束日期
+                    newrow[2] = Convert.ToString(row[2]); //往来单位名称
+                    newrow[3] = Convert.ToString(row[3]); //单据日期
+                    newrow[4] = Convert.ToString(row[4]); //摘要
+                    newrow[5] = Convert.ToString(row[5]); //本期应收
+                    newrow[6] = Convert.ToString(row[6]); //本期收款
+                    newrow[7] = Convert.ToString(row[7]); //期末余额
+                    newrow[8] = Convert.ToString(row[8]); //记录结束日期备注
+                    newrow[9] = Convert.ToString(row[9]); //单据编号
+                    newrow[10] = Convert.ToString(row[10]);//记录最后一行‘期末余额’
+                    newrow[11] = Convert.ToString(row[11]);//月份
+                    newrow[12] = Convert.ToString(row[12]);//单据日期-用于显示
+                    newrow[13] = Convert.ToString(row[13]);//对相同客户的区分显示(作用:针对相同客户打印多次时)
+                    newrow[14] = Convert.ToString(row[14]);//STI排序ID;注:以A开始,若ID值小于10 即加0,如:A01
+                    newrow[15] = Convert.ToString(row[15]);//用于STI报表明细行排序
+                    newrow[16] = Convert.ToString(row[16]);//客户开票名称-二级客户对账单.核算项目名称使用
+                    newrow[17] = Convert.ToString(row[17]);//客户编码
+                    newrow[18] = Convert.ToString(row[18]);//记录‘总期末余额’（以千位符进行分隔,在STI报表显示）
 
-                newrow[19] = Convert.ToString(row[4]) == "本期合计"
-                    ? "" : Convert.ToDateTime(row[12])
-                        .AddDays(GetConfirmDay(customerk3Dt, Convert.ToString(row[17]))).ToString("yyyy-MM-dd");   //记录'签收日期'
+                    newrow[19] = Convert.ToString(row[4]) == "本期合计"
+                        ? "" : Convert.ToDateTime(row[12])
+                            .AddDays(GetConfirmDay(customerk3Dt, Convert.ToString(row[17]))).ToString("yyyy-MM-dd");   //记录'签收日期'
 
-                resutldt.Rows.Add(newrow);
+                    resutldt.Rows.Add(newrow);
+                }
             }
 
             return resutldt;

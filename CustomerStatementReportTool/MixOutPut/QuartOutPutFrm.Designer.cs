@@ -38,6 +38,7 @@
             this.txtadd = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cbMix = new System.Windows.Forms.CheckBox();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.comtype = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,7 +62,6 @@
             this.tstotalrow = new System.Windows.Forms.ToolStripLabel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.gvdtl = new System.Windows.Forms.DataGridView();
-            this.cbMix = new System.Windows.Forms.CheckBox();
             this.Menu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -149,9 +149,19 @@
             this.panel2.Size = new System.Drawing.Size(734, 35);
             this.panel2.TabIndex = 6;
             // 
+            // cbMix
+            // 
+            this.cbMix.AutoSize = true;
+            this.cbMix.Location = new System.Drawing.Point(233, 9);
+            this.cbMix.Name = "cbMix";
+            this.cbMix.Size = new System.Drawing.Size(342, 16);
+            this.cbMix.TabIndex = 7;
+            this.cbMix.Text = "是否合拼导出? 注意:若不勾选将按照‘客户’进行拆分导出";
+            this.cbMix.UseVisualStyleBackColor = true;
+            // 
             // btnGenerate
             // 
-            this.btnGenerate.Location = new System.Drawing.Point(239, 5);
+            this.btnGenerate.Location = new System.Drawing.Point(652, 6);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(75, 23);
             this.btnGenerate.TabIndex = 2;
@@ -358,16 +368,6 @@
             this.gvdtl.RowTemplate.Height = 23;
             this.gvdtl.Size = new System.Drawing.Size(732, 385);
             this.gvdtl.TabIndex = 0;
-            // 
-            // cbMix
-            // 
-            this.cbMix.AutoSize = true;
-            this.cbMix.Location = new System.Drawing.Point(345, 10);
-            this.cbMix.Name = "cbMix";
-            this.cbMix.Size = new System.Drawing.Size(270, 16);
-            this.cbMix.TabIndex = 7;
-            this.cbMix.Text = "是否合拼导出? 注意:若不勾选将执行拆分导出";
-            this.cbMix.UseVisualStyleBackColor = true;
             // 
             // QuartOutPutFrm
             // 

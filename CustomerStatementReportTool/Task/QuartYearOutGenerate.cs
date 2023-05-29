@@ -93,6 +93,8 @@ namespace CustomerStatementReportTool.Task
                     fsortid = id < 10 ? "A" + "0" + id : "A" + id;
                 }
 
+                var a = fincalresultdt.Copy();
+
                 //当fincalresultdt1行数大于0时,得出相关结果并赋值到confirmresultdt内,供‘签收确认单’打印模板使用
                 //change date:20230515 '签收确认单'添加‘二级客户’字段
                 if (fincalresultdt.Rows.Count > 0)
@@ -102,9 +104,14 @@ namespace CustomerStatementReportTool.Task
 
                 //按‘季度’导出使用-主要使用单据->1.‘签收确定单’ 2.‘销售发货清单’
                 //合拼输出
-                if (genid == 0)
+                if (genid == 0 && GlobalClasscs.RmMessage.IsuseQuartMixExport)
                 {
                     mixDtToPdf.ExportDtToMixPdf(1,exportaddress, customerk3Dt, fincalresultdt.Clone(), confirmresultdt, salesOutresultdt);
+                }
+                //todo:change date:20230516 按‘季度’导出使用-拆分导出
+                else if (genid == 0 && !GlobalClasscs.RmMessage.IsuseQuartMixExport)
+                {
+                    mixDtToPdf.ExportDtToSplitPdf(exportaddress, customerk3Dt, confirmresultdt,salesOutresultdt);
                 }
                 //按‘年度’导出使用-主要使用单据->‘签收确定单’
                 //有合拼 及 拆分输出
@@ -129,7 +136,7 @@ namespace CustomerStatementReportTool.Task
         }
 
         /// <summary>
-        /// 拆分生成PDF代码（注:按照‘客户编码’&&‘月份’为条件进行拆分-按‘年份’导出功能使用） Split
+        /// 拆分生成PDF代码（注:按照‘客户编码’&&‘月份’为条件进行拆分-‘按年份导出’功能-拆分使用） Split
         /// </summary>
         /// <param name="exportaddress">导出地址</param>
         /// <param name="confirmresultdt">签收确定单结果集</param>
@@ -146,11 +153,14 @@ namespace CustomerStatementReportTool.Task
                 //以‘客户编码’ ‘月份’作为循环条件
                 foreach (DataRow rows in customerk3Dt.Rows)
                 {
+                    //i为月份标记
                     for (var i = 1; i < 13; i++)
                     {
-                        if(confirmresultdt.Select("customercode='"+ Convert.ToString(rows[1])+"' and Month='"+Convert.ToString(i)+"'").Length==0)continue;
+                        if(confirmresultdt.Select("customercode='"+ Convert.ToString(rows[1])+"' and Month='"+Convert.ToString(i)+"'").Length==0) continue;
                         
-                        var pdfFileAddress = exportaddress + "\\" + $"客户(" + Convert.ToString(rows[2]) +$")_签收确定单_第{i}月份记录.pdf";
+                        var pdfFileAddress = exportaddress + "\\" + $"客户编码({Convert.ToString(rows[1])})_"+
+                                                "客户名称(" + Convert.ToString(rows[2]) +$")_二级客户({Convert.ToString(rows[3])})_签收确定单(按年度拆分导出)_第{i}月份记录.pdf";
+
                         var dt = mixDtToPdf.GetConfirmCustomerReportDt(1,Convert.ToString(i),Convert.ToString(rows[1]), confirmresultdt).Copy();
 
                         if (dt.Rows.Count > 0)
@@ -170,5 +180,8 @@ namespace CustomerStatementReportTool.Task
             }
             return result;
         }
+
+
+
     }
 }

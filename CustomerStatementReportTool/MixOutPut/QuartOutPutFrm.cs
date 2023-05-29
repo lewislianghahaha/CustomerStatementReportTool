@@ -126,6 +126,9 @@ namespace CustomerStatementReportTool.MixOutPut
                 //判断若gvdtl没有记录,不能进行运算
                 if (gvdtl.RowCount == 0) throw new Exception($"请添加记录后再进行运算");
 
+                //change date:20230516 记录是否勾选合拼印选项
+                GlobalClasscs.RmMessage.IsuseQuartMixExport = cbMix.Checked;
+
                 //根据选择的‘季度’显示对应的描述
                 switch (Convert.ToInt32(dvordertylelist["Id"]))
                 {
@@ -152,10 +155,17 @@ namespace CustomerStatementReportTool.MixOutPut
 
                 edt = dt.AddMonths(0 - (dt.Month - 1) % 3).AddDays(1 - dt.Day).AddMonths(3).AddDays(-1).ToString("yyyy-MM-dd");//获取本季度最后一天 
 
-                message = $"准备执行,\n请注意:" +
-                          $"\n1.季度选择:'{chooseValue}',执行日期从'{sdt}'开始 至 '{edt}'结束" +
-                          $"\n2.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
-                          "\n3.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
+                message = GlobalClasscs.RmMessage.IsuseQuartMixExport
+                    ? $"准备执行,\n请注意:" +
+                      $"\n1.季度选择:'{chooseValue}',执行日期从'{sdt}'开始 至 '{edt}'结束" +
+                      $"\n2.是否合拼导出:是," +
+                      $"\n3.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
+                      "\n4.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?"
+                    : $"准备执行,\n请注意:" +
+                      $"\n1.季度选择:'{chooseValue}',执行日期从'{sdt}'开始 至 '{edt}'结束" +
+                      $"\n2.是否合拼导出:否,将以拆分方式进行导出" +
+                      $"\n2.执行成功的结果会下载至'{txtadd.Text}'指定文件夹内," +
+                      "\n3.执行过程中不要关闭软件,不然会导致运算失败\n是否继续执行?";
 
                 //开始执行
                 if (MessageBox.Show(message, $"提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
