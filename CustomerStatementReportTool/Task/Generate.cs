@@ -674,6 +674,8 @@ namespace CustomerStatementReportTool.Task
             //todo:获取去从后的应收单记录
             foreach (DataRow row in sourcedt.Rows)
             {
+                //todo:期初余额 以及 本期合计不要
+                if (Convert.ToString(row[4]) == "期初余额" || Convert.ToString(row[4]) == "本期合计") continue;
                 //TODO:当单据编号为AR（应收单） 时才执行
                 if (Convert.ToString(row[9]).Substring(0, 2) != "AR") continue;
                 //第一行(初始化)时,将第一行的相关值赋给对应的变量内
