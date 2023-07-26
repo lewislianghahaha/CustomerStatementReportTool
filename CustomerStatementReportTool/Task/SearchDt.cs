@@ -117,5 +117,16 @@ namespace CustomerStatementReportTool.Task
             return dt;
         }
 
+        /// <summary>
+        /// 获取应收单对应‘到货日期’
+        /// </summary>
+        /// <param name="arlist"></param>
+        /// <returns></returns>
+        public DataTable GetReceiveDate(string arlist)
+        {
+            var dt = UseSqlSearchIntoDt(sqlList.GetReceiveDate(arlist));
+            return dt;
+        }
+
     }
 }

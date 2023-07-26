@@ -604,6 +604,11 @@ namespace CustomerStatementReportTool.Task
         /// <returns></returns>
         public DataTable GetConfirmReportDt(DataTable resutldt, DataTable sourcedt,DataTable customerk3Dt)
         {
+            //todo:Change date:20230726 使用sourcedt中的‘单据编号’获取‘到货日期’从而代替原来的‘签收日期=业务日期+客户.收货天数’
+            //todo:1.收集sourcedt内的‘单据编码’,PS:去从,
+            //todo:2.根据1步得出的String,放到SQL进行查找。并得出与各应收单对应的‘到货日期’,最后返回DT
+            var arlistdt = GetArListDt(sourcedt).Copy();
+
             //循环对账单数据源,主要完成两项处理=>1.摘要为“期初余额”的跳过不进行插入 2.获取customerk3Dt的‘收货天数’为计算条件,得出签收时间=业务日期+收货天数
             foreach (DataRow row in sourcedt.Rows)
             {
@@ -636,15 +641,76 @@ namespace CustomerStatementReportTool.Task
                     newrow[17] = Convert.ToString(row[17]);//客户编码
                     newrow[18] = Convert.ToString(row[18]);//记录‘总期末余额’（以千位符进行分隔,在STI报表显示）
 
-                    newrow[19] = Convert.ToString(row[4]) == "本期合计"
-                        ? "" : Convert.ToDateTime(row[12])
-                            .AddDays(GetConfirmDay(customerk3Dt, Convert.ToString(row[17]))).ToString("yyyy-MM-dd");   //记录'签收日期'
+                    //todo:change date:20230726 如单据是‘应收单’即'应收日期'为应收单.到货日期,若为‘其它应收单’保留魇来的操作
+                    //todo:在以下的循环内，以ROW[9]-->'单据编号'为要件，获取对应的‘到货日期’
+
+                    newrow[19] = Convert.ToString(row[9]).Substring(0, 4) == "QTYSD"
+                        ? (Convert.ToString(row[4]) == "本期合计"
+                            ? ""
+                            : Convert.ToDateTime(row[12])
+                                .AddDays(GetConfirmDay(customerk3Dt, Convert.ToString(row[17]))).ToString("yyyy-MM-dd"))
+                        : GetArdt(arlistdt, Convert.ToString(row[9]));
 
                     resutldt.Rows.Add(newrow);
                 }
             }
 
             return resutldt;
+        }
+
+        /// <summary>
+        /// 获取应收单.到货日期,(签收确定单-签收日期使用)
+        /// </summary>
+        /// <param name="sourcedt"></param>
+        /// <returns></returns>
+        private DataTable GetArListDt(DataTable sourcedt)
+        {
+            var resultdt = tempDt.BatchConfirmDtTemp();
+            //返回去从后的结果字符串
+            var result = string.Empty;
+            //中转比较变量
+            var temp = string.Empty;
+
+            //todo:获取去从后的应收单记录
+            foreach (DataRow row in sourcedt.Rows)
+            {
+                //TODO:当单据编号为AR（应收单） 时才执行
+                if (Convert.ToString(row[9]).Substring(0, 2) != "AR") continue;
+                //第一行(初始化)时,将第一行的相关值赋给对应的变量内
+                if (temp == "")
+                {
+                    temp = Convert.ToString(row[9]);
+                    result = "'" + Convert.ToString(row[9]) + "'";
+                }
+                //从第二行开始判断是否一致
+                else if(temp != Convert.ToString(row[9]))
+                {
+                    temp = Convert.ToString(row[9]);
+                    result += ',' + "'" + Convert.ToString(row[9]) + "'";
+                }
+            }
+
+            var a = result;
+
+            //todo:将收集到的‘应收单’列表放到SQL查找。并将返回集赋值至resultdt内
+            resultdt = searchDt.GetReceiveDate(result).Copy();
+
+            return resultdt;
+        }
+
+        /// <summary>
+        /// 根据应收单号获取‘到货日期’--签收确定单使用
+        /// </summary>
+        /// <param name="ardt">应收单-到货日期籹据集</param>
+        /// <param name="arno">应收单</param>
+        /// <returns></returns>
+        private string GetArdt(DataTable ardt,string arno)
+        {
+            var dtlrows = ardt.Select("FBILLNO='"+arno+"'");
+
+            var result = dtlrows.Length == 0 ? "" : Convert.ToString(dtlrows[0][1]);
+
+            return result;
         }
 
         /// <summary>

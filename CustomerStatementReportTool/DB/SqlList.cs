@@ -286,6 +286,7 @@ namespace CustomerStatementReportTool.DB
 
         /// <summary>
         /// 获取客户列表信息-'自定义批量导出'功能使用
+        /// change date:20230725:'收货天数'不需要
         /// </summary>
         /// <returns></returns>
         public string GetSearchCustomerList(string customer)
@@ -314,5 +315,19 @@ namespace CustomerStatementReportTool.DB
             _result = $@"select convert(varchar,cast({value} AS MONEY),1) value";
             return _result;
         }
+
+        /// <summary>
+        /// 获取应收单对应‘到货日期’
+        /// </summary>
+        /// <param name="arlist"></param>
+        /// <returns></returns>
+        public string GetReceiveDate(string arlist)
+        {
+            _result = $@"SELECT A.FBILLNO,ISNULL(CONVERT(VARCHAR(10),A.F_YTC_DATE1,23),'') '到货日期'
+                         FROM T_AR_RECEIVABLE A
+                         WHERE A.FBILLNO IN ({arlist})";
+            return _result;
+        }
+
     }
 }

@@ -815,6 +815,33 @@ namespace CustomerStatementReportTool.DB
             return dt;
         }
 
+        /// <summary>
+        /// 获取应收单对应的‘到货日期’--注：‘签收确定单’-签收日期使用
+        /// </summary>
+        /// <returns></returns>
+        public DataTable BatchConfirmDtTemp()
+        {
+            var dt = new DataTable();
+            for (var i = 0; i < 2; i++)
+            {
+                var dc = new DataColumn();
+                switch (i)
+                {
+                    case 0://单据编号
+                        dc.ColumnName = "FBILLNO";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                    //记录'签收日期'
+                    case 1:
+                        dc.ColumnName = "FConfirmDate";
+                        dc.DataType = Type.GetType("System.String");
+                        break;
+                }
+                dt.Columns.Add(dc);
+            }
+            return dt;
+        }
+
         #endregion
     }
 }
