@@ -129,7 +129,7 @@ namespace CustomerStatementReportTool.DB
                                 --a.摘要 <> '本期合计' 
                                 --AND A.原币本期收款=0
                                 --a.往来单位名称='广州民福机电设备有限公司'
-                                ORDER BY A.往来单位名称,A.单据日期
+                                ORDER BY A.往来单位名称,A.单据日期,A.单据编号
 
                             END
                         ";
