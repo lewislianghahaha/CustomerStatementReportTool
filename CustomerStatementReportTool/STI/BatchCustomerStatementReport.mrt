@@ -550,7 +550,6 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
         <DataBand1 Ref="38" type="DataBand" isKey="true">
           <Border>All;Black;1;Solid;False;4;Black</Border>
           <Brush>Transparent</Brush>
-          <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,5.4,19,0.8</ClientRectangle>
           <Components isList="true" count="16">
             <Text14 Ref="39" type="Text" isKey="true">
@@ -717,13 +716,15 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
           <Name>DataBand1</Name>
           <Page isRef="3" />
           <Parent isRef="3" />
-          <Sort isList="true" count="6">
+          <Sort isList="true" count="8">
             <value>ASC</value>
             <value>FDATE</value>
             <value>ASC</value>
             <value>Month</value>
             <value>ASC</value>
             <value>FDtlId</value>
+            <value>ASC</value>
+            <value>FBILLNO</value>
           </Sort>
         </DataBand1>
         <GroupFooterBand1 Ref="55" type="GroupFooterBand" isKey="true">
@@ -1036,10 +1037,10 @@ fFL54ksNi08qX3ypYfFJ5YsvNSw+qXzxpUZF+v9P8kUJ61eVlgAAAABJRU5ErkJggg==</ImageBytes
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>12/16/2022 9:11:50 AM</ReportChanged>
+  <ReportChanged>8/10/2023 10:18:42 AM</ReportChanged>
   <ReportCreated>8/23/2022 2:39:50 PM</ReportCreated>
   <ReportFile>H:\Project\K3_Cloud_客户对账单批量生成工具_20220801\Files\STI\BatchCustomerStatementReport.mrt</ReportFile>
-  <ReportGuid>62caa2dca58f47e68972e42aad6ca36a</ReportGuid>
+  <ReportGuid>6e5599e60ecb4ca885f93fc5b4f8dd6b</ReportGuid>
   <ReportImage isNull="true" />
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>

@@ -986,7 +986,7 @@ namespace CustomerStatementReportTool.Task
                 var remark1 = Convert.ToDateTime(edt).Year + "年" + Convert.ToDateTime(edt).Month + "月";
 
                 //若printpagenum-打印数量为0,即跳出异常
-                if(printpagenum == 0) throw new Exception("因'对账单'打印次数为0,故不能生成文件");
+                //if(printpagenum == 0) throw new Exception("因'对账单'打印次数为0,故不能生成文件");
                 //若k3Record 为空,即跳出异常
                 if(k3Record.Rows.Count == 0) throw new Exception("没有K3对应的返回记录,故不能生成文件");
                 //中间表-递归运算时使用(与K3Record的表结构一致)
@@ -1005,28 +1005,33 @@ namespace CustomerStatementReportTool.Task
 
                 //循环printpagenum(对账单打印次数)，并将记录插入至resultdt内
                 //处理数据并整理后将数据插入至resultdt内
-                for (var i = 0; i < printpagenum; i++)
+
+                //todo:change date:20230810 当‘打印次数’不为0时,才执行生成
+                if (printpagenum > 0)
                 {
-                    var sdtlows = k3Record.Select("往来单位编码='" + customercode + "'");
-                    //若sdtlows返回值为0,即跳出异常
-                    if (sdtlows.Length == 0) throw new Exception("客户:'" + customername + "'在" + "'" + sdt + "'" + "至'" + edt + "'范围内没有对账单记录,故不能生成结果.");
-                    //若在检测k3Record到只有1行,即插入至结果临时表
-                    if (sdtlows.Length == 1)
+                    for (var i = 0; i < printpagenum; i++)
                     {
-                        resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, customername, "", Convert.ToString(sdtlows[0][2]),
-                                                0, 0, Convert.ToDecimal(sdtlows[0][3]), remark1, null,
-                                                Convert.ToDecimal(sdtlows[0][3]), null,Convert.ToString(i),fsortid,0, invoicename,customercode));
-                    }
-                    else
-                    {
-                        //根据customercode,查询明细记录
-                        var dtlrows = tempdt.Select("往来单位编码='" + customercode + "'");
-                        for (var j = 0; j < dtlrows.Length; j++)
+                        var sdtlows = k3Record.Select("往来单位编码='" + customercode + "'");
+                        //若sdtlows返回值为0,即跳出异常
+                        if (sdtlows.Length == 0) throw new Exception("客户:'" + customername + "'在" + "'" + sdt + "'" + "至'" + edt + "'范围内没有对账单记录,故不能生成结果.");
+                        //若在检测k3Record到只有1行,即插入至结果临时表
+                        if (sdtlows.Length == 1)
                         {
-                            resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, Convert.ToString(dtlrows[j][0]), Convert.ToString(dtlrows[j][1]),
-                                                Convert.ToString(dtlrows[j][2]), Convert.ToDecimal(dtlrows[j][4]), Convert.ToDecimal(dtlrows[j][5]),
-                                                Convert.ToDecimal(dtlrows[j][3]), remark1, Convert.ToString(dtlrows[j][7]), Convert.ToDecimal(dtlrows[j][8]),
-                                                Convert.ToString(dtlrows[j][9]),Convert.ToString(i), fsortid,Convert.ToInt32(dtlrows[j][10]), invoicename, customercode));
+                            resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, customername, "", Convert.ToString(sdtlows[0][2]),
+                                                    0, 0, Convert.ToDecimal(sdtlows[0][3]), remark1, null,
+                                                    Convert.ToDecimal(sdtlows[0][3]), null, Convert.ToString(i), fsortid, 0, invoicename, customercode));
+                        }
+                        else
+                        {
+                            //根据customercode,查询明细记录
+                            var dtlrows = tempdt.Select("往来单位编码='" + customercode + "'");
+                            for (var j = 0; j < dtlrows.Length; j++)
+                            {
+                                resultdt.Merge(GetBatchResultDt(resultdt, sdt, edt, Convert.ToString(dtlrows[j][0]), Convert.ToString(dtlrows[j][1]),
+                                                    Convert.ToString(dtlrows[j][2]), Convert.ToDecimal(dtlrows[j][4]), Convert.ToDecimal(dtlrows[j][5]),
+                                                    Convert.ToDecimal(dtlrows[j][3]), remark1, Convert.ToString(dtlrows[j][7]), Convert.ToDecimal(dtlrows[j][8]),
+                                                    Convert.ToString(dtlrows[j][9]), Convert.ToString(i), fsortid, Convert.ToInt32(dtlrows[j][10]), invoicename, customercode));
+                            }
                         }
                     }
                 }
