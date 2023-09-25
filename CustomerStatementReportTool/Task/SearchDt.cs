@@ -23,10 +23,12 @@ namespace CustomerStatementReportTool.Task
             try
             {
                 var sqlDataAdapter = new SqlDataAdapter(sqlscript,conDb.GetK3CloudConn());
+                sqlDataAdapter.SelectCommand.CommandTimeout = 180; //设置查询SQL的超时时间(单位:秒)
                 sqlDataAdapter.Fill(resultdt);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                var a = ex.Message;
                 resultdt.Rows.Clear();
                 resultdt.Columns.Clear();
             }
